@@ -1,21 +1,14 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import { createRouter, createWebHashHistory  } from 'vue-router'
+import router from './router';
+import store from './store';
+import axios from "axios";
 
-import JaenHome from "./views/JaenHome.vue";
-import JaenHistory from "./views/JaenHistory.vue";
-
-
-const routes = [
-  { path: '/', component: JaenHome },
-  { path: '/history', component: JaenHistory }
-];
-const router = createRouter({
-  history: createWebHashHistory (),
-  routes
-})
-
+axios.defaults.baseURL = "http://localhost:8081";
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+axios.defaults.headers.get['Content-Type'] = 'application/json;charset=utf-8';
 const app = createApp(App);
+app.config.globalProperties.axios = axios;
 app.use(router)
-
+app.use(store)
 app.mount('#app')
