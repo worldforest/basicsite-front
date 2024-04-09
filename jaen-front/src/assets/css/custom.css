@@ -67,3 +67,15 @@
 body {
   font-family: 'TheJamsil5Bold', sans-serif; /* 해당 폰트를 기본 폰트로 설정 */
 }
+/* 수직 스크롤바 */
+::-webkit-scrollbar {
+  width: 5px; /* 스크롤바 너비 */
+  height: 15px; /* 수평 스크롤바 높이 */
+}
+::-webkit-scrollbar-track {
+  background: #fcfdfd; /* 스크롤바 트랙 색상 */
+}
+::-webkit-scrollbar-thumb {
+  background: #c0d899; /* 스크롤바 색상 */
+  border-radius: 20px; /* 동그라미를 만들기 위한 경계 반지름 설정 */
+}

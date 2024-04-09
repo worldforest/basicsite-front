@@ -3,13 +3,13 @@
     <a class="navbar-brand" @click="goToHome">
       <img src="@/assets/main-logo.png" width="90" height="38">
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
+    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
       aria-expanded="false" aria-label="Toggle navigation">
       <img class="icon navbar-toggler-open" src="@/assets/img/icons/interface/menu.svg" alt="menu interface icon"
         data-inject-svg />
       <img class="icon navbar-toggler-close" src="@/assets/img/icons/interface/cross.svg" alt="cross interface icon"
         data-inject-svg />
-    </button>
+    </button> -->
     <div class="navbar-collapse justify-content-end text-big">
       <ul class="nav nav-tabs justify-content-end navbar-collapse">
         <li class="nav-item" @click="goToSystem">
