@@ -3,8 +3,9 @@ import JaenHome from "@/views/JaenHome";
 import JaenHistory from "@/views/JaenHistory.vue";
 import JaenContact from "@/views/JaenContact.vue";
 import JaenSystem from "@/views/JaenSystem.vue"
-import ClassWhole from "@/views/class/ClassAll.vue";
+import ClassAll from "@/views/class/ClassAll.vue";
 import ClassDetail from "@/views/class/ClassDetail.vue";
+import Categories from "@/views/class/Categories.vue";
 
 
 const routes= [
@@ -19,12 +20,17 @@ const routes= [
     component: JaenHistory
   },
   {
-    path: '/class-all',
-    name: 'ClassAll',
-    component: ClassWhole
+    path: '/categories',
+    name: 'Categories',
+    component: Categories
   },
   {
-    path: '/class-detail',
+    path: '/class_all',
+    name: 'ClassAll',
+    component: ClassAll
+  },
+  {
+    path: '/class_detail',
     name: 'ClassDetail',
     component: ClassDetail
   },
