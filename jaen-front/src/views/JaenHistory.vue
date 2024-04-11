@@ -3,32 +3,45 @@
     <h2>연혁</h2>
     <!-- 연도별 탭 -->
     <div class="tab-container">
-        <div v-for="(group, year) in historyAll" :key="year" @click="selectYear(year)" :class="{ 'active': selectedYear === year }" class="tab">
-            <h3>{{ year }}</h3>
+      <div
+        v-for="(lectures, year) in groupedData"
+        :key="year"
+        @click="selectYear(year)"
+        :class="{ tab: true, active: selectedYear === year }"
+      >
+        <span>{{ year }}</span>
         </div>
     </div>
-    <!-- 선택된 연도의 데이터 표시 -->
-    <div>
-        <table v-if="selectedYear === year">
-            <thead>
-                <tr>
-                    <th>회사명</th>
-                    <th>강의명</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- 선택된 연도에 해당하는 데이터만 표시 -->
-                <tr v-for="(item, index) in selectedGroup" :key="index">
-                    <td>{{ item.companyname }}</td>
-                    <!-- <td v-if="index === 0">{{ item.companyname }}</td>
-                    <td v-else-if="index > 0 && item.companyname !== selectedGroup[index - 1].companyname">{{ item.companyname }}</td>
-                    <td v-else></td> 중복된 경우에는 빈 셀을 출력 -->
-                    <td>{{ item.classname }}</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="tab">
+        <thead>
+            <tr>
+                <th>회사명</th>
+                <th>강의명</th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(lecture, index) in processedData[selectedYear]" :key="index">
+            <td v-if="index === 0 || lecture.companyname !== processedData[selectedYear][index - 1].companyname">
+              {{ lecture.companyname }}
+            </td>
+            <td v-else>&nbsp;</td>
+            <td class="left-align">{{ lecture.classname }}</td>
+          </tr>
+        </tbody>
+        <!-- <tbody>
+            <tr v-for="lecture in groupedData[selectedYear]" :key="lecture.index">
+                <td>{{ lecture.companyname }}</td>
+                <td class="left-align">{{ lecture.classname }}</td>
+            </tr>
+        </tbody> -->
+        <!-- <table v-if="selectedYear">
+            <tr v-for="lecture in lectures" :key="lecture.index">
+                <td>{{ lecture.companyname }}</td>
+                <td>{{ lecture.classname }}</td>
+            </tr>
+        </table> -->
     </div>
-  </div>     
+  </div>
 </template>
   
 <script>
@@ -38,46 +51,50 @@ export default {
     data() {
         return {
             //data 초기화
-            historyAll:[],
-            groupedHistory: {}, // 연도별로 그룹화된 데이터
-            selectedYear: null // 선택된 연도를 저장할 변수
+            data:[],
+            selectedYear: 2024 // 선택된 연도를 저장할 변수
         } ;
     },
     computed: {
-        selectedGroup() {
-            return this.groupedHistory[this.selectedYear] || [];
+         // Group data by year
+        groupedData() {
+            const grouped = {};
+            this.data.forEach(lecture => {
+                const year = lecture.year; // Assuming there's a 'year' property in lecture object
+                if (!grouped[year]) {
+                grouped[year] = [];
+                }
+                grouped[year].push(lecture);
+            });
+            return grouped;
+        },
+        processedData() {
+        const processed = {};
+        for (const year in this.groupedData) {
+            processed[year] = [];
+            const seenCompanies = new Set();
+            this.groupedData[year].forEach(lecture => {
+            if (!seenCompanies.has(lecture.companyname)) {
+                processed[year].push(lecture);
+                seenCompanies.add(lecture.companyname);
+            } else {
+                processed[year].push({ companyname: "", classname: lecture.classname });
+            }
+            });
         }
+        return processed;
+        },
     },
     methods: {
         get() {
             // 데이터를 가져오는 비동기 함수
-            this.axios.get("/jaen").then((response) => {
-                this.historyAll = response.data;
-  
-                // 연도별로 그룹화하여 groupedHistory에 저장
-                this.groupedHistory = this.groupDataByYear(this.historyAll);
-                // 기본적으로 첫 번째 연도를 선택
-                if (Object.keys(this.groupedHistory).length > 0) {
-                    this.selectedYear = Object.keys(this.groupedHistory)[0];
-                }
+            this.axios.get("/history").then((response) => {
+                this.data = response.data;
             });
         },
-        groupDataByYear(data) {
-            // 연도별로 데이터를 그룹화하는 함수
-            const grouped = {};
-            data.forEach((item) => {
-                const year = item.year; // 연도를 추출합니다. 연도에 맞게 수정 필요
-                if (!grouped[year]) {
-                grouped[year] = [];
-                }
-                grouped[year].push(item);
-            });
-            return grouped;
-        },
-        selectYear(year) {
-            // 탭을 클릭하면 선택된 연도를 업데이트합니다.
-            this.selectedYear = year;
-        },
+        selectYear(year){
+            this.selectedYear=year;
+        }
     },
     mounted(){
         // 화면이 로드되자마자
@@ -92,12 +109,37 @@ export default {
   font-weight: bold; /* 선택된 탭 스타일*/
   cursor: pointer; /*마우스 오버 시 커서 스타일*/
 }
+.history{
+    display: grid;
+    justify-content: center; /* Align the content horizontally at the center */
+    
+}
 /* 탭 컨테이너의 스타일 */
 .tab-container {
   display: flex;
+  border-bottom: 1px solid #ccc; /* Add a bottom border */
 }
 /* 각 탭의 스타일 */
 .tab {
-  margin-right: 10px;
+    padding: 10px 20px; /* Add padding */
+    cursor: pointer;
+    background-color: #f0f0f0; /* Set background color */
+    border-top-left-radius: 5px; /* Rounded corners */
+    border-top-right-radius: 5px;
+}
+.tab:not(:last-child) {
+  margin-right: 5px; /* Add some spacing between tabs */
+}
+.tab span {
+  color: #333; /* Text color */
+}
+
+.tab.active span {
+  color: #000; /* Text color for active tab */
+  font-weight: bold; /* Bold font for tab text */
+
+}
+.left-align {
+  text-align: left; /* Align lecture names to the left */
 }
 </style>

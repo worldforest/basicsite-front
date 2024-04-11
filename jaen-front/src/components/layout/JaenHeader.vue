@@ -15,8 +15,8 @@
         <li class="nav-item" @click="goToSystem">
           <a class="nav-link" aria-current="page">핵심기술</a>
         </li>
-        <li class="nav-item dropdown" @click="toggleDropdown">
-          <a class="nav-link dropdown-toggle"  role="button" aria-haspopup="true" aria-expanded="false">교육과정</a>
+        <li class="nav-item dropdown" @click="goToAllCategories">
+          <a class="nav-link dropdown-toggle"  role="button" aria-haspopup="true" aria-expanded="false" @click="goToAllCategories">교육과정</a>
           <div class="dropdown-menu" :class="{ show: isDropdownOpen }">
             <a class="dropdown-item" href="">전체 로드맵</a>
             <a class="dropdown-item" href="">AI(인공지능)</a>
@@ -61,7 +61,10 @@ export default {
       this.$router.push('/system');
     },
     goToClassAll(){
-      this.$router.push('/class-all');
+      this.$router.push('/class_all');
+    },
+    goToAllCategories(){
+      this.$router.push('/categories');
     }
   },
 };
