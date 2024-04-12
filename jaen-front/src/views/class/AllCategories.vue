@@ -4,7 +4,7 @@
     <div
         v-for="(category, index) in data"
         :key="index"
-        @click="selectCategory(category.category_id)"
+        @click="selectCategory(category.name, category.category_id)"
         style="cursor: pointer;"
     >
         {{category.name}}
@@ -17,20 +17,21 @@
     data() {
         return {
             //data 초기화
-            data:[], 
+            data:[],
+            categoryName: null
         } ;
     },
     methods: {
         get() {
             // 데이터를 가져오는 비동기 함수
-            this.axios.get("/jaen/categories").then((response) => {
+            this.axios.get("/categories").then((response) => {
                 this.data = response.data;
             });
         },
-        selectCategory(categoryId) {
+        selectCategory(categoryName, categoryId) {
             console.log(categoryId);
             // this.$emit("category-selected", categoryId); // Emit custom event with index
-            this.$router.push({ name: 'SubCategories', params: { categoryId: categoryId } });
+            this.$router.push({ name: 'SubCategories', params: { categoryId: categoryId, categoryName : categoryName } });
         },
     },
     mounted(){
