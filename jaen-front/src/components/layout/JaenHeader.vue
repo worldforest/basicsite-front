@@ -3,20 +3,20 @@
     <a class="navbar-brand" @click="goToHome">
       <img src="@/assets/main-logo.png" width="90" height="38">
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
+    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
       aria-expanded="false" aria-label="Toggle navigation">
       <img class="icon navbar-toggler-open" src="@/assets/img/icons/interface/menu.svg" alt="menu interface icon"
         data-inject-svg />
       <img class="icon navbar-toggler-close" src="@/assets/img/icons/interface/cross.svg" alt="cross interface icon"
         data-inject-svg />
-    </button>
+    </button> -->
     <div class="navbar-collapse justify-content-end text-big">
       <ul class="nav nav-tabs justify-content-end navbar-collapse">
         <li class="nav-item" @click="goToSystem">
           <a class="nav-link" aria-current="page">핵심기술</a>
         </li>
-        <li class="nav-item dropdown" @click="goToCategories">
-          <a class="nav-link dropdown-toggle"  role="button" aria-haspopup="true" aria-expanded="false" @click="goToCategories">교육과정</a>
+        <li class="nav-item dropdown" @click="goToAllCategories">
+          <a class="nav-link dropdown-toggle"  role="button" aria-haspopup="true" aria-expanded="false" @click="goToAllCategories">교육과정</a>
           <div class="dropdown-menu" :class="{ show: isDropdownOpen }">
             <a class="dropdown-item" href="">전체 로드맵</a>
             <a class="dropdown-item" href="">AI(인공지능)</a>
@@ -65,6 +65,9 @@ export default {
     },
     goToClassAll(){
       this.$router.push('/class_all');
+    },
+    goToAllCategories(){
+      this.$router.push('/categories');
     }
   },
 };
