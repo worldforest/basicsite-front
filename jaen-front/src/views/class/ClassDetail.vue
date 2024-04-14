@@ -1,27 +1,58 @@
 <template>
     <div>
-      <div class="tabs">
-        <button v-for="(tab, index) in tabs" :key="index" @click="activateTab(index)" :class="{ active: activeTab === index }">{{ tab }}</button>
-      </div>
-      <div class="tab-content">
-        <div v-for="(content, index) in tabContents" :key="index" v-show="activeTab === index">{{ content }}</div>
-      </div>
+      <h2>강의 상세 페이지</h2>
+
+      <span>{{ classDetailData.title }}</span>
+
+      <table>
+      <thead>
+        <tr>
+          <th>순서</th>
+          <th>제목</th>
+          <th>설명</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(curriculum, sequenceNum) in data" :key="sequenceNum">
+          <td>{{ curriculum.sequenceNum }}</td>
+          <td>{{ curriculum.title }}</td>
+          <td>{{ curriculum.description }}</td>
+        </tr>
+      </tbody>
+    </table>
     </div>
   </template>
   
   <script>
   export default {
     data() {
-      return {
-        activeTab: 0,
-        tabs: ['교육과정 상세', 'Tab 2', 'Tab 3'], // 탭의 제목 배열
-        tabContents: ['Content for Tab 1', 'Content for Tab 2', 'Content for Tab 3'] // 각 탭에 대응하는 내용 배열
+      return{
+        data: [],
+        classId: null,
+        classDetailData: []
       };
     },
+    created() {
+      this.classId = this.$route.params.classId;
+      this.classDetailData = this.$route.params.objectParam.map(item => {
+        return {
+          title: item.title
+        }
+
+      });
+    },
     methods: {
-      activateTab(index) {
-        this.activeTab = index; // 활성화된 탭의 인덱스를 설정
-      }
+      get(){
+        this.axios.get(`curriculum?classId=${this.classId}`).then((response) => {
+          this.data = response.data;
+        }).catch((error) => {
+          console.error('Error fetching data: ',error);
+        });
+      },
+    },
+    mounted(){
+      this.get();
+      console.log(this.$route.params.objectParam);
     }
   };
   </script>

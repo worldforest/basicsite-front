@@ -33,7 +33,7 @@ const routes= [
   {
     path: '/class_all',
     name: 'ClassAll',
-    component: ClassWhole
+    component: ClassAll
   },
   {
     path: '/class_detail',

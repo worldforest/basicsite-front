@@ -2,9 +2,9 @@
 <div>
     <h3>교육과정 전체 페이지입니다.</h3>
     <div>
-    <span>{{ subcategoryId }}</span>
+    <span>{{ subcategoryName }}</span>
     <div class="container">
-    <div v-for="(item, index) in data" :key="index" class="item">
+    <div v-for="(item, index) in data" :key="index" class="item" @click="gotoDetail(item.index)">
       <div class="title">{{ item.title }}</div>
       <div class="level">level : {{ item.level }}</div>
       <div class="category">{{ item.category }}</div>
@@ -22,11 +22,13 @@ export default {
         return {
             //data 초기화
             data:[],
-            subcategoryId: null
+            subcategoryId: null,
+            subcategoryName: null
         } ;
     },
     created(){
-        this.subcategoryId = this.$route.params.subcategoryId;
+      this.subcategoryName= this.$route.params.subcategoryName;
+      this.subcategoryId = this.$route.params.subcategoryId;
     },
     methods: {
         get(){
@@ -36,6 +38,14 @@ export default {
                 console.error('Error fetching data: ',error)
             });
         },
+        gotoDetail(classId){
+          this.$router.push({name:'ClassDetail',
+            params:{
+              classId: classId,
+              objectParam: this.data
+            }
+          });
+        }
     },
     mounted(){
         // 화면이 로드되자마자

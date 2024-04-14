@@ -2,11 +2,12 @@
     <div>
         <h3>교육과정 중분류 전체 페이지입니다.</h3>
         <div>
-           <span>대분류 : </span> {{ categoryName }}
+            <span @click="gotoAllCategories">전체</span>
+            <span> > </span> {{ categoryName }}
         </div>
         <div v-for="(subcategory, index) in data" :key="index">
             <div
-                @click="selectSubCategory(subcategory.subcategory_id)"
+                @click="selectSubCategory(subcategory.name, subcategory.subcategory_id)"
             >{{subcategory.name}}</div>
         </div>
     </div>
@@ -36,8 +37,11 @@
                 console.error('Error fetching data:', error);
             });
         },
-        selectSubCategory(subcategoryId){
-            this.$router.push({name:'ClassAll', params: {subcategoryId}});
+        selectSubCategory(subcategoryName,subcategoryId){
+            this.$router.push({name:'ClassAll', params: {subcategoryName, subcategoryId}});
+        },
+        gotoAllCategories(){
+            this.$router.push({name:'AllCategories'});
         }
     },
     mounted(){
