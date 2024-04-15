@@ -12,9 +12,6 @@
     </button> -->
     <div class="navbar-collapse justify-content-end text-big">
       <ul class="nav nav-tabs justify-content-end navbar-collapse">
-        <li class="nav-item" @click="goToSystem">
-          <a class="nav-link" aria-current="page">핵심기술</a>
-        </li>
         <li class="nav-item dropdown" @click="goToAllCategories">
           <a class="nav-link dropdown-toggle"  role="button" aria-haspopup="true" aria-expanded="false" @click="goToAllCategories">교육과정</a>
           <div class="dropdown-menu" :class="{ show: isDropdownOpen }">
@@ -23,6 +20,9 @@
             <a class="dropdown-item" href="">데이터 사이언스</a>
             <a class="dropdown-item" href="">IoT(사물인터넷)</a>
           </div>
+        </li>
+        <li class="nav-item" @click="goToSystem">
+          <a class="nav-link" aria-current="page">교육기술</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" @click="goToHistory">회사소개</a>

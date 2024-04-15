@@ -79,3 +79,16 @@ body {
   background: #c0d899; /* 스크롤바 색상 */
   border-radius: 20px; /* 동그라미를 만들기 위한 경계 반지름 설정 */
 }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+tr {
+  height: 50px; /* 행의 높이를 지정합니다. */
+}
+th, td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: center;
+}

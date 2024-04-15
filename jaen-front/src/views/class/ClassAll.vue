@@ -1,18 +1,19 @@
 <template>
-<div>
+  <div>
     <h3>교육과정 전체 페이지입니다.</h3>
     <div>
-    <span>{{ subcategoryName }}</span>
+        <span @click="gotoAllCategories">전체</span>
+        <span @click="gotoSubCategories"> > {{categoryName}}</span>
+        <span> > {{ subcategoryName }}</span>
+    </div>
     <div class="container">
-    <div v-for="(item, index) in data" :key="index" class="item" @click="gotoDetail(item.index)">
-      <div class="title">{{ item.title }}</div>
-      <div class="level">level : {{ item.level }}</div>
-      <div class="category">{{ item.category }}</div>
+      <div v-for="(item, index) in data" :key="index" class="item" @click="gotoDetail(item.index)">
+        <div class="title">{{ item.title }}</div>
+        <div class="level">level : {{ item.level }}</div>
+        <div class="category">{{ item.category }}</div>
+      </div>
     </div>
   </div>
-    
-</div>
-</div>
 </template>
 <script>
 
@@ -23,12 +24,16 @@ export default {
             //data 초기화
             data:[],
             subcategoryId: null,
-            subcategoryName: null
+            subcategoryName: null,
+            categoryName: null,
+            categoryId: null
         } ;
     },
     created(){
       this.subcategoryName= this.$route.params.subcategoryName;
       this.subcategoryId = this.$route.params.subcategoryId;
+      this.categoryName = this.$route.params.categoryName;
+      this.categoryId = this.$route.params.categoryId;
     },
     methods: {
         get(){
@@ -39,12 +44,19 @@ export default {
             });
         },
         gotoDetail(classId){
-          this.$router.push({name:'ClassDetail',
+          this.$router.push(
+          {
+            name:'ClassDetail',
             params:{
-              classId: classId,
-              objectParam: this.data
+              classId: classId
             }
           });
+        },
+        gotoAllCategories(){
+            this.$router.push({name:'AllCategories'});
+        },
+        gotoSubCategories(){
+            this.$router.push({name:'SubCategories', params: {categoryId: this.categoryId, categoryName: this.categoryName}});
         }
     },
     mounted(){

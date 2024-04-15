@@ -38,7 +38,7 @@
             });
         },
         selectSubCategory(subcategoryName,subcategoryId){
-            this.$router.push({name:'ClassAll', params: {subcategoryName, subcategoryId}});
+            this.$router.push({name:'ClassAll', params: {subcategoryName, subcategoryId, categoryName: this.categoryName, categoryId: this.categoryId}});
         },
         gotoAllCategories(){
             this.$router.push({name:'AllCategories'});
