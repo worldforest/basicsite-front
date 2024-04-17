@@ -82,10 +82,10 @@
       </tbody>
     </table>
   </div>
-    </div>
-  </template>
+  </div>
+</template>
   
-  <script>
+ <script>
   export default {
     data() {
       return{

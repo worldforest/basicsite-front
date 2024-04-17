@@ -9,86 +9,93 @@
 
 /* 홈화면 이미지 흘러가도록 */
 .image-flow, .image-flow2 {
-  padding: 1%;
-  width: 100%;
-  /* 넘치는 이미지 숨기기 */
-  overflow: hidden; 
-  /* 이미지들이 가로로 나란히 배치되도록 설정 */
-  white-space: nowrap;
-}
-
-.image-flow img {
-  display: inline-block;
-  width: 100%;
-  animation: slide 20s linear infinite;
-  /* 이미지가 10초 동안 좌에서 우로 이동하도록 설정 */
-}
-
-
-.image-flow2 img {
-  display: inline-block;
-  width: 100%;
-  animation: slide-inverse 20s linear infinite;
-  /* 이미지가 10초 동안 좌에서 우로 이동하도록 설정 */
-}
-
-@keyframes slide {
-  0% {
-    transform: translateX(0);
+    padding: 1%;
+    width: 100%;
+    /* 넘치는 이미지 숨기기 */
+    overflow: hidden; 
+    /* 이미지들이 가로로 나란히 배치되도록 설정 */
+    white-space: nowrap;
+  }
+  
+  .image-flow img {
+    display: inline-block;
+    width: 100%;
+    animation: slide 20s linear infinite;
+    /* 이미지가 10초 동안 좌에서 우로 이동하도록 설정 */
+  }
+  
+  
+  .image-flow2 img {
+    display: inline-block;
+    width: 100%;
+    animation: slide-inverse 20s linear infinite;
+    /* 이미지가 10초 동안 좌에서 우로 이동하도록 설정 */
+  }
+  
+  @keyframes slide {
+    0% {
+      transform: translateX(0);
+    }
+  
+    100% {
+      /* 이미지를 왼쪽으로 이동하여 다시 시작 위치로 돌아가도록 설정 */
+      transform: translateX(-66.66%);
+    }
+  }
+  @keyframes slide-inverse {
+    0% {
+      transform: translateX(-66.66%);
+    }
+  
+    100% {
+      /* 이미지를 왼쪽으로 이동하여 다시 시작 위치로 돌아가도록 설정 */
+      transform: translateX(0);
+    }
+  }
+  
+  .bg-jaen {
+    background-color: var(--jaen-green2); 
+   }
+  
+   @font-face {
+    font-family: 'TheJamsil5Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
   }
 
-  100% {
-    /* 이미지를 왼쪽으로 이동하여 다시 시작 위치로 돌아가도록 설정 */
-    transform: translateX(-66.66%);
+  @font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+  
+  body {
+    font-family: 'Pretendard-Regular', sans-serif; /* 해당 폰트를 기본 폰트로 설정 */
   }
-}
-@keyframes slide-inverse {
-  0% {
-    transform: translateX(-66.66%);
+  /* 수직 스크롤바 */
+  ::-webkit-scrollbar {
+    width: 8px; /* 스크롤바 너비 */
+    height: 15px; /* 수평 스크롤바 높이 */
   }
-
-  100% {
-    /* 이미지를 왼쪽으로 이동하여 다시 시작 위치로 돌아가도록 설정 */
-    transform: translateX(0);
+  ::-webkit-scrollbar-track {
+    background: #fcfdfd; /* 스크롤바 트랙 색상 */
   }
-}
-
-.bg-jaen {
-  background-color: var(--jaen-green2); 
- }
-
- @font-face {
-  font-family: 'TheJamsil5Bold';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-}
-
-body {
-  font-family: 'TheJamsil5Bold', sans-serif; /* 해당 폰트를 기본 폰트로 설정 */
-}
-/* 수직 스크롤바 */
-::-webkit-scrollbar {
-  width: 5px; /* 스크롤바 너비 */
-  height: 15px; /* 수평 스크롤바 높이 */
-}
-::-webkit-scrollbar-track {
-  background: #fcfdfd; /* 스크롤바 트랙 색상 */
-}
-::-webkit-scrollbar-thumb {
-  background: #c0d899; /* 스크롤바 색상 */
-  border-radius: 20px; /* 동그라미를 만들기 위한 경계 반지름 설정 */
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-tr {
-  height: 50px; /* 행의 높이를 지정합니다. */
-}
-th, td {
-  border: 1px solid black;
-  padding: 8px;
-  text-align: center;
-}
+  ::-webkit-scrollbar-thumb {
+    background: #c0d899; /* 스크롤바 색상 */
+    border-radius: 20px; /* 동그라미를 만들기 위한 경계 반지름 설정 */
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  tr {
+    height: 50px; /* 행의 높이를 지정합니다. */
+  }
+  .container > th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+  }
