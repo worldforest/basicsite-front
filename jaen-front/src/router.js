@@ -6,7 +6,8 @@ import JaenSystem from "@/views/JaenSystem.vue"
 import ClassAll from "@/views/class/ClassAll.vue";
 import ClassDetail from "@/views/class/ClassDetail.vue";
 import AllCategories from "@/views/class/AllCategories.vue";
-import SubCategories from "@/views/class/SubCategories.vue";
+import SubCategories from "@/views/SubCategories.vue";
+import JaenCompany from "@/views/JaenCompany.vue";
 
 
 const routes= [
@@ -49,6 +50,11 @@ const routes= [
     path: '/system',
     name: 'JaenSystem',
     component: JaenSystem
+  },
+  {
+    path: '/company',
+    name: 'JaenCompany',
+    component: JaenCompany
   }
 ]
 

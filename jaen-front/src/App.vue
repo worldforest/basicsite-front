@@ -1,12 +1,12 @@
 <template>
   <div id="app" ref="app">
     <!-- <header> -->
-    <header class="header" :class="{ 'header-visible': isHeaderVisible }">
+    <header class="header">
       <JaenHeader />
     </header>
-    <div id="content" ref="content">
+    <section id="content" ref="content">
       <router-view></router-view>
-    </div>
+    </section>
     <JaenFooter />
     <!-- 가장 아래에서 위로 올라가기 -->
     <!-- <a href="#" class="btn back-to-top btn-primary btn-round" data-smooth-scroll  data-aos-once="false">
@@ -27,30 +27,14 @@ export default {
   },
   data(){
     return{
-      isHeaderVisible: true, // 헤더의 가시성 상태
-      // contentMaxHeight: null // content의 최대 높이
     }
   },
   mounted() {
   //   console.log("mounted 오나?")
     this.$refs.content.addEventListener('scroll', this.handleScroll);
    },
-  //  beforeUnmount() {
-  //   this.$refs.content.removeEventListener('scroll', this.handleScroll);
-  // },
    methods: {
-    handleScroll() {
-      // 스크롤이 제일 아래로 내려오면 푸터를 보이게 합니다.
-      const content = this.$refs.content;
-      const footer = this.$refs.footer.$el; // Accessing the DOM element of the footer
-      console.log("content")
-      console.log(footer)
-      if (content.scrollTop + content.clientHeight >= content.scrollHeight) {
-        footer.style.display = 'block';
-      } else {
-        footer.style.display = 'none';
-      }
-    }
+  
   }
 }
 </script>

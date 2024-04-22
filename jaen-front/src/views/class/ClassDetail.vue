@@ -79,10 +79,10 @@
           <td>{{ curriculum.title }}</td>
           <td>{{ curriculum.description }}</td>
         </tr>
-      </tbody>
-    </table>
-  </div>
-  </div>
+       </tbody>
+        </table>
+      </div>
+    </div>
 </template>
   
  <script>

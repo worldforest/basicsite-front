@@ -1,25 +1,46 @@
 <template>
-  <nav class="navbar navbar-expand-lg " data-overlay >
+<nav class="navbar navbar-expand-sm navbar-light fixed-top">
+  <div class="container">
     <a class="navbar-brand fade-page" @click="goToHome" >
       <img src="@/assets/img/main-logo.png" alt="자앤" width="90" height="38">
     </a>
-    <div class="dropdown" @mouseenter="toggleDropdown(true)" @mouseleave="toggleDropdown(false)">
-      <a>교육과정</a>
-      <div class="dropdown-content" v-show="isDropdownOpen">
-        <a @click="goToAllCategories()">전체과정</a>
-        <template v-for="category in categories" :key="category.category_id">
-          <div @click="selectCategory(category.category_id)" class="category-item">
-            <a>{{ category.name }}</a>
-            <!-- 카테고리 옆에 subcategory.name을 표시합니다. -->
-            <a v-for="subcategory in filteredItems()" :key="subcategory.name">
-              {{ filteredItems }}
-              {{ subcategory }}
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="" id="navbarSupportedContent">
+      <ul class="navbar-nav dropdown-menu-up">
+        <li class="nav-item nav-link dropdown" @mouseenter="toggleDropdown(true)" @mouseleave="toggleDropdown(false)">
+          <a class="list-unstyled dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            교육과정
+          </a>
+          <div class="dropdown-content" v-show="isDropdownOpen">
+            <a class="dropdown-item" @click="goToAllCategories()">전체과정</a>
+            <a class="dropdown-item" v-for="category in categories" :key="category.category_id" @mouseenter="selectCategory(category.category_id)">
+              {{ category.name}}
+              <li class="dropdown-item" v-for="subcategory in filteredItems()" :key="subcategory.categoryId">
+                {{ subcategory.name }}
+              </li>
             </a>
+            <ul>
+            </ul>
           </div>
-        </template>
-      </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" @click="gotoSystem()">교육기술</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" @click="gotoCompany()">회사소개</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" @click="gotoHistory()">회사연혁</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" @click="gotoContact()">문의하기</a>
+        </li>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
 </template>
 
 <script>
@@ -53,6 +74,7 @@ export default {
     },
     // 대분류 선택하면 중분류 가져오는 함수에 전달
     selectCategory(categoryId){
+      console.log("대분류: "+categoryId)
       this.selectedCategory = categoryId;
       this.getSubcategory(this.selectedCategory);
     },
@@ -65,8 +87,21 @@ export default {
         });
     },
     filteredItems(){
-      console.log(this.subcategories);
-      return this.subcategories.filter(subcategory => subcategory.category_id === this.selectedCategoryId);
+      console.log("필터링: "+this.subcategories);
+      console.log("선택된 대분류: "+this.selectedCategoryId)
+      return this.subcategories.filter(subcategory => subcategory.categoryId === this.selectedCategoryId);
+    },
+    gotoSystem(){
+      this.$router.push('/system');
+    },
+    gotoCompany(){
+      this.$router.push('/company');
+    },
+    gotoHistory(){
+      this.$router.push('/history');
+    },
+    gotoContact(){
+      this.$router.push('/contact');
     }
   },
   mounted(){
@@ -84,8 +119,9 @@ export default {
   display: none;
   position: absolute;
   background-color: aliceblue;
-  min-width: 160px;
+  min-width: 190px;
   z-index: 1;
+  transition-delay: opacity 5s;
 }
 .dropdown:hover .dropdown-content{
   display: block;
@@ -98,5 +134,6 @@ export default {
 }
 .dropdown-content a:hover{
   background-color: #f1f1f1;
+  transition-delay: 5s;
 }
 </style>

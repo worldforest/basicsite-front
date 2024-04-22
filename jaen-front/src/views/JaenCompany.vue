@@ -1,7 +1,9 @@
 <template>
     <div class="container">
-        <h3>System 페이지입니다.</h3>
+        <h3>회사소개 페이지</h3>
     </div>
 </template>
 <script>
 </script>
+<style>
+</style>

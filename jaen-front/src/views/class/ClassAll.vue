@@ -1,19 +1,23 @@
 <template>
-  <div>
-    <h3>교육과정 전체 페이지입니다.</h3>
-    <div>
-        <span @click="gotoAllCategories">전체</span>
-        <span @click="gotoSubCategories"> > {{categoryName}}</span>
-        <span> > {{ subcategoryName }}</span>
-    </div>
     <div class="container">
-      <div v-for="(item, index) in data" :key="index" class="item" @click="gotoDetail(item.index)">
-        <div class="title">{{ item.title }}</div>
-        <div class="level">level : {{ item.level }}</div>
-        <div class="category">{{ item.category }}</div>
+      <div class="row mb-4">
+        <h3 class="col">교육과정 전체 페이지입니다.</h3>
+      </div>
+      <div class="row mb-4">
+        <div class="col">
+          <span @click="gotoAllCategories">전체</span>
+          <span @click="gotoSubCategories"> > {{categoryName}}</span>
+          <span> > {{ subcategoryName }}</span>
+        </div>
+      </div>
+      <div class="container">
+        <div v-for="(item, index) in data" :key="index" class="item" @click="gotoDetail(item.index)">
+          <div class="title">{{ item.title }}</div>
+          <div class="level">level : {{ item.level }}</div>
+          <div class="category">{{ item.category }}</div>
+        </div>
       </div>
     </div>
-  </div>
 </template>
 <script>
 
