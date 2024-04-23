@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <h3>교육과정 중분류 전체 페이지입니다.</h3>
         <div>
             <span @click="gotoAllCategories">전체</span>
@@ -47,6 +47,7 @@
     mounted(){
         // 화면이 로드되자마자
         this.get();
+        this.categoryName = this.$route.params.categoryName;
     },
-    };
+};
 </script>

@@ -1,20 +1,25 @@
 <template>
     <div class="container">
-      <div class="row mb-4">
-        <h3 class="col">교육과정 전체 페이지입니다.</h3>
-      </div>
-      <div class="row mb-4">
-        <div class="col">
+      <div class="col mb-4">
+        <div>
+          <h3 class="row">{{ subcategoryName }} 교육과정 전체 강의 목록페이지입니다.</h3>
+        </div>
+        <div class="row" style="display: inline; background-color: antiquewhite">
           <span @click="gotoAllCategories">전체</span>
           <span @click="gotoSubCategories"> > {{categoryName}}</span>
           <span> > {{ subcategoryName }}</span>
         </div>
       </div>
-      <div class="container">
-        <div v-for="(item, index) in data" :key="index" class="item" @click="gotoDetail(item.index)">
+      <div class="container" style="text-align: center;">
+        <div v-for="(item) in data" :key="item.index" class="item" @click="gotoDetail(item.index)">
           <div class="title">{{ item.title }}</div>
-          <div class="level">level : {{ item.level }}</div>
-          <div class="category">{{ item.category }}</div>
+          <div class="level">level : {{ getLevel(item.level) }}</div>
+          <div>{{ item.duration }}</div>
+          <!-- <div>{{ item.environment }}</div>
+          <div>{{ item.target }}</div>
+          <div>{{ item.background }}</div>
+          <div>{{ item.goal }}</div>
+          <div>{{ item.technologyStack }}</div> -->
         </div>
       </div>
     </div>
@@ -30,19 +35,17 @@ export default {
             subcategoryId: null,
             subcategoryName: null,
             categoryName: null,
-            categoryId: null
+            categoryId: null,
+            // level: null
         } ;
     },
     created(){
-      this.subcategoryName= this.$route.params.subcategoryName;
-      this.subcategoryId = this.$route.params.subcategoryId;
-      this.categoryName = this.$route.params.categoryName;
-      this.categoryId = this.$route.params.categoryId;
     },
     methods: {
         get(){
             this.axios.get(`class/subcategory?subcategoryId=${this.subcategoryId}`).then((response) => {
                 this.data = response.data;
+                // this.level = response.data.level;
             }).catch((error)=>{
                 console.error('Error fetching data: ',error)
             });
@@ -61,11 +64,33 @@ export default {
         },
         gotoSubCategories(){
             this.$router.push({name:'SubCategories', params: {categoryId: this.categoryId, categoryName: this.categoryName}});
+        },
+        getLevel(level){
+          let description;
+          switch(level) {
+            case 1:
+                description = "초급";
+                break;
+            case 2:
+                description = "중급";
+                break;
+            case 3:
+                description = "고급";
+                break;
+            default:
+                description = "알 수 없음";
+                break;
+        }
+        return description;
         }
     },
     mounted(){
-        // 화면이 로드되자마자
-        this.get();
+      // 화면이 로드되자마자
+      this.subcategoryName= this.$route.params.subcategoryName;
+      this.subcategoryId = this.$route.params.subcategoryId;
+      this.categoryName = this.$route.params.categoryName;
+      this.categoryId = this.$route.params.categoryId;
+      this.get();
     },
   
 };

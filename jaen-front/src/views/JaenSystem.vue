@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h3>System 페이지입니다.</h3>
+        <h3>자앤의 교육지원 플랫폼</h3>
     </div>
 </template>
 <script>

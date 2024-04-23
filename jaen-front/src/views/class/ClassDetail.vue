@@ -60,7 +60,7 @@
           <tr>{{ classDetailData.background }}</tr>
           </td>
           <td>
-          <tr>{{ classDetailData.technology_stack }}</tr>
+          <tr>{{ classDetailData.technologyStack }}</tr>
         </td>
       </tbody>
     </div>
@@ -95,7 +95,6 @@
       };
     },
     created() {
-      this.classId = this.$route.params.classId;
     },
     methods: {
       get(){
@@ -116,6 +115,8 @@
     mounted(){
       this.get();
       this.getClassBasic();
+      this.classId = this.$route.params.classId;
+      console.log("classId: "+this.$route.params.classI)
     }
   };
   </script>

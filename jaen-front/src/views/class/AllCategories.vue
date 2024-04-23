@@ -9,10 +9,17 @@
     <div class="row" style="padding: 2rem;">
       <div class="col-md-6 col-lg-4 card" v-for="(category, index) in categories" :key="index" style="height: 8rem;">
         <div class="align-items-center d-flex flex-column" style="cursor: pointer;">
-          <h5 class="">{{ category.name }}</h5>
+          <h5 class="" style="padding-top: 1rem;" @click="gotoSubCategories(categoryId, categoryName)">{{ category.name }}</h5>
         </div>
-        <div class="align-items-center d-flex flex-column" v-for="subcategory in subcategories" :key="subcategory.subcategory_id">
-          <a v-if="subcategory.categoryId === category.category_id" @click="selectSubCategory(subcategory.name, subcategory.subcategory_id)">{{ subcategory.name }}</a>
+        <div class="align-items-center d-flex flex-column" v-for="subcategory in subcategories" :key="subcategory.subcategoryId">
+          <a 
+            v-if="subcategory.categoryId === category.categoryId" 
+            @click="selectSubCategory(subcategory.name, subcategory.subcategoryId, category.name, category.categoryId)"
+            style="cursor: pointer;"
+            >
+            {{ subcategory.name }}
+          </a>
+          <a v-else></a>
         </div>
       </div>
     </div>
@@ -49,14 +56,11 @@
                 console.error('Error fetching data:', error);
             });
         },
-        selectCategory(categoryName, categoryId) {
-            console.log(categoryId);
-            // this.$emit("category-selected", categoryId); // Emit custom event with index
-            this.$router.push({ name: 'SubCategories', params: { categoryId: categoryId, categoryName : categoryName } });
+        selectSubCategory(subcategoryName, subcategoryId, categoryName, categoryId){
+            this.$router.push({name:'ClassAll', params: {subcategoryName, subcategoryId, categoryName, categoryId}});
         },
-        selectSubCategory(categoryId, subcategoryName,subcategoryId){
-          this.categoryId = categoryId;
-            this.$router.push({name:'ClassAll', params: {subcategoryName, subcategoryId, categoryName: this.categoryName, categoryId: this.categoryId}});
+        gotoSubCategories(){
+            this.$router.push({name:'SubCategories', params: {categoryId: this.categoryId, categoryName: this.categoryName}});
         },
     },
     mounted(){
