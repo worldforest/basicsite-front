@@ -1,31 +1,26 @@
 <template>
-    <div class="container">
-      <div class="col mb-4">
-        <div>
-          <h3 class="row">{{ subcategoryName }} 교육과정 전체 강의 목록페이지입니다.</h3>
-        </div>
-        <div class="row" style="display: inline; background-color: antiquewhite">
-          <span @click="gotoAllCategories">전체</span>
-          <span @click="gotoSubCategories"> > {{categoryName}}</span>
-          <span> > {{ subcategoryName }}</span>
-        </div>
-      </div>
-      <div class="container" style="text-align: center;">
+<div class="container">
+    <h3 class="">{{ categoryName }}교육과정 전체 강의 목록페이지입니다.</h3><br>
+    <h4 class="">{{ subcategoryName }}</h4>
+
+    <div class="container" style="text-align: center;">
         <div v-for="(item) in data" :key="item.index" class="item" @click="gotoDetail(item.index)">
-          <div class="title">{{ item.title }}</div>
-          <div class="level">level : {{ getLevel(item.level) }}</div>
-          <div>{{ item.duration }}</div>
-          <!-- <div>{{ item.environment }}</div>
-          <div>{{ item.target }}</div>
-          <div>{{ item.background }}</div>
-          <div>{{ item.goal }}</div>
-          <div>{{ item.technologyStack }}</div> -->
+            <img :src="require(`@/assets/img/class/${item.categoryId}-${item.subcategoryId}.jpg`)" alt="class image">
+            <div style="padding: 0.8rem;">
+                <div class="title">{{ item.title }}</div>
+                <div class="level">level : {{ getLevel(item.level) }}</div>
+                <div>{{ item.duration }}</div>
+            </div>
+            <!-- <div>{{ item.environment }}</div>
+            <div>{{ item.target }}</div>
+            <div>{{ item.background }}</div>
+            <div>{{ item.goal }}</div>
+            <div>{{ item.technologyStack }}</div> -->
         </div>
-      </div>
     </div>
+</div>
 </template>
 <script>
-
 export default {
     name: "ClassAll",
     data() {
@@ -43,7 +38,7 @@ export default {
     },
     methods: {
         get(){
-            this.axios.get(`class/subcategory?subcategoryId=${this.subcategoryId}`).then((response) => {
+            this.axios.get(`class/category?categoryId=${this.categoryId}`).then((response) => {
                 this.data = response.data;
                 // this.level = response.data.level;
             }).catch((error)=>{
@@ -62,9 +57,6 @@ export default {
         gotoAllCategories(){
             this.$router.push({name:'AllCategories'});
         },
-        gotoSubCategories(){
-            this.$router.push({name:'SubCategories', params: {categoryId: this.categoryId, categoryName: this.categoryName}});
-        },
         getLevel(level){
           let description;
           switch(level) {
@@ -80,14 +72,14 @@ export default {
             default:
                 description = "알 수 없음";
                 break;
-        }
-        return description;
+          }
+          return description;
         }
     },
     mounted(){
       // 화면이 로드되자마자
-      this.subcategoryName= this.$route.params.subcategoryName;
-      this.subcategoryId = this.$route.params.subcategoryId;
+    //   this.subcategoryName= this.$route.params.subcategoryName;
+    //   this.subcategoryId = this.$route.params.subcategoryId;
       this.categoryName = this.$route.params.categoryName;
       this.categoryId = this.$route.params.categoryId;
       this.get();
@@ -95,7 +87,6 @@ export default {
   
 };
 </script>
-
 <style>
 .container {
   display: flex;

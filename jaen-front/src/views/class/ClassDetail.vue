@@ -2,7 +2,7 @@
   <div class="container">
     <div>
     <h2>강의 상세 페이지</h2>
-
+    <h3>{{ classDetailData.title }}</h3>
     <div>
       <thead>
         <tr>
@@ -11,7 +11,7 @@
       </thead>
       <tbody>
         <tr>
-          {{ classDetailData.title }}
+          {{ classDetailData.description }}
         </tr>
       </tbody>
     </div>
@@ -19,20 +19,19 @@
     <div>
       <thead>
         <tr>
-          <th>과정 요약</th>
-          <th>학습 목표</th>
+          <th>과정요약</th>
+          <th>학습대상</th>
         </tr>
       </thead>
       <tbody>
         <td>
-          <tr>과정명 : {{ classDetailData.title }}</tr>
           <tr>교육기간 : {{ classDetailData.duration }}</tr>
           <tr>실습환경 : {{ classDetailData.environment }}</tr>
-          <tr>난이도 : {{ classDetailData.level }}</tr>
+          <tr>난이도 : {{ getLevel(classDetailData.level) }}</tr>
       </td>
       <td class="description">
         <tr>
-          <p>{{ classDetailData.goal }}</p>
+          <p>{{ classDetailData.target }}</p>
         </tr>
       </td>
       </tbody>
@@ -41,11 +40,11 @@
     <div class="description">
       <thead>
         <tr>
-          <th>학습대상</th>
+          <th>학습목표</th>
         </tr>
       </thead>
       <tbody>
-        <p>{{classDetailData.target}}</p>
+        <p>{{classDetailData.goal}}</p>
       </tbody>
     </div>
     <div>
@@ -77,7 +76,9 @@
         <tr v-for="(curriculum, sequenceNum) in data" :key="sequenceNum">
           <td>{{ curriculum.sequenceNum }}</td>
           <td>{{ curriculum.title }}</td>
-          <td>{{ curriculum.description }}</td>
+          <td>
+            <p v-html="formatTextWithLineBreaks(curriculum.description)"></p>
+          </td>
         </tr>
        </tbody>
         </table>
@@ -111,12 +112,34 @@
                 console.error('Error fetching data: ',error)
             });
       },
+      getLevel(level){
+          let description;
+          switch(level) {
+            case 1:
+                description = "초급";
+                break;
+            case 2:
+                description = "중급";
+                break;
+            case 3:
+                description = "고급";
+                break;
+            default:
+                description = "알 수 없음";
+                break;
+          }
+          return description;
+        }
+        ,formatTextWithLineBreaks(text){
+          return text.replace(/\n/g, "<br>");
+          // return text.split('\n').join('<br>');
+        }
     },
     mounted(){
+      this.classId = this.$route.params.classId;
+      console.log("classId: "+this.$route.params.classId)
       this.get();
       this.getClassBasic();
-      this.classId = this.$route.params.classId;
-      console.log("classId: "+this.$route.params.classI)
     }
   };
   </script>

@@ -1,8 +1,13 @@
 <template>
     <div class="container">
-      <input type="email" v-model="email" placeholder="이메일">
-      <textarea v-model="message" placeholder="메시지"></textarea>
-      <button @click="sendEmail">이메일 전송</button>
+      <div class="col">
+        <h2>궁금한 점이 있으신 분들은 연락주세요</h2>
+      </div>
+      <div class="col" style="display: flex;">
+        <input type="email" v-model="email" placeholder="이메일">
+        <textarea v-model="message" placeholder="메시지"></textarea>
+        <button @click="sendEmail">이메일 전송</button>
+      </div>
     </div>
   </template>
   
