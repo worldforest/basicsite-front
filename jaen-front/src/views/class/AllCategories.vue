@@ -6,23 +6,34 @@
         <p class="lead"> 다양한 자앤의 교육과정들을 확인해보세요.</p>
       </div>
     </div>
-    <div class="row" style="margin: 1rem;">
-      <div class="custom-card col-md-6 col-lg-4 " v-for="(category, index) in categories" :key="index" style="height: 7rem;">
-        <div class="card-title" style="cursor: pointer;">
-          <h5 style="" @click="gotoClassAll(category.name, category.categoryId)">{{ category.name }}</h5>
-        </div>
-        <div class="card-text " v-for="subcategory in subcategories" :key="subcategory.subcategoryId">
-          <a 
-            v-if="subcategory.categoryId === category.categoryId" 
-            @click="selectSubCategory(subcategory.name, subcategory.subcategoryId, category.name, category.categoryId)"
-            style="cursor: pointer;"
-          >
-            {{ subcategory.name }}
+    <section class="pt-5">
+      <div class="container">
+        <div class="col-sm-6 col-lg-4 mb-4" data-isotope-item data-category="Digital" v-for="(category, index) in categories" :key="index">
+          <a href="#">
+            <img
+              class="rounded shadow-3d hover-shadow-3d border mb-3 mb-md-0"
+              :src="require(`@/assets/img/class/category/${index + 1}.jpg`)"
+              alt="category"
+              @click="gotoClassAll(category.name, category.categoryId)"
+              style="height: 14rem;"
+              >
+            <div style="padding: 1rem;">
+              <h4 class="mb-1" style="cursor: pointer;" @click="gotoClassAll(category.name, category.categoryId)">{{ category.name }}</h4>
+              <div class="text-small text-muted" v-for="subcategory in subcategories" :key="subcategory.subcategoryId">
+                <a
+                  class="h6"
+                  v-if="subcategory.categoryId === category.categoryId" 
+                  @click="selectSubCategory(subcategory.name, subcategory.subcategoryId, category.name, category.categoryId)"
+                  style="cursor: pointer;"
+                  >
+                  {{ subcategory.name }}
+                </a>
+              </div>
+            </div>
           </a>
-          <a v-else></a>
         </div>
       </div>
-    </div>
+    </section>
     <div class="d-flex justify-content-center" style="margin: 5rem;">
       <p class="alert alert-primary position-relative layer-3">&#128587; 수업이 어떤 식으로 진행되는지 궁금하신가요? <a @click="gotoSystem">교육 지원 플랫폼</a>에서 확인해보세요.</p>
     </div>
@@ -37,7 +48,8 @@
             categories:[],
             subcategories: [],
             categoryName: null,
-            categoryId: null
+            categoryId: null,
+            imageList: ['1','2','3','4','5','6'],
         } ;
     },
     methods: {
@@ -71,5 +83,10 @@
         this.getCategory();
         this.getAllSubcategory();
     },
+    beforeRouteLeave(to, from, next) {
+      // 이전 페이지로 이동할 때 데이터를 전달
+      to.params.myData = this.myData;
+      next();
+    }
 };
 </script>

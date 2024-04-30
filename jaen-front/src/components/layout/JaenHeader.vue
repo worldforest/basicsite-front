@@ -1,6 +1,6 @@
 <template>
  <div class="navbar-container ">
-      <nav class="navbar navbar-expand-lg navbar-light " data-overlay style="position: fixed; border: none;">
+      <nav class="navbar navbar-expand-md " data-overlay style="position: fixed; border: none;">
         <div class="container">
           <a class="navbar-brand fade-page" @click="goToHome">
             <img src="@/assets/img/main-logo.png" alt="자앤" width="90" height="38">
@@ -20,11 +20,11 @@
                         <a class="dropdown-item" @click="goToAllCategories()">전체과정</a>
                         <div class="dropdown">
                           <a class="dropdown-item dropdown-toggle"
-                          v-for="category in categories" :key="category.category_id"
-                          @click="gotoClassAll(category.name, category.categoryId)"
-                          data-toggle="dropdown-grid" 
-                          aria-expanded="false" 
-                          aria-haspopup="true">
+                            v-for="category in categories" :key="category.category_id"
+                            @click="gotoClassAll(category.name, category.categoryId)"
+                            data-toggle="dropdown-grid" 
+                            aria-expanded="false" 
+                            aria-haspopup="true">
                             <span>{{ category.name }}</span>
                           </a>
                         </div>
@@ -83,16 +83,13 @@ export default {
     }
   },
   methods: {
-    // 마우스 hover에 따라 dropdown
-    toggleDropdown() {
-      this.isDropdownOpen = !this.isDropdownOpen;
-    },
     goToHome(){
       this.$router.push('/');
     },
     getCategory() {
         // 대분류 카테고리 가져오는 비동기 함수
         this.axios.get("/categories").then((response) => {
+          console.log("왜 :"+this.categories)
             this.categories = response.data;
         })
         .catch(error => {
@@ -103,7 +100,8 @@ export default {
       this.$router.push('/categories');
     },
     gotoClassAll(categoryName, categoryId){
-      this.$router.push({name:'ClassAll', params: {categoryName, categoryId}});
+      this.$router.push({ name: 'ClassAll', params: { categoryName, categoryId }});
+      
     },
     gotoSystem(){
       this.$router.push('/system');
@@ -121,7 +119,12 @@ export default {
   mounted(){
       // 화면이 로드되자마자
       this.getCategory();
-  }
+  },
+  beforeRouteLeave(to, from, next) {
+    // 이전 페이지로 이동할 때 데이터를 전달
+    to.params.myData = this.myData;
+    next();
+  },
 };
 </script>
 <style>

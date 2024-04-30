@@ -1,7 +1,7 @@
 <template>
     <img src="@/assets/img/home/main/main2.png" width="">
     <section>
-        <h2 class="h1 mx-xl-6" style="text-align: center; margin: 1.5rem;">소프트웨어 개발자 및 엔지니어 대상 전문교육</h2>
+        <h2 class="h1 mx-xl-6" data-aos="fade-up" data-aos-delay="300" style="text-align: center; margin: 1.5rem; text-size-adjust: 2rem">소프트웨어 개발자 및 엔지니어 대상 전문교육</h2>
         <div class="row" style="margin: 3rem;">
             <div class="col-md-12 col-xl-4">
                 <div class="row" style="padding: 0.5rem;">
@@ -33,8 +33,20 @@
             </div>
         </div>
     </section>
-    <section>
-
+    <section class="bg-primary-alt">
+        <div style="padding: 15px; text-align: center;">
+            <h2 class="h1 mx-xl-6">자앤의 현장사진</h2>
+            <p class="lead">자앤 최고의 강사진들의 교육현장을 소개합니다.</p>
+        </div>
+        <div class="arrows-inside highlight-selected mb-6" data-flickity='{ "autoPlay": true, "imagesLoaded": true, "wrapAround": true }'>
+            <div
+                class="carousel-cell col-lg-4 col-md-5 col-9 px-2 py-3"
+                v-for="(image, index) in imageList" :key="index">
+                <a>
+                    <img :src="require(`@/assets/img/home/main/${image}.jpg`)" alt="Image" class="rounded shadow-3d border">
+                </a>
+            </div>
+        </div>
     </section>
     <section>
         <div style="padding: 15px; text-align: center;">
@@ -63,8 +75,9 @@
 export default {
     data(){
         return {
+            imageList: ['1','2','3','4','5','6'],
         }
-    }
+    },
 
 };
 </script>

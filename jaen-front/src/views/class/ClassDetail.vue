@@ -140,6 +140,15 @@
       console.log("classId: "+this.$route.params.classId)
       this.get();
       this.getClassBasic();
+    },
+    beforeRouteLeave(to, from, next) {
+      // 이전 페이지로 이동할 때 데이터를 전달
+      to.params.subcategoryId = this.subcategoryId;
+      to.params.subcategoryName = this.subcategoryName;
+      to.params.categoryName = this.categoryName;
+      to.params.categoryId = this.categoryId;
+      console.log("detail에서 All로 보내는: "+to.params.categoryId)
+      next();
     }
   };
   </script>
