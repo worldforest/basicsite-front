@@ -1,13 +1,14 @@
 <template>
   <div class="container">
-    <div class="row">
-      <div class="col">
-        <h3 class="h1">자앤의 교육과정 대분류</h3>
-        <p class="lead"> 다양한 자앤의 교육과정들을 확인해보세요.</p>
+    <section class="bg-light text-dark header-inner" data-jarallax data-speed="0.2" data-overlay>
+      <div class="row" data-aos="fade-up" style="padding: 5rem; display: inline-flex;">
+        <div class="" style="display: flex;">
+          <h3 class="h1">자앤의 교육과정 대분류</h3>
+        </div>
       </div>
-    </div>
+    </section>
     <section class="pt-5">
-      <div class="container">
+      <div class="container" data-aos="fade-up">
         <div class="col-sm-6 col-lg-4 mb-4" data-isotope-item data-category="Digital" v-for="(category, index) in categories" :key="index">
           <a href="#">
             <img
@@ -33,10 +34,8 @@
           </a>
         </div>
       </div>
+      <p class="alert alert-primary" style="text-align: center;">&#128587; 수업이 어떤 식으로 진행되는지 궁금하신가요? <a @click="gotoSystem">교육 지원 플랫폼</a>에서 확인해보세요.</p>
     </section>
-    <div class="d-flex justify-content-center" style="margin: 5rem;">
-      <p class="alert alert-primary position-relative layer-3">&#128587; 수업이 어떤 식으로 진행되는지 궁금하신가요? <a @click="gotoSystem">교육 지원 플랫폼</a>에서 확인해보세요.</p>
-    </div>
   </div>
 </template>
 <script>
@@ -90,3 +89,8 @@
     }
 };
 </script>
+<style>
+.container{
+  text-align: center;
+}
+</style>

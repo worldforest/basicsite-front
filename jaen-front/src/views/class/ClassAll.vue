@@ -1,7 +1,7 @@
 <template>
-<div class="container">
-  <div class="">
-    <div class="row justify-content-center text-center">
+<div class="">
+  <div class="contaner">
+    <div class="row justify-content-center text-center" style="margin: 2rem;">
         <h2 class="mb-5">{{ categoryName }}교육과정 전체 강의 목록페이지</h2>
     </div>
   </div>
@@ -12,29 +12,34 @@
           <a href="#" class="nav-link active" data-filter="*">All</a>
         </li>
         <li class="nav-item" v-for="subcategory in subcategories" :key="subcategory.subcategoryId">
-          <a href="#" class="nav-link" data-filter="Branding">{{subcategory.name}}</a>
+          <!-- <a class="nav-link" @click="getSubcategoryId(subcategory.subcategoryId)" >{{subcategory.name}}</a> -->
+          <a class="nav-link" @click="showClass(subcategory.subcategoryId)" >{{subcategory.name}}</a>
         </li>
       </ul>
     </div>
     
     
     <div class="container" style="text-align: center;">
-      <div v-if="data.subcategoryId !== this.subcategoryId">{{ data.subcategoryId }}</div>
-      <div v-for="(item) in data" :key="item.index" class="item" @click="gotoDetail(item.index)">
-        <div>
-          <img :src="require(`@/assets/img/class/${item.categoryId}-${item.subcategoryId}.jpg`)" alt="class image">
-          <div style="padding: 0.8rem;">
+      <!-- <img src="@/assets/img/class/1-1.jpg">  -->
+      <div v-for="(item) in data" :key="item.index" @click="gotoDetail(item.index)">
+        <div class="classCard">
+          <div class="classIamge">
+            <img
+              alt="class_image"  
+              :src="require(`@/assets/img/class/${item.categoryId}-${item.subcategoryId}.jpg`)"
+              style="height: 12rem;"
+            >
+          <div class="text-overlay">
+            <h4>{{ item.title }}</h4>
+          </div>
+          </div>
+          <div style="padding: 1.5rem;">
               <div class="title">{{ item.title }}</div>
               <div class="level">level : {{ getLevel(item.level) }}</div>
               <div>{{ item.duration }}</div>
           </div>
         </div>
-            <!-- <div>{{ item.environment }}</div>
-            <div>{{ item.target }}</div>
-            <div>{{ item.background }}</div>
-            <div>{{ item.goal }}</div>
-            <div>{{ item.technologyStack }}</div> -->
-        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -51,6 +56,8 @@ export default {
             subcategoryName: null,
             categoryName: null,
             categoryId: null,
+            selectedCategory: -1, //1 ALL 2 subcategoryId
+            zoomed: false
             // level: null
         } ;
     },
@@ -102,6 +109,12 @@ export default {
                 break;
           }
           return description;
+        },
+        getSubcategoryId(subcategoryId){
+          this.subcategoryId=subcategoryId;
+        },
+        showClass(selectedCategory){
+          this.selectedCategory = selectedCategory
         }
     },
     mounted(){
@@ -141,5 +154,41 @@ export default {
 
 .title {
   font-weight: bold;
+}
+.classCard{
+  margin: 1rem;
+}
+/* 강의 이미지 */
+.classIamge{
+  /* 이미지 안에 강의명 출력하기 위한 설정 */
+  position: relative;
+  display: inline-block;
+  /* 마우스오버시 이미지 확대될 때 크기는 그대로 유지 */
+  overflow: hidden;
+  width: 300px;
+  height: auto;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+.classIamge img{
+  opacity: 0.7;
+  /* background-color: rgba(0, 0, 0, 0.7); */
+}
+/* 강의 이미지 마우스오버시 확대 */
+.classIamge img:hover {
+  height: auto;
+  transform: scale(1.2);
+  transition: all 0.2s linear;
+}
+/* 이미지 안에 강의명 */
+.text-overlay h4{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  /* background-color: rgba(255, 255, 255, 0.7); */
+  /* padding: 10px; */
+  /* border-radius: 5px; */
+  text-align: center;
 }
 </style>

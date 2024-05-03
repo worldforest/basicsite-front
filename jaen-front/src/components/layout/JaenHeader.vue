@@ -1,6 +1,6 @@
 <template>
  <div class="navbar-container ">
-      <nav class="navbar navbar-expand-md " data-overlay style="position: fixed; border: none;">
+      <nav class="navbar navbar-expand-md bg-white" data-overlay style="position: fixed; border: none;">
         <div class="container">
           <a class="navbar-brand fade-page" @click="goToHome">
             <img src="@/assets/img/main-logo.png" alt="자앤" width="90" height="38">
@@ -12,7 +12,7 @@
           <div class="collapse navbar-collapse justify-content-end">
             <div class="py-2 py-lg-0">
               <ul class="navbar-nav">
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown bg-ligth">
                   <a class="nav-link dropdown-toggle" data-toggle="dropdown-grid" aria-expanded="false" aria-haspopup="true">교육과정</a>
                   <div class="dropdown-menu row">
                     <div class="col-auto" data-dropdown-content>
@@ -48,12 +48,12 @@
                   </div>
                 </li>
                 <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown-grid" aria-expanded="false" aria-haspopup="true" @click="gotoCompany()">회사소개</a>
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown-grid" aria-expanded="false" aria-haspopup="true">회사소개</a>
                   <div class="dropdown-menu row">
                     <div class="col-auto" data-dropdown-content>
                       <div class="dropdown-grid-menu">
+                        <a class="dropdown-item fade-page" @click="gotoCompany()">About JAEN</a>
                         <a class="dropdown-item fade-page" @click="gotoHistory()">회사연혁</a>
-                        <a class="dropdown-item fade-page">인재채용</a>
                       </div>
                     </div>
                   </div>
@@ -89,7 +89,6 @@ export default {
     getCategory() {
         // 대분류 카테고리 가져오는 비동기 함수
         this.axios.get("/categories").then((response) => {
-          console.log("왜 :"+this.categories)
             this.categories = response.data;
         })
         .catch(error => {
@@ -101,7 +100,6 @@ export default {
     },
     gotoClassAll(categoryName, categoryId){
       this.$router.push({ name: 'ClassAll', params: { categoryName, categoryId }});
-      
     },
     gotoSystem(){
       this.$router.push('/system');

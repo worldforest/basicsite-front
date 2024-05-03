@@ -1,7 +1,7 @@
 <template>
     <img src="@/assets/img/home/main/main2.png" width="">
     <section>
-        <h2 class="h1 mx-xl-6" data-aos="fade-up" data-aos-delay="300" style="text-align: center; margin: 1.5rem; text-size-adjust: 2rem">소프트웨어 개발자 및 엔지니어 대상 전문교육</h2>
+        <h2 class="h1 mx-xl-6" data-aos="fade-up" style="text-align: center; margin: 1.5rem; text-size-adjust: 2rem">소프트웨어 개발자 및 엔지니어 대상 전문교육</h2>
         <div class="row" style="margin: 3rem;">
             <div class="col-md-12 col-xl-4">
                 <div class="row" style="padding: 0.5rem;">
@@ -33,7 +33,7 @@
             </div>
         </div>
     </section>
-    <section class="bg-primary-alt">
+    <section class="bg-light">
         <div style="padding: 15px; text-align: center;">
             <h2 class="h1 mx-xl-6">자앤의 현장사진</h2>
             <p class="lead">자앤 최고의 강사진들의 교육현장을 소개합니다.</p>

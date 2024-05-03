@@ -76,8 +76,8 @@
   }
   /* 수직 스크롤바 */
   ::-webkit-scrollbar {
-    width: 8px; /* 스크롤바 너비 */
-    height: 15px; /* 수평 스크롤바 높이 */
+    width: 0.0rem;
+    height: 0; 
   }
   ::-webkit-scrollbar-track {
     background: #fcfdfd; /* 스크롤바 트랙 색상 */
@@ -99,7 +99,6 @@
     padding: 8px;
     text-align: center;
   }
-
 
   /* card custom */
   .custom-card {
@@ -149,4 +148,6 @@
     background-color: #0056b3;
   }
 
-  
+  .header-inner{
+    width: 100%;
+  }
