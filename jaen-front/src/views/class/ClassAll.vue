@@ -1,49 +1,56 @@
 <template>
-<div class="">
-  <div class="contaner">
-    <div class="row justify-content-center text-center" style="margin: 2rem;">
-        <h2 class="mb-5">{{ categoryName }}교육과정 전체 강의 목록페이지</h2>
-    </div>
-  </div>
-  <div>
-    <div class="row justify-content-center text-center mb-4">
-      <ul data-isotope-filters data-isotope-id="projects" class="nav mb-3">
-        <li class="nav-item">
-          <a href="#" class="nav-link active" data-filter="*">All</a>
-        </li>
-        <li class="nav-item" v-for="subcategory in subcategories" :key="subcategory.subcategoryId">
-          <!-- <a class="nav-link" @click="getSubcategoryId(subcategory.subcategoryId)" >{{subcategory.name}}</a> -->
-          <a class="nav-link" @click="showClass(subcategory.subcategoryId)" >{{subcategory.name}}</a>
-        </li>
-      </ul>
-    </div>
-    
-    
-    <div class="container" style="text-align: center;">
-      <!-- <img src="@/assets/img/class/1-1.jpg">  -->
-      <div v-for="(item) in data" :key="item.index" @click="gotoDetail(item.index)">
-        <div class="classCard">
-          <div class="classIamge">
-            <img
-              alt="class_image"  
-              :src="require(`@/assets/img/class/${item.categoryId}-${item.subcategoryId}.jpg`)"
-              style="height: 12rem;"
-            >
-          <div class="text-overlay">
-            <h4>{{ item.title }}</h4>
-          </div>
-          </div>
-          <div style="padding: 1.5rem;">
-              <div class="title">{{ item.title }}</div>
-              <div class="level">level : {{ getLevel(item.level) }}</div>
-              <div>{{ item.duration }}</div>
+  <div class="container">
+    <section class="bg-light text-dark header-inner" data-jarallax data-speed="0.2" data-overlay>
+      <div class="row" data-aos="fade-up" style="padding: 5rem; display: inline-flex; text-align: center;">
+        <span class="col-12" @click="gotoAllCategories" style="color: darkgrey;" >전체과정</span>
+        <h3 class="h1 col-12">{{ categoryName }}교육과정 전체 강의</h3>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <ul data-isotope-filters data-isotope-id="projects" class="nav mb-3">
+          <li class="nav-item">
+            <a class="nav-link" @click="showClass(-1)" :class="{ 'active': selectedSubcategory === -1 }">All</a>
+          </li>
+          <li class="nav-item" v-for="subcategory in subcategories" :key="subcategory.subcategoryId" :class="{ 'active': selectedSubcategory === subcategory.subcategoryId }">
+            <!-- <a class="nav-link" @click="getSubcategoryId(subcategory.subcategoryId)" >{{subcategory.name}}</a> -->
+            <a class="nav-link" @click="showClass(subcategory.subcategoryId)" >{{subcategory.name}}</a>
+          </li>
+        </ul>
+      </div>
+      <div class="container">
+        <!-- <img src="@/assets/img/class/1-1.jpg">  -->
+        <div v-for="(item) in data" :key="item.index" @click="gotoDetail(item.index)">
+          <div v-if="selectedCategory === item.subcategoryId || selectedCategory === -1" class="classCard">
+            <div class="classIamge">
+              <img
+                v-if="item.categoryId === 6"
+                alt="class_image"  
+                :src="require(`@/assets/img/class/${item.categoryId}-${item.subcategoryId}-${item.title.split(' ')[0]}.jpg`)"
+                style="height: 12rem;"
+              >
+              <img
+                v-else
+                alt="class_image"  
+                :src="require(`@/assets/img/class/${item.categoryId}-${item.subcategoryId}.jpg`)"
+                style="height: 12rem;"
+              >
+              <div class="text-overlay">
+                <h4>{{ item.title }}</h4>
+              </div>
+            </div>
+            <div style="padding: 1.5rem;">
+                <div class="title">{{ item.title }}</div>
+                <div class="level">level : {{ getLevel(item.level) }}</div>
+                <div>{{ item.duration }}</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
-</div>
 </template>
+  
 <script>
 export default {
     name: "ClassAll",
@@ -138,8 +145,13 @@ export default {
 .container {
   display: flex;
   flex-wrap: wrap;
+  text-align: center;
+  justify-content : center;
 }
 
+.nav-item{
+
+}
 .item {
   width: calc(33.33% - 10px); /* Adjust width as needed */
   margin: 0 5px;

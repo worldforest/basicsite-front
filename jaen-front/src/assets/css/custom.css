@@ -151,3 +151,44 @@
   .header-inner{
     width: 100%;
   }
+
+  .floating-menu {
+    position: absolute;
+    left: 20px;
+    transform: translateY(-50%);
+    transition: top 0.7s ease-out; /* transition 추가 */
+    top: 180px; 
+    margin-right: -720px;
+    text-align:center;
+    width: 120px;
+  }
+
+  .floating {
+    /* position: sticky; */
+    width: 100%;
+    background-color: #fff; /* Background color of the menu bar */
+    z-index: 1000; /* Adjust z-index as needed */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for a better visual effect */
+    transition: transform 0.3s ease; /* Add smooth transition */
+    /* position: sticky;
+    bottom: 0;
+    z-index: 0;
+    align-items: center;
+    display: flex;
+    height: 50px;
+    width: 100%;
+    border-top: 1px colid #c0d899 ; */
+}
+
+.floBanPc1 {
+  position: fixed;
+  top: 328px; /* 아래쪽 끝에서부터의 거리 */
+  left: 5rem;
+  /* right: 0; */
+  justify-content: left;
+  text-align: center;
+  z-index: 99;
+  width: fit-content;
+  background-color: aliceblue;
+  display: grid;
+}

@@ -1,5 +1,13 @@
 <template>
     <div class="container">
+        <div class="floBanPc1 row hidden-md hidden-sm hidden-xs">
+            <!-- <a href="">공지사항/수업자료 공유</a> -->
+            <span>공지사항/수업자료 공유</span>
+            <span>실시간 Q & A</span>
+            <span>과제관리</span>
+            <span>평가관리</span>
+            <span>프로젝트관리</span>
+        </div>
         <section class="bg-light text-dark header-inner" data-jarallax data-speed="0.2" data-overlay>
             <div class="row" data-aos="fade-up" style="padding: 5rem; display: inline-flex;">
                 <div class="" style="display: flex;">
@@ -10,7 +18,7 @@
         <section style="text-align: left;">
             <div>
                 <h3>공지사항/수업자료 공유</h3>
-                <p>자앤의 자체 교육과정 고나리 플랫폼을 개발하여, 각 과정별 공지사항 및 수업에 필요한 자료 등을 공유하고 있습니다.</p>
+                <p>자앤의 자체 교육과정 관리 플랫폼을 개발하여, 각 과정별 공지사항 및 수업에 필요한 자료 등을 공유하고 있습니다.</p>
                 <div class="row">
                     <div id="system_img" style="margin: 1rem;">
                         <img src="@/assets/img/system/그림1.png">
