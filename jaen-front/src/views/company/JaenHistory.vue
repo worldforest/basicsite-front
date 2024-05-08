@@ -1,4 +1,11 @@
 <template>
+  <div class="contatiner">
+    <section class="bg-light text-dark header-inner" data-jarallax data-speed="2" data-overlay>
+            <div class="row" data-aos="fade-up" style="padding: 5rem; display: inline-flex; text-align: center;">
+                <h2>자앤의 연혁</h2>
+            </div>
+        </section>
+  </div>
 <div class="history">
     <h2>연혁</h2>
     <!-- 연도별 탭 -->

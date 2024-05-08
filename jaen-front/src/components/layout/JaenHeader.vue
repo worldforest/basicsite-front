@@ -53,6 +53,8 @@
                     <div class="col-auto" data-dropdown-content>
                       <div class="dropdown-grid-menu">
                         <a class="dropdown-item fade-page" @click="gotoCompany()">About JAEN</a>
+                        <a class="dropdown-item fade-page" @click="gotoCurriculum()">커리큘럼</a>
+                        <a class="dropdown-item fade-page" @click="gotoRoadmap()">로드맵</a>
                         <a class="dropdown-item fade-page" @click="gotoHistory()">회사연혁</a>
                       </div>
                     </div>
@@ -61,7 +63,15 @@
                 <li class="nav-item">
                   <a class="nav-link" @click="gotoContact()">문의하기</a>
                 </li>
-
+                <li style="width: 8rem;">
+                  <a @click="toggleDropdown" >드롭다운</a>
+                    <div v-if="isDropdownOpen" class="dropdown-item col" data-overlay>
+                      드롭다운 내용
+                    </div>
+                    <div v-if="isDropdownOpen" class="dropdown-item col" data-overlay>
+                      드롭다운 내용
+                    </div>
+                </li>
               </ul>
             </div>
           </div>
@@ -107,16 +117,35 @@ export default {
     gotoCompany(){
       this.$router.push('/company');
     },
+    gotoCurriculum(){
+      this.$router.push('/curriculum');
+    },
+    gotoRoadmap(){
+      this.$router.push('/roadmap');
+    },
     gotoHistory(){
       this.$router.push('/history');
     },
     gotoContact(){
       this.$router.push('/contact');
+    },
+    toggleDropdown() {
+      this.isDropdownOpen = !this.isDropdownOpen;
+    },
+    closeDropdown() {
+      this.isDropdownOpen = false;
     }
   },
   mounted(){
       // 화면이 로드되자마자
       this.getCategory();
+  },
+  created(){
+    // 라우터 이동 시 드롭다운을 닫도록 네비게이션 가드를 추가합니다.
+    this.$router.beforeEach((to, from, next) => {
+      this.closeDropdown(); // 페이지 이동 시 드롭다운을 닫습니다.
+      next();
+    });
   },
   beforeRouteLeave(to, from, next) {
     // 이전 페이지로 이동할 때 데이터를 전달
@@ -131,6 +160,7 @@ export default {
   display: inline-block;
 }
 .dropdown-content{
+  width: min-content;
   display: none;
   position: absolute;
   background-color: aliceblue;

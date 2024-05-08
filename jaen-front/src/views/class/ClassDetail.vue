@@ -1,89 +1,30 @@
 <template>
   <div class="container">
-    <div>
-    <h2>강의 상세 페이지</h2>
-    <h3>{{ classDetailData.title }}</h3>
-    <div>
-      <thead>
-        <tr>
-          <th>과정 소개</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          {{ classDetailData.description }}
-        </tr>
-      </tbody>
-    </div>
-
-    <div>
-      <thead>
-        <tr>
-          <th>과정요약</th>
-          <th>학습대상</th>
-        </tr>
-      </thead>
-      <tbody>
-        <td>
-          <tr>교육기간 : {{ classDetailData.duration }}</tr>
-          <tr>실습환경 : {{ classDetailData.environment }}</tr>
-          <tr>난이도 : {{ getLevel(classDetailData.level) }}</tr>
-      </td>
-      <td class="description">
-        <tr>
-          <p>{{ classDetailData.target }}</p>
-        </tr>
-      </td>
-      </tbody>
-    </div>
-
-    <div class="description">
-      <thead>
-        <tr>
-          <th>학습목표</th>
-        </tr>
-      </thead>
-      <tbody>
-        <p>{{classDetailData.goal}}</p>
-      </tbody>
-    </div>
-    <div>
-      <thead>
-        <tr>
-          <th>선수지식</th>
-          <th>기술스택</th>
-        </tr>
-      </thead>
-      <tbody>
-        <td>
-          <tr>{{ classDetailData.background }}</tr>
-          </td>
-          <td>
-          <tr>{{ classDetailData.technologyStack }}</tr>
-        </td>
-      </tbody>
-    </div>
-
-    <table>
-      <thead>
-        <tr>
-          <th>순서</th>
-          <th>제목</th>
-          <th>설명</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(curriculum, sequenceNum) in data" :key="sequenceNum">
-          <td>{{ curriculum.sequenceNum }}</td>
-          <td>{{ curriculum.title }}</td>
-          <td>
-            <p v-html="formatTextWithLineBreaks(curriculum.description)"></p>
-          </td>
-        </tr>
-       </tbody>
-        </table>
+    <section class="bg-light text-dark header-inner" data-jarallax data-speed="0.2" data-overlay>
+      <div class="row" data-aos="fade-up" style="padding: 5rem; display: inline-flex; text-align: center;">
+        <h2>{{ classDetailData.title }}</h2>
       </div>
-    </div>
+    </section>
+    <section>
+      <div class="row">
+        <div class="col-xl-4 col-sm-6">
+          <h6>📆</h6>
+          <h6>교육기간</h6>
+          <h6>{{ classDetailData.duration }}</h6>
+        </div>
+        <div class="col-xl-4 col-sm-6">
+          <h6>🖥️</h6>
+          <h6>실습환경</h6>
+          <h6>{{ classDetailData.environment }}</h6>
+        </div>
+        <div class="col-xl-4 col-sm-6">
+          <h6>✏️</h6>
+          <h6>난이도</h6>
+          <h6>{{ getLevel(classDetailData.level) }}</h6>
+        </div>
+      </div>
+    </section>
+  </div>
 </template>
   
  <script>

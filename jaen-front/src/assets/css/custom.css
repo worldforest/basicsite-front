@@ -98,6 +98,7 @@
     border: 1px solid black;
     padding: 8px;
     text-align: center;
+    overflow-y: scroll;
   }
 
   /* card custom */
@@ -183,7 +184,7 @@
 .floBanPc1 {
   position: fixed;
   top: 328px; /* 아래쪽 끝에서부터의 거리 */
-  left: 5rem;
+  right: 5rem;
   /* right: 0; */
   justify-content: left;
   text-align: center;
@@ -191,4 +192,6 @@
   width: fit-content;
   background-color: aliceblue;
   display: grid;
+  padding: 1.2rem;
+  border-radius: 1.5rem;
 }
