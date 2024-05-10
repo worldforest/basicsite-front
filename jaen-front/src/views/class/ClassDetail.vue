@@ -1,29 +1,57 @@
 <template>
   <div class="container">
     <section class="bg-light text-dark header-inner" data-jarallax data-speed="0.2" data-overlay>
-      <div class="row" data-aos="fade-up" style="padding: 5rem; display: inline-flex; text-align: center;">
+      <div class="row title_section" data-aos="fade-up">
         <h2>{{ classDetailData.title }}</h2>
       </div>
     </section>
     <section>
-      <div class="row">
-        <div class="col-xl-4 col-sm-6">
-          <h6>📆</h6>
-          <h6>교육기간</h6>
-          <h6>{{ classDetailData.duration }}</h6>
+        <div class="row text-center" style="display: inline-flex;">
+          <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+            <h3>📆</h3>
+            <h4>교육기간</h4>
+            <h5>{{ classDetailData.duration }}</h5>
+          </div>
+          <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+            <h3>🖥️</h3>
+            <h4>기술스택</h4>
+            <h5>{{ classDetailData.environment }}</h5>
+          </div>
+          <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+            <h3>✏️</h3>
+            <h4>난이도</h4>
+            <h5>{{ getLevel(classDetailData.level) }}</h5>
+          </div>
         </div>
-        <div class="col-xl-4 col-sm-6">
-          <h6>🖥️</h6>
-          <h6>실습환경</h6>
-          <h6>{{ classDetailData.environment }}</h6>
-        </div>
-        <div class="col-xl-4 col-sm-6">
-          <h6>✏️</h6>
-          <h6>난이도</h6>
-          <h6>{{ getLevel(classDetailData.level) }}</h6>
-        </div>
-      </div>
     </section>
+    <section style="background-color: cornsilk; padding: 3rem;">
+      <h5>{{ formatTextWithLineBreaks(classDetailData.description) }}</h5>
+    </section>
+    <section class="row">
+      <h4 class="col">📒 학습대상</h4>
+      <!-- <p v-html="formatTextWithLineBreaks(classDetailData.target)"></p> -->
+      <!-- <p v-html="formatTextWithLineBreaks(classDetailData.target)"></p> -->
+      <h5 class="col" style="width: 80%; text-align: center; justify-content: center; align-items: center;">{{ classDetailData.target }}</h5>
+    </section>
+    <table>
+      <thead>
+        <tr>
+          <th>순서</th>
+          <th>제목</th>
+          <th>설명</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(curriculum, sequenceNum) in data" :key="sequenceNum">
+          <td>{{ curriculum.sequenceNum }}</td>
+          <td>{{ curriculum.title }}</td>
+          <td>
+            <p v-html="formatTextWithLineBreaks(curriculum.description)"></p>
+          </td>
+        </tr>
+       </tbody>
+        </table>
+
   </div>
 </template>
   

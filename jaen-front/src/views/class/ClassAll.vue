@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <section class="bg-light text-dark header-inner" data-jarallax data-speed="0.2" data-overlay>
-      <div class="row" data-aos="fade-up" style="padding: 5rem; display: inline-flex; text-align: center;">
+      <div class="row title_section" data-aos="fade-up">
         <span class="col-12" @click="gotoAllCategories" style="color: darkgrey;" >전체과정</span>
         <h3 class="h1 col-12">{{ categoryName }}교육과정 전체 강의</h3>
       </div>
@@ -22,16 +22,16 @@
         <!-- <img src="@/assets/img/class/1-1.jpg">  -->
         <div v-for="(item) in data" :key="item.index" @click="gotoDetail(item.index)">
           <div v-if="selectedCategory === item.subcategoryId || selectedCategory === -1" class="classCard">
-            <div class="classIamge">
+            <div class="classIamge" data-aos="fade-up"  data-aos-delay="200">
               <img
                 v-if="item.categoryId === 6"
-                alt="class_image"  
+                alt="class_image"
                 :src="require(`@/assets/img/class/${item.categoryId}-${item.subcategoryId}-${item.title.split(' ')[0]}.jpg`)"
                 style="height: 12rem;"
               >
               <img
                 v-else
-                alt="class_image"  
+                alt="class_image"
                 :src="require(`@/assets/img/class/${item.categoryId}-${item.subcategoryId}.jpg`)"
                 style="height: 12rem;"
               >
@@ -64,7 +64,6 @@ export default {
             categoryName: null,
             categoryId: null,
             selectedCategory: -1, //1 ALL 2 subcategoryId
-            zoomed: false
             // level: null
         } ;
     },
@@ -126,8 +125,6 @@ export default {
     },
     mounted(){
       // 화면이 로드되자마자
-    //   this.subcategoryName= this.$route.params.subcategoryName;
-    //   this.subcategoryId = this.$route.params.subcategoryId;
       this.categoryName = this.$route.params.categoryName;
       this.categoryId = this.$route.params.categoryId;
       this.get();
@@ -147,10 +144,6 @@ export default {
   flex-wrap: wrap;
   text-align: center;
   justify-content : center;
-}
-
-.nav-item{
-
 }
 .item {
   width: calc(33.33% - 10px); /* Adjust width as needed */
@@ -179,17 +172,16 @@ export default {
   overflow: hidden;
   width: 300px;
   height: auto;
-  background-color: rgba(0, 0, 0, 0.7);
+
 }
 .classIamge img{
-  opacity: 0.7;
-  /* background-color: rgba(0, 0, 0, 0.7); */
+  filter: brightness(50%);
 }
 /* 강의 이미지 마우스오버시 확대 */
-.classIamge img:hover {
+.classCard img:hover {
   height: auto;
   transform: scale(1.2);
-  transition: all 0.2s linear;
+  transition: all 0.5s ease-in-out;
 }
 /* 이미지 안에 강의명 */
 .text-overlay h4{
@@ -202,5 +194,7 @@ export default {
   /* padding: 10px; */
   /* border-radius: 5px; */
   text-align: center;
+  pointer-events: none; 
+  /* p 태그에 대한 hover 이벤트 비활성화 */
 }
 </style>

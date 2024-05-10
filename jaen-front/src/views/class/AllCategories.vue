@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <section class="bg-light text-dark header-inner" data-jarallax data-speed="0.2" data-overlay>
-      <div class="row" style="padding: 5rem; display: inline-flex;">
+      <div class="row title_section">
         <div class="" style="display: flex;">
           <h3 class="h1">자앤의 교육과정 대분류</h3>
         </div>

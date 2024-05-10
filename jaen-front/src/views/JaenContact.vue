@@ -1,10 +1,11 @@
 <template>
   <section class="bg-dark text-light header-inner p-0 jarallax position-relative" data-jarallax data-speed="0.2" data-overlay>
     <img src="@/assets/img/home/main/contact.jpg" alt="Image" class="jarallax-img opacity-40">
-      <div class="row" data-aos="fade-up" style="padding: 5rem;">
-        <div class="col-lg-9 col-xl-8">
+      <div class="row title_section" data-aos="fade-up">
+        <div class="" style="text-align: left; max-width: 80%;">
           <h1 class="">자앤과 함께할 여러분을 기다립니다.</h1>
-          <p class="lead mb-0">궁금하신 사항이 있다면 아래 문의하기를 이용해주세요.</p>
+          <!-- lead mb-0 -->
+          <h5 class="">궁금하신 사항이 있다면 아래 문의하기를 이용해주세요.</h5>
         </div>
       </div>
   </section>

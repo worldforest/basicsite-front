@@ -1,65 +1,33 @@
 <template>
-  <div class="contatiner">
+  <div class="container">
     <section class="bg-light text-dark header-inner" data-jarallax data-speed="2" data-overlay>
-            <div class="row" data-aos="fade-up" style="padding: 5rem; display: inline-flex; text-align: center;">
-                <h2>자앤의 연혁</h2>
-            </div>
-        </section>
-  </div>
-<div class="history">
-    <h2>연혁</h2>
-    <!-- 연도별 탭 -->
-    <div class="tab-container">
-      <div
-        v-for="(lectures, year) in groupedData"
-        :key="year"
-        @click="selectYear(year)"
-        :class="{ tab: true, active: selectedYear === year }"
-      >
-        <span>{{ year }}</span>
+        <div class="row title_section" data-aos="fade-up">
+            <h2>자앤의 연혁</h2>
         </div>
-    </div>
-    <div class="tab">
-        <thead>
-            <tr>
-                <th>회사명</th>
-                <th>강의명</th>
-            </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(lecture, index) in processedData[selectedYear]" :key="index">
-            <td v-if="index === 0 || lecture.companyname !== processedData[selectedYear][index - 1].companyname">
-              {{ lecture.companyname }}
-            </td>
-            <td v-else>&nbsp;</td>
-            <td class="left-align">{{ lecture.classname }}</td>
-          </tr>
-        </tbody>
-        <!-- <tbody>
-            <tr v-for="lecture in groupedData[selectedYear]" :key="lecture.index">
-                <td>{{ lecture.companyname }}</td>
-                <td class="left-align">{{ lecture.classname }}</td>
-            </tr>
-        </tbody> -->
-        <!-- <table v-if="selectedYear">
-            <tr v-for="lecture in lectures" :key="lecture.index">
-                <td>{{ lecture.companyname }}</td>
-                <td>{{ lecture.classname }}</td>
-            </tr>
-        </table> -->
-    </div>
+    </section>
+    <!-- <section>
+      <div class="tab-container">
+        <div
+          v-for="(lectures, year) in groupedData"
+          :key="year"
+          @click="selectYear(year)"
+          :class="{ tab: true, active: selectedYear === year }"
+        >
+          <span>{{ year }}</span>
+        </div>
+      </div>
+    </section> -->
   </div>
 </template>
   
 <script>
 export default {
     name: "JaenHistory",
-    // components: [],
     data() {
         return {
             //data 초기화
             data:[],
-            selectedYear: 2024 // 선택된 연도를 저장할 변수
+            selectedYear: 2024, // 선택된 연도를 저장할 변수
         } ;
     },
     computed: {
@@ -101,7 +69,12 @@ export default {
         },
         selectYear(year){
             this.selectedYear=year;
-        }
+        },
+        reversedGroupedData() {
+          console.log(this.grouped)
+          const reversegrouped = this.grouped.reverse();
+          return reversegrouped;
+        },
     },
     mounted(){
         // 화면이 로드되자마자
@@ -112,13 +85,20 @@ export default {
 
 <style>
 /* 필요한 스타일을 추가하세요 */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  justify-content : center;
+}
 .active {
   font-weight: bold; /* 선택된 탭 스타일*/
   cursor: pointer; /*마우스 오버 시 커서 스타일*/
 }
 .history{
-    display: grid;
+    /* display: grid; */
     justify-content: center; /* Align the content horizontally at the center */
+    text-align: center;
     
 }
 /* 탭 컨테이너의 스타일 */

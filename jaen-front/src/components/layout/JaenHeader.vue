@@ -38,11 +38,10 @@
                     <div class="col-auto" data-dropdown-content>
                       <div class="dropdown-grid-menu">
                         <a class="dropdown-item">공지사항/수업자료 공유</a>
-                        <a class="dropdown-item">응대</a>
+                        <a class="dropdown-item">실시간 Q & A</a>
+                        <a class="dropdown-item">과제관리</a>
                         <a class="dropdown-item">평가관리</a>
                         <a class="dropdown-item">프로젝트관리</a>
-                        <a class="dropdown-item">교육지원</a>
-                        <a class="dropdown-item">과제관리</a>
                       </div>
                     </div>
                   </div>
@@ -63,7 +62,7 @@
                 <li class="nav-item">
                   <a class="nav-link" @click="gotoContact()">문의하기</a>
                 </li>
-                <li style="width: 8rem;">
+                <!-- <li style="width: 8rem;">
                   <a @click="toggleDropdown" >드롭다운</a>
                     <div v-if="isDropdownOpen" class="dropdown-item col" data-overlay>
                       드롭다운 내용
@@ -71,7 +70,7 @@
                     <div v-if="isDropdownOpen" class="dropdown-item col" data-overlay>
                       드롭다운 내용
                     </div>
-                </li>
+                </li> -->
               </ul>
             </div>
           </div>

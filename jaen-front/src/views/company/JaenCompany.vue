@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <section class="bg-light text-dark header-inner" data-jarallax data-speed="2" data-overlay>
-            <div class="row" data-aos="fade-up" style="padding: 5rem; display: inline-flex; text-align: center;">
+            <div class="row title_section" data-aos="fade-up">
                 <h2>About JAEN</h2>
             </div>
         </section>
@@ -10,7 +10,7 @@
                 <h4 style="line-height: 1.5;">디지털 전환(DT)의 핵심기술인<br>
                     AI (Machine Learning, Deep Learning)와<br> IT 기본 (Java, Android, Web)
                     분야에서<br>
-                    <span ref="typedText" style="font-style: italic; line-height: 5;"></span>
+                    <span ref="typedText" style="font-style: italic; line-height: 5; background-color: beige;"></span>
                 </h4>
             </div>
             <div>
@@ -29,6 +29,11 @@
 <script>
 import Typed from 'typed.js'
 export default {
+  data(){
+    return{
+      keyword:""
+    }
+  },
   mounted() {
     // 페이지가 마운트되면 타이핑 효과를 시작합니다.
     this.startTyping();
@@ -43,9 +48,17 @@ export default {
         loop: true,
         backDelay: 2000    
       });
+    },
+    highlightText(text, keyword) {
+      if (!keyword) return text;
+      const regex = new RegExp(keyword, "gi");
+      return text.replace(regex, match => `<span class="highlight">${match}</span>`);
     }
   }
 };
 </script>
 <style>
+.highlight {
+  background-color: yellow;
+}
 </style>
