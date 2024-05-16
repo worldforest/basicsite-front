@@ -1,9 +1,9 @@
 <template>
  <div class="navbar-container ">
-      <nav class="navbar navbar-expand-md bg-white" data-overlay style="position: fixed; border: none;">
+      <nav class="navbar navbar-expand-md bg-white" data-overlay style="position: fixed; border: none; margin: 0; padding: 1rem;">
         <div class="container">
           <a class="navbar-brand fade-page" @click="goToHome">
-            <img src="@/assets/img/main-logo.png" alt="자앤" width="90" height="38">
+            <img src="@/assets/img/main-logo.png" alt="자앤" width="95" height="38">
           </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
             <img class="icon navbar-toggler-open" src="@/assets/img/icons/interface/menu.svg" alt="menu interface icon" />
@@ -32,45 +32,27 @@
                     </div>
                   </div>
                 </li>
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown bg-ligth">
                   <a class="nav-link dropdown-toggle" data-toggle="dropdown-grid" aria-expanded="false" aria-haspopup="true" @click="gotoSystem">기술지원</a>
+                </li>
+                <li class="nav-item dropdown bg-ligth">
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown-grid" aria-expanded="false" aria-haspopup="true" @click="toggleDropdown_company">회사소개</a>
                   <div class="dropdown-menu row">
                     <div class="col-auto" data-dropdown-content>
                       <div class="dropdown-grid-menu">
-                        <a class="dropdown-item">공지사항/수업자료 공유</a>
-                        <a class="dropdown-item">실시간 Q & A</a>
-                        <a class="dropdown-item">과제관리</a>
-                        <a class="dropdown-item">평가관리</a>
-                        <a class="dropdown-item">프로젝트관리</a>
+                        <div class="dropdown">
+                          <a class="dropdown-item fade-page" @click="gotoCompany()">About JAEN</a>
+                          <a class="dropdown-item fade-page" @click="gotoCurriculum()">커리큘럼</a>
+                          <a class="dropdown-item fade-page" @click="gotoRoadmap()">로드맵</a>
+                          <a class="dropdown-item fade-page" @click="gotoHistory()">회사연혁</a>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown-grid" aria-expanded="false" aria-haspopup="true">회사소개</a>
-                  <div class="dropdown-menu row">
-                    <div class="col-auto" data-dropdown-content>
-                      <div class="dropdown-grid-menu">
-                        <a class="dropdown-item fade-page" @click="gotoCompany()">About JAEN</a>
-                        <a class="dropdown-item fade-page" @click="gotoCurriculum()">커리큘럼</a>
-                        <a class="dropdown-item fade-page" @click="gotoRoadmap()">로드맵</a>
-                        <a class="dropdown-item fade-page" @click="gotoHistory()">회사연혁</a>
-                      </div>
-                    </div>
-                  </div>
+                <li class="nav-item dropdown bg-ligth">
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown-grid" aria-expanded="false" aria-haspopup="true" @click="gotoContact()">문의하기</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" @click="gotoContact()">문의하기</a>
-                </li>
-                <!-- <li style="width: 8rem;">
-                  <a @click="toggleDropdown" >드롭다운</a>
-                    <div v-if="isDropdownOpen" class="dropdown-item col" data-overlay>
-                      드롭다운 내용
-                    </div>
-                    <div v-if="isDropdownOpen" class="dropdown-item col" data-overlay>
-                      드롭다운 내용
-                    </div>
-                </li> -->
               </ul>
             </div>
           </div>
@@ -80,12 +62,12 @@
 </template>
 
 <script>
-
 export default {
   name: "JaenHeader",
   data() {
     return {
       isDropdownOpen: false,
+      isDropdownOpen_company: false,
       categories:[],
       selectedCategoryId: null,
       subcategories:[]
@@ -108,6 +90,7 @@ export default {
       this.$router.push('/categories');
     },
     gotoClassAll(categoryName, categoryId){
+      console.log("categoryId:"+categoryId)
       this.$router.push({ name: 'ClassAll', params: { categoryName, categoryId }});
     },
     gotoSystem(){
@@ -131,6 +114,9 @@ export default {
     toggleDropdown() {
       this.isDropdownOpen = !this.isDropdownOpen;
     },
+    toggleDropdown_company() {
+      this.isDropdownOpen_company = !this.isDropdownOpen_company;
+    },
     closeDropdown() {
       this.isDropdownOpen = false;
     }
@@ -145,6 +131,7 @@ export default {
       this.closeDropdown(); // 페이지 이동 시 드롭다운을 닫습니다.
       next();
     });
+    // this.data(this.$route.params.index);
   },
   beforeRouteLeave(to, from, next) {
     // 이전 페이지로 이동할 때 데이터를 전달

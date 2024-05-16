@@ -5,18 +5,37 @@
             <h2>자앤의 연혁</h2>
         </div>
     </section>
-    <!-- <section>
-      <div class="tab-container">
-        <div
-          v-for="(lectures, year) in groupedData"
-          :key="year"
-          @click="selectYear(year)"
-          :class="{ tab: true, active: selectedYear === year }"
-        >
-          <span>{{ year }}</span>
+    <section>
+      <div class="vertical-tabs">
+        <!-- 탭 목록 -->
+        <div class="tab-list">
+          <div
+          class="tab"
+              v-for="(lectures, year) in groupedData"
+              :key="year"
+              @click="activeTab = year"
+              :class="{ 'active': activeTab === year }"
+            >
+              <span>{{ year }}</span>
+            </div>
+        </div>
+        <!-- 탭 내용(회사명 강의명) -->
+        <div class="tab-content">
+            <tbody>
+                <tr v-for="lecture in groupedData[activeTab]" :key="lecture.index">
+                    <td>{{ lecture.companyname }}</td>
+                    <td class="left-align">{{ lecture.classname }}</td>
+                </tr>
+            </tbody>
+            <table v-if="activeTab">
+                <tr v-for="lecture in lectures" :key="lecture.index">
+                    <td>{{ lecture.companyname }}</td>
+                    <td>{{ lecture.classname }}</td>
+                </tr>
+            </table>
         </div>
       </div>
-    </section> -->
+    </section>
   </div>
 </template>
   
@@ -27,8 +46,9 @@ export default {
         return {
             //data 초기화
             data:[],
-            selectedYear: 2024, // 선택된 연도를 저장할 변수
-        } ;
+            // selectedYear: 2024, // 선택된 연도를 저장할 변수
+            activeTab: 2024, // 현재 활성화된 탭의 인덱스
+    };
     },
     computed: {
          // Group data by year
@@ -101,11 +121,6 @@ export default {
     text-align: center;
     
 }
-/* 탭 컨테이너의 스타일 */
-.tab-container {
-  display: flex;
-  border-bottom: 1px solid #ccc; /* Add a bottom border */
-}
 /* 각 탭의 스타일 */
 .tab {
     padding: 10px 20px; /* Add padding */
@@ -117,16 +132,24 @@ export default {
 .tab:not(:last-child) {
   margin-right: 5px; /* Add some spacing between tabs */
 }
-.tab span {
-  color: #333; /* Text color */
+
+
+
+.vertical-tabs {
+  display: flex;
 }
 
-.tab.active span {
-  color: #000; /* Text color for active tab */
-  font-weight: bold; /* Bold font for tab text */
-
+.tab-list {
+  display: flex;
+  flex-direction: column;
 }
-.left-align {
-  text-align: left; /* Align lecture names to the left */
+
+.tab.active {
+  font-weight: bold;
+}
+
+.tab-content {
+  margin-left: 20px;
+  width:600px;
 }
 </style>

@@ -36,7 +36,7 @@
             </div>
             <div id="3">
                 <h3>과제관리</h3>
-                <!-- <div class="row">
+                <div class="row">
                     <div class="system_img col-6">
                         <img src="@/assets/img/system/그림5.png">
                     </div>
@@ -49,24 +49,6 @@
                     <div class="system_img col-6" style="margin-top: 2rem;">
                         <img src="@/assets/img/system/그림9.png">
                     </div>
-                </div> -->
-                <div class="slide-container">
-                    <button @click="moveSlideToLeft">
-                        <img src="왼쪽버튼이미지입니다." />
-                    </button>
-                    <div class="slide-window">
-                        <div class="slide" 
-                            :class="{'slide-active': transitionOn }" 
-                            :style="{transform: 'translate3d(' + slideCoord + 'px, 0, 0)',}">
-                                <SlideCard v-for="card in cardArray" :key="card.name" />
-                                <SlideCard v-for="image in images" :key="image.index"/>
-                                    <!-- <img :src="require(`@/assets/img/system/그림${image}.png`)" alt="Image" class="rounded shadow-3d border"> -->
-                                
-                        </div>
-                    </div>
-                    <button @click="moveSlideToRight">
-                        <img src="오른쪽버튼이미지입니다."/>
-                    </button>
                 </div>
                 <div class="col-12" style="padding: 2rem; margin-bottom: 3rem; text-align: center;">
                     <h5>각 과정별로 과제를 제출하고 필요한 경우 과제에 대한 설명을 보충할 수 있습니다.</h5>
@@ -106,42 +88,12 @@
 export default{
     data(){
         return {
-            transitionOn: true, //슬라이드가 움직일때 트렌지션을 줄 것인지
-    cardArray : [], // 슬라이드 카드가 담길 배열 mounted에서 담아준다.
-    slideCoord: -300, // 옆으로 움직일 값, (슬라이드의 마진,패딩값 포함된 width)
-    // 이 값으로 슬라이드 카드를 담고있는 .slide의 css에 transform: translate3d(여기, 0 , 0) 에 넣어줘야 한다.
             images: ['5','6','7','8'],
         }
     },
     methods: {
-  resetCardArrayToRight() {
-    // 슬라이드 카드 배열 끝에 맨 앞에 있던 카드를 추가
-    this.cardArray.splice(this.cardArray.length, 0, this.cardArray[0]);
-    
-    // 맨 끝에 추가한 후 맨 앞에 있던 카드는 삭제
-    this.cardArray.splice(0, 1);
-    
-    // 잠시 transition 을 off 하기
-    this.transitionOn = false;
-    
-    // slideCoord를 초기값으로 설정
-    this.slideCoord = -300;
-},
-    
-  // 슬라이드 오른쪽 버튼 클릭이벤트 @click=" moveSlideToRight"
-  moveSlideToRight() {
-    // -300 씩 이동
-    this.slideCoord = this.slideCoord - 300
-    
-    // transitionOn은 true로 
-    this.transitionOn = true
-    
-    // 0.5초 뒤에 배열의 순서를 바꾸고 slideCoord값을 다시 초기 값으로 설정
-    // 이때만 transition을 off하여 움직이지 않는 것 처럼 눈속임한다.
-    // 여기 setTimeout의 delay 시간은 css의 transition의 duration과 같게 설정해야한다.
-    setTimeout(this.resetCardArrayToRight, 500)
-    },
-}
+ 
+    }
 }
 </script>
 <style>

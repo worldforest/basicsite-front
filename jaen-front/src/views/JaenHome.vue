@@ -1,5 +1,7 @@
 <template>
-    <img src="@/assets/img/home/main/main2.png" width="">
+    <div>
+        <img src="@/assets/img/home/main/main2.png" style="width: 100%; height: auto; display: block;">
+    </div>
     <section>
         <h2 class="h1 mx-xl-6" data-aos="fade-up" style="text-align: center; margin: 1.5rem; text-size-adjust: 2rem">소프트웨어 개발자 및 엔지니어 대상 전문교육</h2>
         <div class="row" style="margin: 3rem;">
@@ -93,6 +95,18 @@ export default {
 } */
 #intro_img{
     border-radius: 0px;
-    height: fit-content;
+    /* height: fit-content; */
+    width: 100%;
+    height: auto;
+}
+@media(max-width: 767px){
+    .image-flow{
+       scale: 2.5;
+       /* height: auto; */
+    }
+    .image-flow2{
+        scale: 2.5;
+        /* height: auto; */
+    }
 }
 </style>

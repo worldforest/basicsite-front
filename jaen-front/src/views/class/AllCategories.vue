@@ -3,14 +3,15 @@
     <section class="bg-light text-dark header-inner" data-jarallax data-speed="0.2" data-overlay>
       <div class="row title_section">
         <div class="" style="display: flex;">
-          <h3 class="h1">자앤의 교육과정 대분류</h3>
+          <h3 class="h1">자앤의 교육과정</h3>
         </div>
       </div>
     </section>
     <section class="pt-5">
       <div class="container" data-aos="fade-up">
-        <div class="col-sm-6 col-lg-4 mb-4" data-isotope-item data-category="Digital" v-for="(category, index) in categories" :key="index">
-          <a href="#">
+        <div class="row" style="margin-bottom: 2rem;"><h4>현재 자앤에는 <a style="background-color: blanchedalmond; font-size: 1.6rem">{{ categories.length }}개</a>의 교육과정이 있습니다.</h4></div>
+        <div class="row">
+          <div class="col-sm-6 col-lg-4 mb-4" data-isotope-item data-category="Digital" v-for="(category, index) in categories" :key="index">
             <img
               class="rounded shadow-3d hover-shadow-3d border mb-3 mb-md-0"
               :src="require(`@/assets/img/class/category/${index + 1}.jpg`)"
@@ -23,16 +24,15 @@
               <div class="text-small text-muted" v-for="subcategory in subcategories" :key="subcategory.subcategoryId">
                 <a
                   class="h6"
-                  v-if="subcategory.categoryId === category.categoryId" 
-                  @click="selectSubCategory(subcategory.name, subcategory.subcategoryId, category.name, category.categoryId)"
-                  style="cursor: pointer;"
+                  v-if="subcategory.categoryId === category.categoryId"
+                  style="cursor: default;"
                   >
                   {{ subcategory.name }}
                 </a>
               </div>
             </div>
-          </a>
-        </div>
+          </div>
+       </div>
       </div>
       <p class="alert alert-primary" style="text-align: center;">&#128587; 수업이 어떤 식으로 진행되는지 궁금하신가요? <a @click="gotoSystem">교육 지원 플랫폼</a>에서 확인해보세요.</p>
     </section>
@@ -62,7 +62,6 @@
             // 중분류 카테고리 가져오는 비동기 함수
             this.axios.get(`/subcategories`).then((response) => {
                 this.subcategories = response.data;
-                console.log( this.subcategories)
             }).catch((error) => {
                 console.error('Error fetching data:', error);
             });
@@ -93,4 +92,5 @@
 .container{
   text-align: center;
 }
+
 </style>
