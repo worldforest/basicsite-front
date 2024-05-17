@@ -13,16 +13,19 @@
             <div class="py-2 py-lg-0">
               <ul class="navbar-nav">
                 <li class="nav-item dropdown bg-ligth">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown-grid" aria-expanded="false" aria-haspopup="true">교육과정</a>
-                  <div class="dropdown-menu row">
+                  <!-- <a class="nav-link dropdown-toggle" data-toggle="" aria-expanded="false" aria-haspopup="true" @click="toggleDropdown">교육과정</a> -->
+                  <a class="nav-link" data-toggle="" aria-expanded="false" aria-haspopup="true" @click="toggleDropdown">교육과정</a>
+                  <!-- <div class="dropdown-menu row"></div> -->
+                  <div class="">
                     <div class="col-auto" data-dropdown-content>
-                      <div class="dropdown-grid-menu">
-                        <a class="dropdown-item" @click="goToAllCategories()">전체과정</a>
-                        <div class="dropdown">
-                          <a class="dropdown-item dropdown-toggle"
+                      <!-- <div class="dropdown-grid-menu"> -->
+                      <div v-show="isDropdownOpen" class="dropdown-content">
+                        <a class="" @click="goToAllCategories()">전체과정</a>
+                        <div class="">
+                          <a class=""
                             v-for="category in categories" :key="category.category_id"
                             @click="gotoClassAll(category.name, category.categoryId)"
-                            data-toggle="dropdown-grid" 
+                            data-toggle="" 
                             aria-expanded="false" 
                             aria-haspopup="true">
                             <span>{{ category.name }}</span>
@@ -33,25 +36,25 @@
                   </div>
                 </li>
                 <li class="nav-item dropdown bg-ligth">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown-grid" aria-expanded="false" aria-haspopup="true" @click="gotoSystem">기술지원</a>
+                  <a class="nav-link" data-toggle="" aria-expanded="false" aria-haspopup="true" @click="gotoSystem">기술지원</a>
                 </li>
                 <li class="nav-item dropdown bg-ligth">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown-grid" aria-expanded="false" aria-haspopup="true" @click="toggleDropdown_company">회사소개</a>
-                  <div class="dropdown-menu row">
+                  <a class="nav-link" data-toggle="" aria-expanded="false" aria-haspopup="true" @click="toggleDropdown_company">회사소개</a>
+                  <div class="">
                     <div class="col-auto" data-dropdown-content>
-                      <div class="dropdown-grid-menu">
-                        <div class="dropdown">
-                          <a class="dropdown-item fade-page" @click="gotoCompany()">About JAEN</a>
-                          <a class="dropdown-item fade-page" @click="gotoCurriculum()">커리큘럼</a>
-                          <a class="dropdown-item fade-page" @click="gotoRoadmap()">로드맵</a>
-                          <a class="dropdown-item fade-page" @click="gotoHistory()">회사연혁</a>
+                      <div v-show="isDropdownOpen_company" class="dropdown-content">
+                        <div class="">
+                          <a class="" @click="gotoCompany()">About JAEN</a>
+                          <a class="" @click="gotoCurriculum()">커리큘럼</a>
+                          <a class="" @click="gotoRoadmap()">로드맵</a>
+                          <a class="" @click="gotoHistory()">회사연혁</a>
                         </div>
                       </div>
                     </div>
                   </div>
                 </li>
                 <li class="nav-item dropdown bg-ligth">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown-grid" aria-expanded="false" aria-haspopup="true" @click="gotoContact()">문의하기</a>
+                  <a class="nav-link" data-toggle="" aria-expanded="false" aria-haspopup="true" @click="gotoContact">문의하기</a>
                 </li>
               </ul>
             </div>
@@ -144,15 +147,19 @@ export default {
 .dropdown{
   position: relative;
   display: inline-block;
+  font-size: 1.1rem;
 }
 .dropdown-content{
-  width: min-content;
-  display: none;
   position: absolute;
-  background-color: aliceblue;
-  min-width: 190px;
+  left: 50%;
+  transform: translate(-50%); /* 중앙으로 이동 */
+  width: max-content;
+  display: none;
+  background-color: #fff;
+  /* min-width: 150px; */
   z-index: 1;
   transition-delay: opacity 5s;
+  justify-content: center;
 }
 .dropdown:hover .dropdown-content{
   display: block;

@@ -1,63 +1,83 @@
 <template>
-  <div class="container">
-    <section class="bg-light text-dark header-inner" data-jarallax data-speed="0.2" data-overlay>
-      <div class="row title_section" data-aos="fade-up">
-        <p class="col-12" @click="gotoAllCategories" style="color: darkgrey; font-size: 1.2rem;" >전체과정</p>
-        <h3 class="h1 col-12">{{ categoryName }} 교육과정 전체 강의</h3>
+  <section class="bg-dark text-light p-0 jarallax" data-jarallax data-speed="0.2" data-overlay>
+    <img src="@/assets/img/home/dg.jpg" alt="Image" class="jarallax-img opacity-40">
+    <div class="title_section" data-aos="fade-up">
+      <div class="" style="text-align: center;">
+        <h1 class="">{{ this.categoryName }}</h1>
       </div>
-    </section>
-    <section>
-      <div class="container">
-        <ul data-isotope-filters data-isotope-id="projects" class="nav mb-3">
-          <li class="nav-item">
-            <a class="nav-link" @click="showClass(-1)">All</a>
-          </li>
-          <li class="nav-item" v-for="subcategory in subcategories" :key="subcategory.subcategoryId">
-            <!-- <a class="nav-link" @click="getSubcategoryId(subcategory.subcategoryId)" >{{subcategory.name}}</a> -->
-            <a class="nav-link" @click="showClass(subcategory.subcategoryId, subcategory.name)" >{{subcategory.name}}</a>
-          </li>
-        </ul>
+    </div>
+  </section>
+  <section>
+    <div class="container" style="margin: auto;m">
+      <!-- 대분류 메뉴 -->
+      <div class="category_menu sidebar">
+        <CourseSidebar />
       </div>
-      <div class="container">
-        <!-- <img src="@/assets/img/class/1-1.jpg">  -->
-        <div v-for="(item) in data" :key="item.index" @click="gotoDetail(item.index, item.subcategoryId)">
-          <div v-if="selectedCategory === -1 || selectedCategory === item.subcategoryId" class="classCard">
-            <div class="classIamge" data-aos="fade-up"  data-aos-delay="200">
-              <img
-                v-if="item.categoryId === 6"
-                alt="class_image"
-                :src="require(`@/assets/img/class/${item.categoryId}-${item.subcategoryId}-${item.title.split(' ')[0]}.jpg`)"
-                style="height: 12rem;"
-              >
-              <img
-                v-else
-                alt="class_image"
-                :src="require(`@/assets/img/class/${item.categoryId}-${item.subcategoryId}.jpg`)"
-                style="height: 12rem;"
-              >
-              <div class="text-overlay">
-                <h4>{{ item.title }}</h4>
+      <div class="item popular_class">인기강좌</div>
+      <!-- 중분류 -->
+      <div class="item subcategory_menu">
+        <div class="col">
+            <ul data-isotope-filters data-isotope-id="projects" style="display: flex; justify-content: center;">
+              <li class="nav-item">
+                <a class="nav-link" @click="showClass(-1)">All</a>
+              </li>
+              <li class="nav-item" v-for="subcategory in subcategories" :key="subcategory.subcategoryId">
+                <a class="nav-link" @click="showClass(subcategory.subcategoryId, subcategory.name)" >{{subcategory.name}}</a>
+              </li>
+            </ul>
+          </div>
+      </div>
+      <!-- 강의카드 -->
+      <div class="item class_card">
+        <div class="" style="display: flex;">
+          <div v-for="(item) in data" :key="item.index" @click="gotoDetail(item.index, item.subcategoryId)">
+              <div v-if="selectedCategory === -1 || selectedCategory === item.subcategoryId" class="classCard">
+                <!-- 강의카드 이미지 및 강의명 -->
+                <div class="classIamge" data-aos="fade-up"  data-aos-delay="200">
+                  <!-- 강의 이미지 -->
+                  <img
+                    v-if="item.categoryId === 6"
+                    alt="class_image"
+                    :src="require(`@/assets/img/class/${item.categoryId}-${item.subcategoryId}-${item.title.split(' ')[0]}.jpg`)"
+                    style="height: 12rem;"
+                  >
+                  <img
+                    v-else
+                    alt="class_image"
+                    :src="require(`@/assets/img/class/${item.categoryId}-${item.subcategoryId}.jpg`)"
+                    style="height: 12rem;"
+                  >
+                  <!-- 이미지에 출력할 강의 제목 -->
+                  <div class="text-overlay">
+                    <h4>{{ item.title }}</h4>
+                  </div>
+                </div>
+                <!-- 강의카드 기본정보 -->
+                <div style="padding: 0.5rem; font-size: 1.2rem;" data-aos="fade-up" data-aos-delay="200">
+                    <div class="title">{{ item.title }}</div>
+                    <div class="level">level : {{ getLevel(item.level) }}</div>
+                    <div>{{ item.duration }}</div>
+                </div>
               </div>
             </div>
-            <div style="padding: 1.5rem;" data-aos="fade-up" data-aos-delay="200">
-                <div class="title">{{ item.title }}</div>
-                <div class="level">level : {{ getLevel(item.level) }}</div>
-                <div>{{ item.duration }}</div>
-            </div>
-          </div>
         </div>
       </div>
-    </section>
-  </div>
+      <div class="item class_menu">강의이동</div>
+    </div>
+  </section>
 </template>
   
 <script>
+import CourseSidebar from '@/components/layout/CourseSidebar.vue';
+import defaultImage from  '@/assets/img/class/category/1.jpg';
+
 export default {
     name: "ClassAll",
     data() {
         return {
             //data 초기화
             data:[],
+            categories:[],
             subcategories: [],
             subcategoryId: null,
             subcategoryName: null,
@@ -69,6 +89,9 @@ export default {
     },
     created(){
     },
+    components:{
+      CourseSidebar
+    },
     methods: {
         get(){
             this.axios.get(`class/category?categoryId=${this.categoryId}`).then((response) => {
@@ -76,6 +99,12 @@ export default {
                 // this.level = response.data.level;
             }).catch((error)=>{
                 console.error('Error fetching data: ',error)
+            });
+        },
+        getCategory() {
+            // 대분류 카테고리 가져오는 비동기 함수
+            this.axios.get("/categories").then((response) => {
+                this.categories = response.data;
             });
         },
         getSubcategories(){
@@ -134,6 +163,17 @@ export default {
         },
         showClass(subcategoryId){
           this.selectedCategory = subcategoryId
+        },
+        categoryImg(){
+          console.log(this.categoryId);
+          if (!this.categoryId) {
+            return defaultImage;  // categoryId가 null인 경우 기본 이미지 사용
+          }
+          try {
+            return require(`@/assets/img/class/category/${this.categoryId}.jpg`);
+          } catch (e) {
+            return defaultImage;  // 이미지가 존재하지 않는 경우 기본 이미지 사용
+          }
         }
     },
     mounted(){
@@ -142,36 +182,32 @@ export default {
       this.categoryId = this.$route.params.categoryId;
       this.get();
       this.getSubcategories();
+      this.getCategory();
     },
-    beforeRouteLeave(to, from, next) {
-      // 이전 페이지로 이동할 때 데이터를 전달
-      to.params.myData = this.myData;
-      next();
-    }
   
 };
 </script>
-<style>
+<style scoped>
 .container {
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center;
-  justify-content : center;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1.2fr;
+  height: 100vh; /* 부모 요소가 화면 전체 높이를 가득 채우도록 설정 */
+  row-gap: 1rem;
+  column-gap: 1rem;
+  /* flex-wrap: wrap; */
+  /* text-align: center;
+  justify-content : center; */
+  /* grid-template-columns: 10% 20% 69%; */
+  /* grid-template-columns: 1fr 1fr 1fr; */
 }
 .item {
-  width: calc(33.33% - 10px); /* Adjust width as needed */
+  width: 100%;
+  height: 100%;
+  /* width: calc(33.33% - 10px);
   margin: 0 5px;
   padding: 10px;
   border: 1px solid #ccc;
-  box-sizing: border-box;
-}
-
-.title, .level, .category {
-  margin-bottom: 5px;
-}
-
-.title {
-  font-weight: bold;
+  box-sizing: border-box; */
 }
 .classCard{
   margin: 1rem;
@@ -185,7 +221,7 @@ export default {
   overflow: hidden;
   width: 300px;
   height: auto;
-  border-radius: 1rem;
+  /* border-radius: 0.2rem; */
 
 }
 .classIamge img{
@@ -204,7 +240,7 @@ export default {
   height: auto;
   transform: scale(1);
   transition: all 0.5s ease-in-out;
-  border-radius: 1rem;
+  border-radius: 0rem;
 }
 /* 이미지 안에 강의명 */
 .text-overlay h4{
@@ -219,5 +255,36 @@ export default {
   text-align: center;
   pointer-events: none; 
   /* p 태그에 대한 hover 이벤트 비활성화 */
+}
+.sidebar{
+  @media (max-width: 600px) {   
+    .container {    
+        grid-template-columns: 1fr;    
+        grid-template-areas:     
+           "header"     
+           "side-bar"     
+           "main"     
+           "footer";   
+  }}
+}
+/* 전체 화면 그리드 */
+.category_menu{
+  grid-row: 1/5;
+	/* grid-row: 1 / 2; */
+}
+.popular_class{
+  grid-row: 5/11;
+}
+.subcategory_menu{
+  grid-row: 1;
+  grid-column: 2/4;
+}
+.class_card{
+  grid-row: 2/10;
+  grid-column: 2/4;
+}
+.class_menu{
+  grid-row: 10/11;
+  grid-column: 2/4;
 }
 </style>

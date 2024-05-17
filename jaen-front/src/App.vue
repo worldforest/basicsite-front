@@ -5,9 +5,7 @@
       <JaenHeader />
     </header>
     <section id="content" ref="content">
-      <KeepAlive>
         <router-view></router-view>
-      </KeepAlive>
     </section>
     <JaenFooter />
     <!-- 가장 아래에서 위로 올라가기 -->

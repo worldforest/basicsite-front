@@ -1,66 +1,29 @@
 <template>
-  <div class="container">
-    <section class="bg-light text-dark header-inner" data-jarallax data-speed="0.2" data-overlay>
-      <div class="row title_section" data-aos="fade-up">
+  <section class="bg-dark text-light p-0 jarallax" data-jarallax data-speed="0.2" data-overlay>
+    <img src="@/assets/img/home/dg.jpg" alt="Image" class="jarallax-img opacity-40">
+    <div class="title_section" data-aos="fade-up">
+      <div class="" style="text-align: center;">
         <p class="col-12" @click="gotoAllCategories" style="color: darkgrey; font-size: 1.2rem" >전체과정  > {{ this.subcategoryName }}</p>
-        <h2 style="text-align: center; align-items: center;">{{ classDetailData.title }}</h2>
+        <h1 style="text-align: center; align-items: center;">{{ classDetailData.title }}</h1>
       </div>
-    </section>
-    <section>
-        <div class="row text-center" style="display: inline-flex;">
-          <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-            <h3>📆</h3>
-            <h4>교육기간</h4>
-            <h5>{{ classDetailData.duration }}</h5>
-          </div>
-          <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-            <h3>🖥️</h3>
-            <h4>기술스택</h4>
-            <h5>{{ classDetailData.environment }}</h5>
-          </div>
-          <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-            <h3>✏️</h3>
-            <h4>난이도</h4>
-            <h5>{{ getLevel(classDetailData.level) }}</h5>
-          </div>
-        </div>
-    </section>
-    <section style="background-color: cornsilk; padding: 3rem; padding-left: 5rem; padding-right: 5rem;  border-radius: 2rem;">
-      <h5>{{ classDetailData.description }}</h5>
-      <!-- <h5>{{ formatTextWithLineBreaks(classDetailData.description) }}</h5> -->
-    </section>
-    <section >
-      <h4>📒 학습대상</h4>      
-      <h5
-        v-html="formatTextWithLineBreaks(classDetailData.target)"
-        style="line-height: 3rem;"
-      >
-      </h5>
-    </section>
-    <section style="background-color: beige; padding: 2rem;">
-      <table>
-        <thead style="margin: 2rem;">
-          <tr>
-            <th><h5>순서</h5></th>
-            <th><h5>제목</h5></th>
-            <th><h5>설명</h5></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(curriculum, sequenceNum) in data" :key="sequenceNum">
-            <td class="col-1"><h5>{{ curriculum.sequenceNum }}</h5></td>
-            <td class="col-5" style=""><h5>{{ curriculum.title }}</h5></td>
-            <td class="col-6" style="text-align: left;">
-              <h5 v-html="formatTextWithLineBreaks(curriculum.description)"></h5>
-            </td>
-          </tr>
-         </tbody>
-      </table>
-    </section>
-  </div>
+    </div>
+  </section>
+  <section>
+    <div class="container" style="margin: auto;m">
+      <!-- 대분류 메뉴 -->
+      <div class="category_menu sidebar">
+        <CourseSidebar />
+      </div>
+      <div class="item popular_class">인기강좌</div>
+      <div class="item subcategory_menu">중분류</div>
+      <div class="item class_card">강의카드</div>
+      <div class="item class_menu">강의이동</div>
+    </div>
+  </section>
 </template>
   
  <script>
+ import CourseSidebar from '@/components/layout/CourseSidebar.vue';
   export default {
     data() {
       return{
@@ -72,6 +35,9 @@
       };
     },
     created() {
+    },
+    components:{
+      CourseSidebar
     },
     methods: {
       get(){
@@ -134,9 +100,47 @@
   };
   </script>
   
-  <style>
+  <style scoped>
   /* 필요한 스타일을 추가하세요 */
-  .description p {
-  white-space: pre-line;
+  .container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 100vh; /* 부모 요소가 화면 전체 높이를 가득 채우도록 설정 */
+    row-gap: 1rem;
+    column-gap: 1rem;
+  }
+  .item{
+    width: 100%;
+    height: 100%;
+  }
+.sidebar{
+  @media (max-width: 600px) {   
+    .container {    
+        grid-template-columns: 1fr;    
+        grid-template-areas:     
+           "header"     
+           "side-bar"     
+           "main"     
+           "footer";   
+  }}
+}
+.category_menu{
+  grid-row: 1/5;
+	/* grid-row: 1 / 2; */
+}
+.popular_class{
+  grid-row: 5/11;
+}
+.subcategory_menu{
+  grid-row: 1;
+  grid-column: 2/4;
+}
+.class_card{
+  grid-row: 2/10;
+  grid-column: 2/4;
+}
+.class_menu{
+  grid-row: 10/11;
+  grid-column: 2/4;
 }
   </style>

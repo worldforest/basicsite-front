@@ -1,41 +1,48 @@
 <template>
-  <div class="container">
-    <section class="bg-light text-dark header-inner" data-jarallax data-speed="2" data-overlay>
-        <div class="row title_section" data-aos="fade-up">
+    <section class="bg-light text-dark p-0 jarallax" data-jarallax data-speed="2" data-overlay>
+        <div class="title_section" data-aos="fade-up">
             <h2>자앤의 연혁</h2>
         </div>
     </section>
-    <section>
-      <div class="vertical-tabs">
-        <!-- 탭 목록 -->
-        <div class="tab-list">
-          <div
-          class="tab"
-              v-for="(lectures, year) in groupedData"
-              :key="year"
-              @click="activeTab = year"
-              :class="{ 'active': activeTab === year }"
-            >
-              <span>{{ year }}</span>
-            </div>
+
+    <div class="container">
+      <section>
+        <div class="vertical-tabs">
+          <!-- 탭 목록 -->
+          <div class="tab-list">
+            <div
+              class=""
+                v-for="(index,year) in groupedData"
+                :key="index"
+                @click="activeTab = year"
+                :class="{ 'active': activeTab === year }"
+              >
+                <span>{{ year }}</span>
+              </div>
+          </div>
+          <!-- 탭 내용(회사명 강의명) -->
+          <div class="tab-content">
+              <!-- <tbody>
+                  <tr v-for="lecture in groupedData[activeTab]" :key="lecture.index">
+                      <td>{{ lecture.companyname }}</td>
+                      <td class="left-align">{{ lecture.classname }}</td>
+                  </tr>
+              </tbody>
+              <table v-if="activeTab">
+                  <tr v-for="lecture in lectures" :key="lecture.index">
+                      <td>{{ lecture.companyname }}</td>
+                      <td>{{ lecture.classname }}</td>
+                  </tr>
+              </table> -->
+              <table v-if="activeTab">
+                  <tr v-for="lecture in groupedData[activeTab]" :key="lecture.index">
+                      <td>{{ lecture.companyname }}</td>
+                      <td>{{ lecture.classname }}</td>
+                  </tr>
+              </table>
+          </div>
         </div>
-        <!-- 탭 내용(회사명 강의명) -->
-        <div class="tab-content">
-            <tbody>
-                <tr v-for="lecture in groupedData[activeTab]" :key="lecture.index">
-                    <td>{{ lecture.companyname }}</td>
-                    <td class="left-align">{{ lecture.classname }}</td>
-                </tr>
-            </tbody>
-            <table v-if="activeTab">
-                <tr v-for="lecture in lectures" :key="lecture.index">
-                    <td>{{ lecture.companyname }}</td>
-                    <td>{{ lecture.classname }}</td>
-                </tr>
-            </table>
-        </div>
-      </div>
-    </section>
+      </section>
   </div>
 </template>
   
@@ -51,17 +58,45 @@ export default {
     };
     },
     computed: {
-         // Group data by year
+         // 년도별로 강의 그룹화
         groupedData() {
             const grouped = {};
             this.data.forEach(lecture => {
                 const year = lecture.year; // Assuming there's a 'year' property in lecture object
                 if (!grouped[year]) {
-                grouped[year] = [];
+                  grouped[year] = [];
                 }
+                // 강의 오래된 순 정렬
                 grouped[year].push(lecture);
+                // 강의 최신순 정렬
+                // grouped[year].unshift(lecture);
             });
             return grouped;
+        },
+        reversedGroupedData() {
+            // Object.keys로 groupedData의 키(연도)를 배열로 가져와서 역순으로 정렬합니다.
+            const reversedKeys = this.groupedData;
+            const reversedGrouped = {};
+            reversedKeys.forEach(key => {
+                // reversedGrouped[key] = this.groupedData[key];
+                console.log("reversedGroupedData:"+key)
+            });
+            return reversedGrouped;
+        },
+        reversedYearData() {
+            // Object.keys로 groupedData의 키(연도)를 배열로 가져와서 역순으로 정렬합니다.
+            const reversedKeys = Object.keys(this.groupedData).reverse();
+            console.log("reversedYearData:"+reversedKeys);
+            const groupedYear = {};
+            reversedKeys.forEach(lecture => {
+                const year = lecture.year; // Assuming there's a 'year' property in lecture object
+                if (!groupedYear[year]) {
+                  console.log("reversedGroupedData:"+year)
+                  groupedYear[year] = true; // 연도를 키로 추가
+                }
+            });
+            // 객체의 키를 리스트로 변환하여 반환
+            return Object.keys(groupedYear);
         },
         processedData() {
         const processed = {};
@@ -90,11 +125,11 @@ export default {
         selectYear(year){
             this.selectedYear=year;
         },
-        reversedGroupedData() {
-          console.log(this.grouped)
-          const reversegrouped = this.grouped.reverse();
-          return reversegrouped;
-        },
+        // reversedGroupedData() {
+        //   console.log(this.grouped)
+        //   const reversegrouped = this.grouped.reverse();
+        //   return reversegrouped;
+        // },
     },
     mounted(){
         // 화면이 로드되자마자
@@ -104,13 +139,6 @@ export default {
 </script>
 
 <style>
-/* 필요한 스타일을 추가하세요 */
-.container {
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center;
-  justify-content : center;
-}
 .active {
   font-weight: bold; /* 선택된 탭 스타일*/
   cursor: pointer; /*마우스 오버 시 커서 스타일*/
@@ -133,10 +161,9 @@ export default {
   margin-right: 5px; /* Add some spacing between tabs */
 }
 
-
-
 .vertical-tabs {
   display: flex;
+  font-size: 1.3rem;
 }
 
 .tab-list {

@@ -31,7 +31,6 @@
       </div>
     </div>
   </section>
-
   <section>
     <div class="container">
       <div class="row justify-content-center">
@@ -98,10 +97,14 @@
       </div>
     </div>
   </section>
+  <section>
+    <KaKaoMap/>
+  </section>
 </template>
   
   <script>
   import axios from 'axios';
+  import KaKaoMap from "@/components/KaKaoMap.vue";
   
   export default {
     data() {
@@ -109,6 +112,9 @@
         email: '',
         message: ''
       };
+    },
+    components: {
+        KaKaoMap,
     },
     methods: {
       sendEmail() {

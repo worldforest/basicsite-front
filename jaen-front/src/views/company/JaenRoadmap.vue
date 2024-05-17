@@ -1,10 +1,11 @@
 <template>
+    <section class="bg-light text-dark p-0 jarallax" data-jarallax data-speed="2" data-overlay>
+        <!-- <img src="@/assets/img/home/dg.jpg" alt="Image" class="jarallax-img opacity-40"> -->
+        <div class="title_section" data-aos="fade-up">
+            <h1>자앤의 로드맵</h1>
+        </div>
+    </section>
     <div class="container">
-        <section class="bg-light text-dark header-inner" data-jarallax data-speed="2" data-overlay>
-            <div class="row title_section" data-aos="fade-up">
-                <h2>자앤의 로드맵</h2>
-            </div>
-        </section>
         <section>
             <div style="margin-bottom: 5rem;">
                 <h4 style="line-height: 1.5;">

@@ -1,10 +1,11 @@
 <template>
+    <section class="bg-light text-dark p-0 jarallax" data-jarallax data-speed="2" data-overlay>
+        <!-- <img src="@/assets/img/home/dg.jpg" alt="Image" class="jarallax-img opacity-40"> -->
+        <div class="title_section" data-aos="fade-up">
+            <h1>자앤의 교육지원 플랫폼</h1>
+        </div>
+    </section>
     <div class="container">
-        <section class="bg-light text-dark header-inner" data-jarallax data-speed="0.2" data-overlay>
-            <div class="row title_section" data-aos="fade-up">
-                <h3 class="h1">자앤의 교육지원 플랫폼</h3>
-            </div>
-        </section>
         <section style="text-align: left;">
             <div id="notice">
                 <h3 style="padding: 1rem;">공지사항/수업자료 공유</h3>

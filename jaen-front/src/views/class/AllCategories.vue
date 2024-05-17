@@ -1,15 +1,18 @@
 <template>
+  <section class="bg-light text-dark p-0 jarallax" data-jarallax data-speed="2" data-overlay>
+    <!-- <img src="@/assets/img/home/dg.jpg" alt="Image" class="jarallax-img opacity-40"> -->
+    <div class="title_section" data-aos="fade-up">
+        <h1>자앤의 교육과정</h1>
+    </div>
+  </section>
+  <div style="text-align: center; margin-top: 2rem;">
+    <h5 style="line-height: 2rem;">현재 자앤에서 진행되는 교육과정 대분류 목록입니다.<br>세부 강의 목록은 궁금하신 대분류를 선택해서 확인해주세요.</h5>
+  </div>
   <div class="container">
-    <section class="bg-light text-dark header-inner" data-jarallax data-speed="0.2" data-overlay>
-      <div class="row title_section">
-        <div class="" style="display: flex;">
-          <h3 class="h1">자앤의 교육과정</h3>
-        </div>
-      </div>
-    </section>
+
     <section class="pt-5">
       <div class="container" data-aos="fade-up">
-        <div class="row" style="margin-bottom: 2rem;"><h4>현재 자앤에는 <a style="background-color: blanchedalmond; font-size: 1.6rem">{{ categories.length }}개</a>의 교육과정이 있습니다.</h4></div>
+        <!-- <div class="row" style="margin-bottom: 2rem;"><h4>현재 자앤에는 <a style="background-color: blanchedalmond; font-size: 1.6rem">{{ categories.length }}개</a>의 교육과정이 있습니다.</h4></div> -->
         <div class="row">
           <div class="col-sm-6 col-lg-4 mb-4" data-isotope-item data-category="Digital" v-for="(category, index) in categories" :key="index">
             <img
@@ -23,9 +26,8 @@
               <h4 class="mb-1" style="cursor: pointer;" @click="gotoClassAll(category.name, category.categoryId)">{{ category.name }}</h4>
               <div class="text-small text-muted" v-for="subcategory in subcategories" :key="subcategory.subcategoryId">
                 <a
-                  class="h6"
                   v-if="subcategory.categoryId === category.categoryId"
-                  style="cursor: default;"
+                  style="cursor: default; font-size: 1.1rem"
                   >
                   {{ subcategory.name }}
                 </a>

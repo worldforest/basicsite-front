@@ -1,12 +1,21 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import { createStore } from 'vuex';
+// import { categories } from '@/store/modules/categories'
 
-import jaenHeader from '/components/layout/jaenHeader'
-
-Vue.use(Vuex)
-
-export default new Vuex.Store({
-    modules: {
-        book: BookStore
+export default createStore({
+  state: {
+    categoryId: null
+  },
+  mutations: {
+    setCategoryId(state, categoryId) {
+      state.categoryId = categoryId;
     }
-})
+  },
+  actions: {
+    updateCategoryId({ commit }, categoryId) {
+      commit('setCategoryId', categoryId);
+    }
+  },
+  getters: {
+    getCategoryId: (state) => state.categoryId
+  }
+});

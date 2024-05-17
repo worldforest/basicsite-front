@@ -1,8 +1,9 @@
 import { createApp } from 'vue'
-import Vuex from 'vuex'
+// import Vuex from 'vuex'
 import App from './App.vue'
 import router from './router';
-import store from './store';
+// import store from './store';
+import store from '@/store/index.js';
 import axios from "axios";
 // import 'bootstrap'
 // import 'bootstrap/dist/css/bootstrap.min.css'
@@ -14,5 +15,5 @@ const app = createApp(App);
 app.config.globalProperties.axios = axios;
 app.use(router)
 app.use(store)
-app.use(Vuex)
+// app.use(Vuex)
 app.mount('#app')
