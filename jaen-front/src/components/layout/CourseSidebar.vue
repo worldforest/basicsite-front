@@ -33,9 +33,10 @@ export default {
             });
         },
         gotoClassAll(categoryName, categoryId){
+            console.log("from Sidebar categoryId :"+categoryId)
             this.selectedValue= categoryId;
-            this.$router.push({name:'ClassAll', params: {categoryName, categoryId}});
-            this.refreshPage(categoryName, categoryId);
+            // this.$router.push({name:'ClassAll', params: {categoryName, categoryId}});
+            // this.refreshPage(categoryName, categoryId);
         },
     },
     created() {

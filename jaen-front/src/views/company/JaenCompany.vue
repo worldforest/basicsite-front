@@ -7,11 +7,11 @@
     </section>
     <div class="container">
       <section>
-        <div style="margin-bottom: 5rem;">
+        <div style="margin-bottom: 3rem;">
           <h4 style="line-height: 1.5;">디지털 전환(DT)의 핵심기술인<br>
               AI (Machine Learning, Deep Learning)와<br> IT 기본 (Java, Android, Web)
               분야에서<br>
-              <span ref="typedText" style="font-style: italic; line-height: 5; background-color: beige;"></span>
+              <span ref="typedText" style="font-style: italic; line-height: 3; background-color: beige; font-size: 3rem;"></span>
           </h4>
         </div>
         <div>

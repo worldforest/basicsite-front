@@ -1,21 +1,24 @@
-import { createStore } from 'vuex';
-// import { categories } from '@/store/modules/categories'
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-export default createStore({
-  state: {
-    categoryId: null
+Vue.useAttrs(Vuex);
+
+export default new Vuex.Store({
+  state:{
+    Users: [
+      {id: 1, name: "라이언", address: "Seoul"},
+      {id: 2, name: "어피치", address: "Seoul"},
+      {id: 3, name: "네오", address: "Seoul"},
+      {id: 4, name: "무지", address: "Seoul"},
+    ]
   },
   mutations: {
-    setCategoryId(state, categoryId) {
-      state.categoryId = categoryId;
-    }
+
   },
-  actions: {
-    updateCategoryId({ commit }, categoryId) {
-      commit('setCategoryId', categoryId);
-    }
+  actions:{
+
   },
-  getters: {
-    getCategoryId: (state) => state.categoryId
+  modules:{
+
   }
-});
+})

@@ -76,7 +76,7 @@ body {
 }
 /* 수직 스크롤바 */
 ::-webkit-scrollbar {
-  width: 0.0rem;
+  width: 0.5rem;
   height: 0; 
 }
 ::-webkit-scrollbar-track {

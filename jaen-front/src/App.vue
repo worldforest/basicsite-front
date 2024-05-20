@@ -38,10 +38,11 @@ export default {
 <style>
 #app {
   width: 100%;
-  max-height: 100vh; /* 컨테이너 높이를 브라우저 높이의 최대치로 설정 */
+  max-height: 100%;
+   /* 컨테이너 높이를 브라우저 높이의 최대치로 설정 */
   overflow-y: scroll;
   /* 세로 스크롤이 필요한 경우에만 스크롤 표시 */
-  /* overflow-x: hidden;  */
+  overflow-x: hidden; 
   /* 가로 스크롤을 숨김 */
 }
 </style>

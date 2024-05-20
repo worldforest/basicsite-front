@@ -104,7 +104,9 @@
   /* 필요한 스타일을 추가하세요 */
   .container{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    margin-left: 15%;
+  margin-right: 15%;
+    grid-template-columns: 1fr 4fr;
     height: 100vh; /* 부모 요소가 화면 전체 높이를 가득 채우도록 설정 */
     row-gap: 1rem;
     column-gap: 1rem;
