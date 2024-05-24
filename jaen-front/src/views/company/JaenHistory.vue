@@ -4,48 +4,47 @@
             <h2>자앤의 연혁</h2>
         </div>
     </section>
-
     <div class="container">
-      <section>
-        <div class="vertical-tabs">
-          <!-- 탭 목록 -->
-          <div class="tab-list">
+      <section class="row">
+        <div class="vertical-tabs col-sm-2" style="margin-top:2rem; display: inline;">
+          <div class="tab-list" >
             <div
-              class=""
-                v-for="(index,year) in groupedData"
-                :key="index"
+                v-for="year in groupedYear"
+                :key="year"
                 @click="activeTab = year"
                 :class="{ 'active': activeTab === year }"
               >
                 <span>{{ year }}</span>
-              </div>
-          </div>
-          <!-- 탭 내용(회사명 강의명) -->
-          <div class="tab-content">
-              <!-- <tbody>
-                  <tr v-for="lecture in groupedData[activeTab]" :key="lecture.index">
-                      <td>{{ lecture.companyname }}</td>
-                      <td class="left-align">{{ lecture.classname }}</td>
-                  </tr>
-              </tbody>
-              <table v-if="activeTab">
-                  <tr v-for="lecture in lectures" :key="lecture.index">
-                      <td>{{ lecture.companyname }}</td>
-                      <td>{{ lecture.classname }}</td>
-                  </tr>
-              </table> -->
-              <table v-if="activeTab">
-                  <tr v-for="lecture in groupedData[activeTab]" :key="lecture.index">
-                      <td>{{ lecture.companyname }}</td>
-                      <td>{{ lecture.classname }}</td>
-                  </tr>
-              </table>
+            </div>
           </div>
         </div>
+        <div class="col-sm-10" >
+            <div class="row" style="display: inline;">
+                <div class="" >
+                    <span class="mb-0 text-muted">회사명</span>
+                </div>
+                <div class="">
+                    <span class="mb-0 text-muted">강의명</span>
+                </div>
+            </div>
+            <div class="tab-content" data-aos="fade-up">
+                <div 
+                    v-for="lecture in groupedData[activeTab]" :key="lecture.index"
+                    class="list-group-flush   " aria-labelledby="day-one-tab">
+                    <a href="#" class="row align-items-center">
+                    <div class="">
+                        <p class="mb-0">{{ lecture.companyname }}</p>
+                    </div>
+                    {{ lecture.classname }}
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- </div> -->
       </section>
   </div>
 </template>
-  
+
 <script>
 export default {
     name: "JaenHistory",
@@ -55,6 +54,7 @@ export default {
             data:[],
             // selectedYear: 2024, // 선택된 연도를 저장할 변수
             activeTab: 2024, // 현재 활성화된 탭의 인덱스
+            years: [],
     };
     },
     computed: {
@@ -73,46 +73,17 @@ export default {
             });
             return grouped;
         },
-        reversedGroupedData() {
-            // Object.keys로 groupedData의 키(연도)를 배열로 가져와서 역순으로 정렬합니다.
-            const reversedKeys = this.groupedData;
-            const reversedGrouped = {};
-            reversedKeys.forEach(key => {
-                // reversedGrouped[key] = this.groupedData[key];
-                console.log("reversedGroupedData:"+key)
-            });
-            return reversedGrouped;
-        },
-        reversedYearData() {
-            // Object.keys로 groupedData의 키(연도)를 배열로 가져와서 역순으로 정렬합니다.
-            const reversedKeys = Object.keys(this.groupedData).reverse();
-            console.log("reversedYearData:"+reversedKeys);
-            const groupedYear = {};
-            reversedKeys.forEach(lecture => {
+        groupedYear() {
+            const  years = [];
+            var idx = 0;
+            this.data.forEach(lecture => {
                 const year = lecture.year; // Assuming there's a 'year' property in lecture object
-                if (!groupedYear[year]) {
-                  console.log("reversedGroupedData:"+year)
-                  groupedYear[year] = true; // 연도를 키로 추가
+                if (!years.includes(year)) {
+                    years.push(year);
+                    console.log("groupedData year",this.years[idx]);
                 }
             });
-            // 객체의 키를 리스트로 변환하여 반환
-            return Object.keys(groupedYear);
-        },
-        processedData() {
-        const processed = {};
-        for (const year in this.groupedData) {
-            processed[year] = [];
-            const seenCompanies = new Set();
-            this.groupedData[year].forEach(lecture => {
-            if (!seenCompanies.has(lecture.companyname)) {
-                processed[year].push(lecture);
-                seenCompanies.add(lecture.companyname);
-            } else {
-                processed[year].push({ companyname: "", classname: lecture.classname });
-            }
-            });
-        }
-        return processed;
+            return years.reverse();
         },
     },
     methods: {

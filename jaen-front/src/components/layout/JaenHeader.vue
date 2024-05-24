@@ -24,7 +24,7 @@
                         <div class="">
                           <a class=""
                             v-for="category in categories" :key="category.category_id"
-                            @click="gotoClassAll(category.name, category.categoryId)"
+                            @click="gotoClassAll(category.categoryId, category.name)"
                             data-toggle="" 
                             aria-expanded="false" 
                             aria-haspopup="true">
@@ -92,9 +92,8 @@ export default {
     goToAllCategories(){
       this.$router.push('/categories');
     },
-    gotoClassAll(categoryName, categoryId){
-      console.log("categoryId:"+categoryId)
-      this.$router.push({ name: 'ClassAll', params: { categoryName, categoryId }});
+    gotoClassAll(categoryId, categoryName){
+      this.$router.push({ name: 'ClassAll', params: { categoryId, categoryName }});
     },
     gotoSystem(){
       this.$router.push('/system');

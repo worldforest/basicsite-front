@@ -7,49 +7,18 @@
       </div>
     </div>
   </section>
-  <section style="height: max-content;">
+  <section style="height: max-content; ">
     <div class="container" style="display: block;">
       <div class="row">
+        <!-- 대분류 이동 사이드바 start -->
         <div class="col-xl-4">
           <CourseSidebar />
-          <div class="row" style="display: flexbox; flex-wrap: wrap; justify-content: center;">
-            <div v-for="(item) in popularClass" :key="item.index" @click="gotoDetail(item.index, item.subcategoryId)" style="margin: 1rem;" >
-                <div v-if="selectedCategory === -1 || selectedCategory === item.subcategoryId">
-                  <!-- 강의카드 이미지 및 강의명 -->
-                  <div class="classIamge" data-aos="fade-up"  data-aos-delay="200">
-                    <!-- 강의 이미지 -->
-                    <img
-                      v-if="item.categoryId === 6"
-                      alt="class_image"
-                      :src="require(`@/assets/img/class/${item.categoryId}-${item.subcategoryId}-${item.title.split(' ')[0]}.jpg`)"
-                      style="height: 12rem;"
-                    >
-                    <img
-                      v-else
-                      alt="class_image"
-                      :src="require(`@/assets/img/class/${item.categoryId}-${item.subcategoryId}.jpg`)"
-                      style="height: 12rem;"
-                    >
-                    <!-- 이미지에 출력할 강의 제목 -->
-                    <div class="text-overlay">
-                      <h4>{{ item.title }}</h4>
-                    </div>
-                  </div>
-                </div>
-              </div>
-          </div>
         </div>
-        <!-- <div class="col-xl-4">
-          <div class="row">
-            <CourseSidebar />
-          </div>
-          <div class="row">
-            <CourseSidebar />
-          </div>
-        </div> -->
+        <!-- 대분류 이동 사이드바 end -->
         <div class="col-xl-8">
+          <!-- 중분류 이동 바 start -->
           <div class="row" style="justify-content: center;">
-            <ul data-isotope-filters data-isotope-id="projects" style="justify-content: center; display: flex;">
+            <ul data-isotope-filters data-isotope-id="projects" style="justify-content: center; display: flex; font-size: 1.2rem;">
               <li class="nav-item">
                 <a class="nav-link" @click="showClass(-1)">All</a>
               </li>
@@ -58,38 +27,28 @@
               </li>
             </ul>
           </div>
-          <div class="row" style="display: flexbox; flex-wrap: wrap; justify-content: center;">
-            <div v-for="(item) in data" :key="item.index" @click="gotoDetail(item.index, item.subcategoryId)" style="margin: 1rem;" >
-                <div v-if="selectedCategory === -1 || selectedCategory === item.subcategoryId">
-                  <!-- 강의카드 이미지 및 강의명 -->
-                  <div class="classIamge" data-aos="fade-up"  data-aos-delay="200">
-                    <!-- 강의 이미지 -->
-                    <img
-                      v-if="item.categoryId === 6"
-                      alt="class_image"
-                      :src="require(`@/assets/img/class/${item.categoryId}-${item.subcategoryId}-${item.title.split(' ')[0]}.jpg`)"
-                      style="height: 12rem;"
-                    >
-                    <img
-                      v-else
-                      alt="class_image"
-                      :src="require(`@/assets/img/class/${item.categoryId}-${item.subcategoryId}.jpg`)"
-                      style="height: 12rem;"
-                    >
-                    <!-- 이미지에 출력할 강의 제목 -->
-                    <div class="text-overlay">
-                      <p>{{ item.title }}</p>
-                    </div>
-                  </div>
-                  <!-- 강의카드 기본정보 -->
-                  <div class="classIamge" style="padding: 0.5rem; font-size: 1.2rem;" data-aos="fade-up" data-aos-delay="200">
-                      <div class="title">{{ item.title }}</div>
-                      <div class="level">level : {{ getLevel(item.level) }}</div>
-                      <div>{{ item.duration }}</div>
-                  </div>
+          <!-- 중분류 이동 바 end -->
+          <!-- 강의 card start -->
+          <div class="row" style="margin: 1rem;">
+            <div v-for="(item) in filteredData" :key="item.index" @click="gotoDetail(item.index, item.subcategoryId)" data-aos="fade-up" data-aos-delay="200">
+              <div class="card"  data-aos-offset="50">
+                <img
+                class="card-img-top"
+                alt="class_image"
+                :src="item.categoryId === 6 ? require(`@/assets/img/class/${item.categoryId}-${item.subcategoryId}-${item.title.split(' ')[0]}.jpg`): require(`@/assets/img/class/${item.categoryId}-${item.subcategoryId}.jpg`)"
+                style="height: 12rem;"
+                >
+                <!-- <span class="badge" style="position: absolute; top: 0; right: 0;">{{ getLevel(item.level) }}</span> -->
+                <p class="lead">{{ item.title }}</p>
+                <div class="card-body d-flex flex-column" style="justify-content: center;">
+                  <!-- <span class="badge" style="width: fit-content;">{{ getLevel(item.level) }}</span> -->
+                  <span class="lead">{{ item.title }}</span>
+                  <span class="text-muted">{{ item.duration }}</span>
                 </div>
               </div>
+            </div>
           </div>
+          <!-- 강의 card end -->
         </div>
       </div>
     </div>
@@ -99,7 +58,6 @@
 <script>
 import CourseSidebar from '@/components/layout/CourseSidebar.vue';
 import defaultImage from  '@/assets/img/class/category/1.jpg';
-import { mapState } from "vuex";
 
 export default {
     name: "ClassAll",
@@ -115,18 +73,19 @@ export default {
             categoryId: null,
             selectedCategory: -1, //1 ALL 2 subcategoryId
             // level: null
-            popularClass: []
         } ;
     },
     created(){
-      console.log("유저 목록: ", this.Users);
+      
     },
     computed:{
-      computed: {
-    //mapState 데이터 등록
-    ...mapState(["Users"]), // Users라는 변수명을 사용
-    ...mapState({ Users: "Users" }), // 키 Users는 해당 컴포넌트에서 사용할 변수명 값은 State 값
-  },
+      filteredData() {
+        if (this.selectedCategory === -1) {
+          return this.data; // If selectedCategory is -1, return all data
+        } else {
+          return this.data.filter(item => item.subcategoryId === this.selectedCategory);
+        }
+      },
     },
     components:{
       CourseSidebar
@@ -135,7 +94,6 @@ export default {
         get(){
             this.axios.get(`class/category?categoryId=${this.categoryId}`).then((response) => {
                 this.data = response.data;
-                console.log(this.data);
                 // this.level = response.data.level;
             }).catch((error)=>{
                 console.error('Error fetching data: ',error)
@@ -155,16 +113,6 @@ export default {
                 console.error('Error fetching data: ',error)
             });
         },
-        getSubcategoryName(){
-          this.axios.get(`subcategory/name?subcategoryId=${this.subcategoryId}`).then((response) => {
-              this.subcategoryName = response.getSubcategoryName;
-              // console.log("response:"+response.categoryId)
-              console.log("response:"+response.name)
-              // this.level = response.data.level;
-          }).catch((error)=>{
-              console.error('Error fetching data: ',error)
-          });
-        },
         getPopularClass(){
           // 인기있는 강좌 조회
           this.axios.get("/ispopular").then((response) => {
@@ -172,14 +120,15 @@ export default {
             });
         },
         gotoDetail(classId, subcategoryId){
-          // this.getSubcategoryName();
           this.subcategoryId = subcategoryId;
           this.$router.push(
           {
             name:'ClassDetail',
             params:{
               classId: classId,
-              subcategoryId: this.subcategoryId
+              categoryId: this.categoryId,
+              subcategoryId: this.subcategoryId,
+              subcategoryName: this.subcategoryName
             }
           });
         },
@@ -211,7 +160,6 @@ export default {
           this.selectedCategory = subcategoryId
         },
         categoryImg(){
-          console.log(this.categoryId);
           if (!this.categoryId) {
             return defaultImage;  // categoryId가 null인 경우 기본 이미지 사용
           }
@@ -229,7 +177,6 @@ export default {
       this.get();
       this.getSubcategories();
       this.getCategory();
-      this.getPopularClass();
     },
   
 };
@@ -240,49 +187,7 @@ export default {
   margin-left: 15%;
   margin-right: 15%;
   grid-template-columns: 1fr 4fr;
-  /* grid-template-rows: 2fr ; */
-  /* 부모 요소가 화면 전체 높이를 가득 채우도록 설정 */
-  /* height: 100vh;  */
-  /* row-gap: 1rem; */
-  /* column-gap: 1rem; */
-  /* text-align: center; */
-  /* justify-content : center; */
-  /* grid-template-columns: 10% 20% 69%; */
-  /* grid-template-columns: 1fr 1fr 1fr; */
 }
-.item {
-  /* width: 100%;
-  height: 100%; */
-  /* width: calc(33.33% - 10px);
-  margin: 0 5px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  box-sizing: border-box; */
-}
-.classCard{
-  margin: 1rem;
-  /* object-fit:fill ; */
-  /* position: relative; */
-  /* display: grid; */
-}
-/* 강의 이미지 */
-.classIamge{
-  /* 이미지 안에 강의명 출력하기 위한 설정 */
-  /* position: relative; */
-  /* display: grid; */
-  /* display: inline-block; */
-  /* 마우스오버시 이미지 확대될 때 크기는 그대로 유지 */
-  overflow: hidden;
-  width: 300px;
-  height: auto;
-  /* border-radius: 0.2rem; */
-
-}
-.classIamge img{
-  /* 이미지만 어둡게 */
-  filter: brightness(50%);
-}
-
 /* 이미지 안에 강의명 */
 .text-overlay p{
   position: absolute;
@@ -294,7 +199,8 @@ export default {
   /* padding: 10px; */
   /* border-radius: 5px; */
   text-align: center;
-  font-size: 1.0rem;
+  font-size: 1.5rem;
+  font-weight: 600;
   pointer-events: none; 
   /* p 태그에 대한 hover 이벤트 비활성화 */
 }

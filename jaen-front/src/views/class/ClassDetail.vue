@@ -8,34 +8,169 @@
       </div>
     </div>
   </section>
-  <section>
-    <div class="container" style="margin: auto;m">
-      <!-- 대분류 메뉴 -->
-      <div class="category_menu sidebar">
-        <CourseSidebar />
-      </div>
-      <div class="item popular_class">인기강좌</div>
-      <div class="item subcategory_menu">중분류</div>
-      <div class="item class_card">강의카드</div>
-      <div class="item class_menu">강의이동</div>
+    <section style="height: max-content;">
+    <div class="container" style="display: block;">
+        <div class="row">
+            <!-- 대분류 이동 사이드바 start -->
+            <div class="col-xl-4">
+            <CourseSidebar />
+            </div>
+            <!-- 대분류 이동 사이드바 end -->
+            <div class="col-xl-8">
+            <!-- <div class="row"> -->
+                <!-- 세부 설명 -->
+                <!-- <div class="col-lg-12" style="width: 100px;"> -->
+                    <!-- <div class="row"> -->
+                        <div class="" style="">
+                            <div class="details-tabs-list">
+                                <ul>
+                                    <li class="active">
+                                        <a
+                                            class="active"
+                                            href="#overview"
+                                            role="tab"
+                                            data-toggle="tab"
+                                        >
+                                            교육 개요
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="#instructor"
+                                            role="tab"
+                                            data-toggle="tab"
+                                        >
+                                            교육 대상 및 효과
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="#review"
+                                            role="tab"
+                                            data-toggle="tab"
+                                        >
+                                            실습 환경
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            href="#comment"
+                                            role="tab"
+                                            data-toggle="tab"
+                                        >
+                                            교육 내용
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- courses-details start -->
+                        <div class="col-lg-12">
+                            <div
+                                class="courses-details-tab-panel"
+                            >
+                                <!-- tab-contnt start -->
+                                <div class="tab-content">
+                                    <div
+                                        class="tab-pane active"
+                                        id="overview"
+                                    >
+                                        <div
+                                            class="courses-details-cont"
+                                        >
+                                            <h5>교육 개요</h5>
+                                            <p>{{ classDetailData.description }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="tab-pane"
+                                        id="instructor"
+                                    >
+                                        <div
+                                            class="courses-details-cont details-list mb--30"
+                                        >
+                                            <h5>교육 대상</h5>
+                                            <ul>
+                                                <li>
+                                                    <i
+                                                        class="zmdi zmdi-arrow-right"
+                                                    ></i>
+                                                    {{ classDetailData.target }}
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div
+                                            class="courses-details-cont details-list mt-30"
+                                        >
+                                            <h5>교육 효과</h5>
+                                            <ul>
+                                                <li>
+                                                    <i
+                                                        class="zmdi zmdi-arrow-right"
+                                                    ></i>
+                                                    {{ classDetailData.goal }}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="tab-pane"
+                                        id="review"
+                                    >
+                                        <div
+                                            class="courses-details-cont"
+                                        >
+                                            <h5>실습 환경</h5>
+                                            <p>
+                                                {{ classDetailData.environment }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="tab-pane"
+                                        id="comment"
+                                    >
+                                        <div
+                                            class="courses-details-cont"
+                                        >
+                                            <h5>교육 내용</h5>
+                                            <p>
+                                                {{ classDetailData.environment }}
+                                            </p>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <!--// courses-details start -->
+                    </div>
+            </div>
+        </div>
     </div>
   </section>
 </template>
   
  <script>
  import CourseSidebar from '@/components/layout/CourseSidebar.vue';
+// import {  mapActions, mapMutations, mapState } from 'vuex';
   export default {
     data() {
       return{
         data: [],
         classId: null,
         classDetailData: [],
-        subcategoryId: null,
-        subcategoryName: null
+        categoryId: null,
       };
     },
     created() {
     },
+    computed:{
+        getCategoryId(){
+            return this.$store.getters.getCategoryId
+        }
+    }, 
     components:{
       CourseSidebar
     },
@@ -56,6 +191,10 @@
       },
       gotoAllCategories(){
             this.$router.push({name:'AllCategories'});
+      },
+      gotoClassAll(categoryName, categoryId){
+        this.$router.push({name:'ClassAll', params: {categoryName, categoryId}});
+        // this.$router.push({name:'ClassAll', query: {categoryName : JSON.stringify(categoryName), categoryId : JSON.stringify(categoryId)}});
       },
       getLevel(level){
           let description;
@@ -80,23 +219,15 @@
             return text.replace(/\n/g, "<br>");
           }
           return ""
-        }
+        },
+        
     },
     mounted(){
       this.classId = this.$route.params.classId;
-      this.subcategoryId = this.$route.params.subcategoryId;
-      this.subcategoryName = this.$route.params.subcategoryName;
+      this.categoryId = this.$route.params.categoryId;
       this.get();
       this.getClassBasic();
     },
-    beforeRouteLeave(to, from, next) {
-      // 이전 페이지로 이동할 때 데이터를 전달
-      to.params.subcategoryId = this.subcategoryId;
-      to.params.subcategoryName = this.subcategoryName;
-      to.params.categoryName = this.categoryName;
-      to.params.categoryId = this.categoryId;
-      next();
-    }
   };
   </script>
   
@@ -111,10 +242,6 @@
     row-gap: 1rem;
     column-gap: 1rem;
   }
-  .item{
-    width: 100%;
-    height: 100%;
-  }
 .sidebar{
   @media (max-width: 600px) {   
     .container {    
@@ -126,23 +253,27 @@
            "footer";   
   }}
 }
-.category_menu{
-  grid-row: 1/5;
-	/* grid-row: 1 / 2; */
+.details-tabs-list{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.4rem;
+    font-size: 1.2rem;
+    /* display: inline-block; */
+    /* margin-right: 0.8rem; */
+    border: 1px solid #ccc;
+    /* width: 900px; */
+    /* border-radius: 5px; */
+    /* width: auto; */
 }
-.popular_class{
-  grid-row: 5/11;
+.details-tabs-list ul{
+    /* 모든 요소 수평정렬 */
+    display: flex;
+    /* 수평 가운데 정렬 */
+    justify-content: center;
+    /* 수직 가운데 정렬 */
+    align-items: center;
 }
-.subcategory_menu{
-  grid-row: 1;
-  grid-column: 2/4;
-}
-.class_card{
-  grid-row: 2/10;
-  grid-column: 2/4;
-}
-.class_menu{
-  grid-row: 10/11;
-  grid-column: 2/4;
+.details-tabs-list ul li{
+    flex: 1;
 }
   </style>

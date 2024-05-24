@@ -11,10 +11,10 @@
                 <h3 style="padding: 1rem;">공지사항/수업자료 공유</h3>
                 <div class="row">
                     <div class="system_img col-6">
-                        <img src="@/assets/img/system/그림1.png">
+                        <img src="@/assets/img/system/그림1.png" data-toggle="tooltip" data-placement="bottom" title="공지사항 관리">
                     </div>
                     <div class="system_img col-6">
-                        <img src="@/assets/img/system/그림2.png">
+                        <img src="@/assets/img/system/그림2.png" data-toggle="tooltip" data-placement="bottom" title="수업 자료 공유">
                     </div>
                     <div class="col-12" style="padding: 2rem; margin-bottom: 3rem; text-align: center;">
                         <h5>자앤의 자체 교육과정 관리 플랫폼을 개발하여, 각 과정별 공지사항 및 수업에 필요한 자료 등을 공유하고 있습니다.</h5>
@@ -28,7 +28,7 @@
                         <img src="@/assets/img/system/그림3.png">
                     </div>
                     <div class="system_img col-6">
-                        <img src="@/assets/img/system/그림4.png">
+                        <img src="@/assets/img/system/그림4.png" data-toggle="tooltip" data-placement="top" title="강사님의 실시간 답변">
                     </div>
                 </div>
                 <div class="col-12" style="padding: 2rem; margin-bottom: 3rem; text-align: center;">

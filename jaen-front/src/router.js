@@ -69,7 +69,15 @@ const routes= [
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
+  scrollBehavior (to, from, savedPosition) {
+    // savedPosition은 사용자가 뒤로가기/앞으로가기 했을 때 저장된 스크롤 위치입니다.
+    if (savedPosition) {
+        return { x: 0, y: 0 };
+    } else {
+        return { x: 0, y: 0 };
+    }
+  }
 });
 
 

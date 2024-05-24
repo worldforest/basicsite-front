@@ -53,6 +53,18 @@
             imageList: ['1','2','3','4','5','6'],
         } ;
     },
+    computed:{
+      getCategoryData(){
+          return this.$store.getters.getCategoryData
+      },
+      getSubcategoryData(){
+          return this.$store.getters.getSubcategoryData
+      },
+      getJaenClassData(){
+          return this.$store.getters.getJaenClassData
+      },
+
+    },
     methods: {
         getCategory() {
             // 대분류 카테고리 가져오는 비동기 함수
@@ -73,6 +85,12 @@
         },
         gotoClassAll(categoryName, categoryId){
           this.$router.push({name:'ClassAll', params: {categoryName, categoryId}});
+          this.$store.dispatch('setCategory', {
+                payload:{
+                    categoryId: categoryId,
+                    categoryName: categoryName
+                }
+            })
         },
         gotoSystem(){
           this.$router.push('/system');
@@ -82,6 +100,7 @@
         // 화면이 로드되자마자
         this.getCategory();
         this.getAllSubcategory();
+        // this.categoryId=this.getCategoryId();
     },
     beforeRouteLeave(to, from, next) {
       // 이전 페이지로 이동할 때 데이터를 전달
