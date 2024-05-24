@@ -2,7 +2,7 @@
  <div class="navbar-container ">
       <nav class="navbar navbar-expand-md bg-white" data-overlay style="position: fixed; border: none; margin: 0; padding: 1rem;">
         <div class="container">
-          <a class="navbar-brand fade-page" @click="goToHome">
+          <a class="navbar-brand fade-page" @click="gotoOtherVue('')">
             <img src="@/assets/img/main-logo.png" alt="자앤" width="95" height="38">
           </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,7 +20,7 @@
                     <div class="col-auto" data-dropdown-content>
                       <!-- <div class="dropdown-grid-menu"> -->
                       <div v-show="isDropdownOpen" class="dropdown-content">
-                        <a class="" @click="goToAllCategories()">전체과정</a>
+                        <a class="" @click="gotoOtherVue('categories')">전체과정</a>
                         <div class="">
                           <a class=""
                             v-for="category in categories" :key="category.category_id"
@@ -36,7 +36,7 @@
                   </div>
                 </li>
                 <li class="nav-item dropdown bg-ligth">
-                  <a class="nav-link" data-toggle="" aria-expanded="false" aria-haspopup="true" @click="gotoSystem">기술지원</a>
+                  <a class="nav-link" data-toggle="" aria-expanded="false" aria-haspopup="true" @click="gotoOtherVue('system')">기술지원</a>
                 </li>
                 <li class="nav-item dropdown bg-ligth">
                   <a class="nav-link" data-toggle="" aria-expanded="false" aria-haspopup="true" @click="toggleDropdown_company">회사소개</a>
@@ -44,17 +44,17 @@
                     <div class="col-auto" data-dropdown-content>
                       <div v-show="isDropdownOpen_company" class="dropdown-content">
                         <div class="">
-                          <a class="" @click="gotoCompany()">About JAEN</a>
-                          <a class="" @click="gotoCurriculum()">커리큘럼</a>
-                          <a class="" @click="gotoRoadmap()">로드맵</a>
-                          <a class="" @click="gotoHistory()">회사연혁</a>
+                          <a class="" @click="gotoOtherVue('company')">About JAEN</a>
+                          <a class="" @click="gotoOtherVue('curriculum')">커리큘럼</a>
+                          <a class="" @click="gotoOtherVue('roadmap')">로드맵</a>
+                          <a class="" @click="gotoOtherVue('history')">회사연혁</a>
                         </div>
                       </div>
                     </div>
                   </div>
                 </li>
                 <li class="nav-item dropdown bg-ligth">
-                  <a class="nav-link" data-toggle="" aria-expanded="false" aria-haspopup="true" @click="gotoContact">문의하기</a>
+                  <a class="nav-link" data-toggle="" aria-expanded="false" aria-haspopup="true" @click="gotoOtherVue('contact')">문의하기</a>
                 </li>
               </ul>
             </div>
@@ -76,12 +76,21 @@ export default {
       subcategories:[]
     }
   },
-  methods: {
-    goToHome(){
-      this.$router.push('/');
+  computed:{
+    getCategoryId(){
+      return this.$store.getters.getCategoryId;
     },
+    getCategoryName(){
+      return this.$store.getters.getCategoryName;
+    }
+  }, 
+  methods: {
+    // 페이지 이동
+    gotoOtherVue(path){
+      this.$router.push('/'+path);
+    },
+    // 교육과정 대분류 카테고리 보여주기 위해
     getCategory() {
-        // 대분류 카테고리 가져오는 비동기 함수
         this.axios.get("/categories").then((response) => {
             this.categories = response.data;
         })
@@ -89,29 +98,13 @@ export default {
           console.error('Error fetching data:', error);
         });
     },
-    goToAllCategories(){
-      this.$router.push('/categories');
-    },
     gotoClassAll(categoryId, categoryName){
+      this.$store.dispatch('setCategory', {
+        categoryId: categoryId,
+        categoryName: categoryName
+      })
+      console.log("header categoryData: "+this.$store.getters.getCategoryId)
       this.$router.push({ name: 'ClassAll', params: { categoryId, categoryName }});
-    },
-    gotoSystem(){
-      this.$router.push('/system');
-    },
-    gotoCompany(){
-      this.$router.push('/company');
-    },
-    gotoCurriculum(){
-      this.$router.push('/curriculum');
-    },
-    gotoRoadmap(){
-      this.$router.push('/roadmap');
-    },
-    gotoHistory(){
-      this.$router.push('/history');
-    },
-    gotoContact(){
-      this.$router.push('/contact');
     },
     toggleDropdown() {
       this.isDropdownOpen = !this.isDropdownOpen;

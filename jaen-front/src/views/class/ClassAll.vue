@@ -72,6 +72,7 @@ export default {
             categoryName: null,
             categoryId: null,
             selectedCategory: -1, //1 ALL 2 subcategoryId
+            classId: null,
             // level: null
         } ;
     },
@@ -86,13 +87,16 @@ export default {
           return this.data.filter(item => item.subcategoryId === this.selectedCategory);
         }
       },
+      getJaenClassId(){
+        return this.$store.getters.getJaenClassId;
+      }
     },
     components:{
       CourseSidebar
     },
     methods: {
         get(){
-            this.axios.get(`class/category?categoryId=${this.categoryId}`).then((response) => {
+            this.axios.get(`class/category?categoryId=${this.$store.getters.getCategoryId}`).then((response) => {
                 this.data = response.data;
                 // this.level = response.data.level;
             }).catch((error)=>{
@@ -106,7 +110,7 @@ export default {
             });
         },
         getSubcategories(){
-          this.axios.get(`subcategory?categoryId=${this.categoryId}`).then((response) => {
+          this.axios.get(`subcategory?categoryId=${this.$store.getters.getCategoryId}`).then((response) => {
                 this.subcategories = response.data;
                 // this.level = response.data.level;
             }).catch((error)=>{
@@ -121,11 +125,17 @@ export default {
         },
         gotoDetail(classId, subcategoryId){
           this.subcategoryId = subcategoryId;
+          this.$store.dispatch('setJaenClass', {
+              payload:{
+                classId: classId,
+              }
+          })
+
           this.$router.push(
           {
             name:'ClassDetail',
             params:{
-              classId: classId,
+              classId: this.$store.getters.getJaenClassId,
               categoryId: this.categoryId,
               subcategoryId: this.subcategoryId,
               subcategoryName: this.subcategoryName
@@ -172,8 +182,8 @@ export default {
     },
     mounted(){
       // 화면이 로드되자마자
-      this.categoryName = this.$route.params.categoryName;
-      this.categoryId = this.$route.params.categoryId;
+      this.categoryId = this.$store.getters.getCategoryId
+      this.categoryName = this.$store.getters.getCategoryName
       this.get();
       this.getSubcategories();
       this.getCategory();

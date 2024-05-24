@@ -7,7 +7,7 @@
                 </h4>
                 <ul>
                     <li v-for="(category, index) in categories" :key="index">
-                        <span class="mb-1 categories-name" style="cursor: pointer;" @click="gotoClassAll(category.name, category.categoryId)">{{ category.name }}</span>
+                        <span class="mb-1 categories-name" style="cursor: pointer;" @click="gotoClassAll(category.categoryId, category.name)">{{ category.name }}</span>
                     </li>
                 </ul>
             </div>
@@ -57,8 +57,8 @@ export default {
                 this.categories = response.data;
             });
         },
-        gotoClassAll(categoryName, categoryId){
-            console.log("course sidebar: ",categoryName,categoryId)
+        gotoClassAll(categoryId, categoryName){
+            this.$router.push({name:'ClassAll', params: { categoryId: this.getCategoryId, categoryName:categoryName}});
             // vuex의 action 호출할 때 $store의 dispatch 호출
             this.$store.dispatch('setCategory', {
                 payload:{
@@ -111,7 +111,7 @@ export default {
     watch:{
         getCategoryData(){
 
-            console.log("sidebar watch: ", this.getCategoryId)
+            console.log("sidebar watch getCategoryData: ", this.getCategoryId)
         },
         // getCategoryData(newData){
         //     this.categoryId = newData.categoryId;
@@ -119,11 +119,11 @@ export default {
         //     console.log("watch getCategoryData", newData)
         // }
         getCategoryId(){
-            console.log("sidebar watch: ", this.getCategoryId);
+            console.log("sidebar watch getCategoryId: ", this.getCategoryId);
             this.$router.push({name:'ClassAll', params: {categoryName:'IOT', categoryId: this.getCategoryId}});
         },
         getCategoryName(){
-            console.log("sidebar watch: ", this.getCategoryName)
+            console.log("sidebar watch getCategoryName: ", this.getCategoryName)
         }
     }, 
     created() {

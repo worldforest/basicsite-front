@@ -13,17 +13,21 @@ export default new Vuex.Store({
     category: []
   },
   mutations: {
-    selectedSategory(state, payload){
-      state.categoryId = payload.categoryId,
-      state.categoryName = payload.categoryName
+    setCategory(state, payload){
+      if (payload && payload.categoryId !== undefined && payload.categoryName !== undefined) {
+        state.categoryId = payload.categoryId,
+        state.categoryName = payload.categoryName
+      } else {
+          console.error('Invalid payload for setCategory:', payload);
+          state.categoryId = null;
+      }
     },
     subcategory(state, payload){
       state.subcategoryId = payload.subcategoryId,
       state.subcategoryName = payload.subcategoryName
     },
     jaenclass(state, payload){
-      state.classId = payload.classId,
-      state.className = payload.className
+      state.classId = payload.classId
     }
   },
   actions: {
@@ -33,23 +37,19 @@ export default new Vuex.Store({
     // },
     setCategory({commit}, { payload }){
       // mutations에 정의한 메소드 commit
-      commit('selectedSategory', { categoryId: payload.categoryId, categoryName: payload.categoryName});
+      commit('setCategory', payload)
     },
     setSubcategory({commit}, { payload }){
       commit('subcategory', { subcategoryId: payload.subcategoryId, subcategoryName: payload.subcategoryName});
     },
     setJaenClass({commit}, { payload }){
-      commit('jaenclass', { classId: payload.classId, className: payload.className});
+      commit('jaenclass', { classId: payload.classId});
     }
   },
   getters: {
     getCategoryId: state => state.categoryId,
     getCategoryName: state => state.categoryName,
-    // getCategoryData(state){
-      // return `categoryId : ${state.categoryId} categoryName: ${state.categoryName}`;
-      // return ({categoryId:`${state.categoryId}`},{categoryName:`${state.categoryName}`} );
-      // state => state.
-    // },
+    getJaenClassId: state => state.classId,
     getSubcategoryData(state){
       return `subcategoryId : ${state.subcategoryId} subcategoryName: ${state.subcategoryName}`;
     },

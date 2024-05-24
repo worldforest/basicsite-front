@@ -138,7 +138,7 @@
                                         >
                                             <h5>교육 내용</h5>
                                             <p>
-                                                {{ classDetailData.environment }}
+                                                <ClassCurriculum/>
                                             </p>
                                         </div>
                                     </div>
@@ -154,6 +154,7 @@
   
  <script>
  import CourseSidebar from '@/components/layout/CourseSidebar.vue';
+ import ClassCurriculum from '@/views/class/ClassCurriculum.vue';
 // import {  mapActions, mapMutations, mapState } from 'vuex';
   export default {
     data() {
@@ -161,6 +162,7 @@
         data: [],
         classId: null,
         classDetailData: [],
+        curriculumData: [],
         categoryId: null,
       };
     },
@@ -172,7 +174,8 @@
         }
     }, 
     components:{
-      CourseSidebar
+      CourseSidebar,
+      ClassCurriculum
     },
     methods: {
       get(){
@@ -185,6 +188,13 @@
       getClassBasic(){
             this.axios.get(`class/classId?index=${this.classId}`).then((response) => {
                 this.classDetailData = response.data[0];
+            }).catch((error)=>{
+                console.error('Error fetching data: ',error)
+            });
+      },
+      getCurriculum(){
+            this.axios.get(`curriculum/classId?index=${this.classId}`).then((response) => {
+                this.curriculumData = response.data[0];
             }).catch((error)=>{
                 console.error('Error fetching data: ',error)
             });
@@ -227,6 +237,7 @@
       this.categoryId = this.$route.params.categoryId;
       this.get();
       this.getClassBasic();
+      this.getCurriculum();
     },
   };
   </script>

@@ -19,11 +19,11 @@
               class="rounded shadow-3d hover-shadow-3d border mb-3 mb-md-0"
               :src="require(`@/assets/img/class/category/${index + 1}.jpg`)"
               alt="category"
-              @click="gotoClassAll(category.name, category.categoryId)"
+              @click="gotoClassAll(category.categoryId, category.name)"
               style="height: 14rem;"
               >
             <div style="padding: 1rem;">
-              <h4 class="mb-1" style="cursor: pointer;" @click="gotoClassAll(category.name, category.categoryId)">{{ category.name }}</h4>
+              <h4 class="mb-1" style="cursor: pointer;" @click="gotoClassAll(category.categoryId, category.name)">{{ category.name }}</h4>
               <div class="text-small text-muted" v-for="subcategory in subcategories" :key="subcategory.subcategoryId">
                 <a
                   v-if="subcategory.categoryId === category.categoryId"
@@ -61,7 +61,7 @@
           return this.$store.getters.getSubcategoryData
       },
       getJaenClassData(){
-          return this.$store.getters.getJaenClassData
+          return this.$store.getters.getCategoryData
       },
 
     },
@@ -83,8 +83,8 @@
         selectSubCategory(subcategoryName, subcategoryId, categoryName, categoryId){
           this.$router.push({name:'ClassAll', params: {subcategoryName, subcategoryId, categoryName, categoryId}});
         },
-        gotoClassAll(categoryName, categoryId){
-          this.$router.push({name:'ClassAll', params: {categoryName, categoryId}});
+        gotoClassAll(categoryId, categoryName){
+          this.$router.push({name:'ClassAll', params: {categoryId, categoryName}});
           this.$store.dispatch('setCategory', {
                 payload:{
                     categoryId: categoryId,
