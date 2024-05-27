@@ -66,7 +66,7 @@ export default {
                     categoryName: categoryName
                 }
             })
-            this.$router.push({name:'ClassAll', params: {categoryName, categoryId}});
+            // this.$router.push({name:'ClassAll', params: {categoryName, categoryId}});
         },
         goToAllCategories(){
            this.$router.push('/categories');

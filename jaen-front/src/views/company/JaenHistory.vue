@@ -5,7 +5,7 @@
     </div>
   </section>
   <div class="container">
-    <section class="row history-section">
+    <section class="row history-section" style="flex-wrap: nowrap;">
       <div class="vertical-tabs col-sm-2" style="display: inline;">
         <div class="tab-list">
           <div
@@ -22,16 +22,18 @@
         <table class="history-table">
           <thead class="history-thead">
             <td style="text-align: left">회사명</td>
+            <td></td>
             <td>강의명</td>
           </thead>
           <tbody>
             <tr v-for="(lecture, index) in groupedData[activeTab]" :key="lecture.index">
-              <td class="col-xl-4" style="text-align: left">
+              <td style="text-align: left">
                 <span v-if="index === 0 || lecture.companyname !== groupedData[activeTab][index - 1].companyname">
                   {{ lecture.companyname }}
                 </span>
               </td>
-              <td class="col-xl-8"  style="text-align: left">
+              <td style="width: 6vw;"></td>
+              <td style="text-align: right">
                 {{ lecture.classname }}
               </td>
             </tr>
@@ -73,12 +75,12 @@ export default {
     },
     groupedYear() {
       const years = [];
-      var idx = 0;
+      // var idx = 0;
       this.data.forEach((lecture) => {
         const year = lecture.year; // Assuming there's a 'year' property in lecture object
         if (!years.includes(year)) {
           years.push(year);
-          console.log('groupedData year', this.years[idx]);
+          // console.log('groupedData year', this.years[idx]);
         }
       });
       return years.reverse();
@@ -108,8 +110,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .active {
+  background-color: beige;
   font-weight: bold; /* 선택된 탭 스타일*/
   cursor: pointer; /*마우스 오버 시 커서 스타일*/
 }
@@ -158,6 +161,5 @@ export default {
 .history-thead{
   font-weight: bold;
   font-size: large;
-  ;
 }
 </style>
