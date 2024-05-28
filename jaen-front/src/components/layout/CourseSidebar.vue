@@ -111,7 +111,7 @@ export default {
     watch:{
         getCategoryData(){
 
-            console.log("sidebar watch getCategoryData: ", this.getCategoryId)
+            // console.log("sidebar watch getCategoryData: ", this.getCategoryId)
         },
         // getCategoryData(newData){
         //     this.categoryId = newData.categoryId;
@@ -119,11 +119,11 @@ export default {
         //     console.log("watch getCategoryData", newData)
         // }
         getCategoryId(){
-            console.log("sidebar watch getCategoryId: ", this.getCategoryId);
-            this.$router.push({name:'ClassAll', params: {categoryName:'IOT', categoryId: this.getCategoryId}});
+            // console.log("sidebar watch getCategoryId: ", this.getCategoryId);
+            // this.$router.push({name:'ClassAll', params: {categoryName:'IOT', categoryId: this.getCategoryId}});
         },
         getCategoryName(){
-            console.log("sidebar watch getCategoryName: ", this.getCategoryName)
+            // console.log("sidebar watch getCategoryName: ", this.getCategoryName)
         }
     }, 
     created() {

@@ -29,8 +29,8 @@
           </div>
           <!-- 중분류 이동 바 end -->
           <!-- 강의 card start -->
-          <div class="row" style="margin: 1rem;">
-            <div v-for="(item) in filteredData" :key="item.index" @click="gotoDetail(item.index, item.subcategoryId)" data-aos="fade-up" data-aos-delay="200">
+          <div class="row" style="margin: 1rem;" data-aos="fade-up" data-aos-delay="200">
+            <div v-for="(item) in filteredData" :key="item.index" @click="gotoDetail(item.index, item.subcategoryId)">
               <div class="card"  data-aos-offset="50">
                 <img
                 class="card-img-top"
@@ -58,6 +58,7 @@
 <script>
 import CourseSidebar from '@/components/layout/CourseSidebar.vue';
 import defaultImage from  '@/assets/img/class/category/1.jpg';
+import { mapGetters } from 'vuex';
 
 export default {
     name: "ClassAll",
@@ -69,17 +70,26 @@ export default {
             subcategories: [],
             subcategoryId: null,
             subcategoryName: null,
-            categoryName: null,
-            categoryId: null,
             selectedCategory: -1, //1 ALL 2 subcategoryId
             classId: null,
             // level: null
+            dataLoaded: false, // 데이터 로드 상태 추가
         } ;
     },
-    created(){
-      
+    created() {
+      this.restoreStateFromUrl();
+      this.fetchDataBasedOnCategory();
     },
     computed:{
+      ...mapGetters(['getCategoryData', 'getCategoryId', 'getCategoryName']),
+      
+      categoryId(){
+        return this.getCategoryData.categoryId;
+      },
+      categoryName(){
+        return this.getCategoryData.categoryName;
+      },
+
       filteredData() {
         if (this.selectedCategory === -1) {
           return this.data; // If selectedCategory is -1, return all data
@@ -87,107 +97,147 @@ export default {
           return this.data.filter(item => item.subcategoryId === this.selectedCategory);
         }
       },
-      getJaenClassId(){
-        return this.$store.getters.getJaenClassId;
-      }
     },
     components:{
       CourseSidebar
     },
-    methods: {
-        get(){
-            this.axios.get(`class/category?categoryId=${this.$store.getters.getCategoryId}`).then((response) => {
-                this.data = response.data;
-                // this.level = response.data.level;
-            }).catch((error)=>{
-                console.error('Error fetching data: ',error)
-            });
-        },
-        getCategory() {
-            // 대분류 카테고리 가져오는 비동기 함수
-            this.axios.get("/categories").then((response) => {
-                this.categories = response.data;
-            });
-        },
-        getSubcategories(){
-          this.axios.get(`subcategory?categoryId=${this.$store.getters.getCategoryId}`).then((response) => {
-                this.subcategories = response.data;
-                // this.level = response.data.level;
-            }).catch((error)=>{
-                console.error('Error fetching data: ',error)
-            });
-        },
-        getPopularClass(){
-          // 인기있는 강좌 조회
-          this.axios.get("/ispopular").then((response) => {
-                this.popularClass = response.data;
-            });
-        },
-        gotoDetail(classId, subcategoryId){
-          this.subcategoryId = subcategoryId;
-          this.$store.dispatch('setJaenClass', {
-              payload:{
-                classId: classId,
-              }
-          })
-
-          this.$router.push(
-          {
-            name:'ClassDetail',
-            params:{
-              classId: this.$store.getters.getJaenClassId,
-              categoryId: this.categoryId,
-              subcategoryId: this.subcategoryId,
-              subcategoryName: this.subcategoryName
-            }
-          });
-        },
-        gotoAllCategories(){
-            this.$router.push({name:'AllCategories'});
-        },
-        getLevel(level){
-          let description;
-          switch(level) {
-            case 1:
-                description = "초급";
-                break;
-            case 2:
-                description = "중급";
-                break;
-            case 3:
-                description = "고급";
-                break;
-            default:
-                description = "알 수 없음";
-                break;
-          }
-          return description;
-        },
-        getSubcategoryId(subcategoryId){
-          this.subcategoryId=subcategoryId;
-        },
-        showClass(subcategoryId){
-          this.selectedCategory = subcategoryId
-        },
-        categoryImg(){
-          if (!this.categoryId) {
-            return defaultImage;  // categoryId가 null인 경우 기본 이미지 사용
-          }
-          try {
-            return require(`@/assets/img/class/category/${this.categoryId}.jpg`);
-          } catch (e) {
-            return defaultImage;  // 이미지가 존재하지 않는 경우 기본 이미지 사용
-          }
+    watch:{
+      getCategoryData(newValue, oldValue){
+        if(newValue.categoryId !== oldValue.categoryId || newValue.categoryName !== oldValue.categoryName){
+          console.log("category가 변경되었습니다. : ",newValue, oldValue);
+          this.updateURLAndReload(newValue.categoryId, newValue.categoryName);
         }
+      }
+    }, 
+    methods: {
+      fetchDataBasedOnCategory() {
+        const categoryId = this.getCategoryId | this.$route.query.categoryId;
+        if (categoryId) {
+          this.getCategoryDataMethod(categoryId);
+          this.getSubcategories(categoryId);
+        }
+      },
+      getCategoryDataMethod(categoryId){
+          this.axios.get(`class/category?categoryId=${categoryId}`).then((response) => {
+              this.data = response.data;
+              this.dataLoaded = true;
+          }).catch((error)=>{
+              console.error('Error fetching data: ',error)
+              this.dataLoaded = false;
+          });
+      },
+      getCategory() {
+          this.axios.get("/categories").then((response) => {
+              this.categories = response.data;
+          });
+      },
+      getSubcategories(){
+        this.axios.get(`subcategory?categoryId=${this.$store.getters.getCategoryId}`).then((response) => {
+              this.subcategories = response.data;
+              // this.level = response.data.level;
+          }).catch((error)=>{
+              console.error('Error fetching data: ',error)
+          });
+      },
+      getPopularClass(){
+        // 인기있는 강좌 조회
+        this.axios.get("/ispopular").then((response) => {
+              this.popularClass = response.data;
+          });
+      },
+      gotoDetail(classId, subcategoryId){
+        this.subcategoryId = subcategoryId;
+        this.$store.dispatch('setJaenClass', {
+            payload:{
+              classId: classId,
+            }
+        })
+
+        this.$router.push(
+        {
+          name:'ClassDetail',
+          params:{
+            classId: this.$store.getters.getJaenClassId,
+            categoryId: this.categoryId,
+            subcategoryId: this.subcategoryId,
+            subcategoryName: this.subcategoryName
+          }
+        });
+      },
+      gotoAllCategories(){
+          this.$router.push({name:'AllCategories'});
+      },
+      getLevel(level){
+        let description;
+        switch(level) {
+          case 1:
+              description = "초급";
+              break;
+          case 2:
+              description = "중급";
+              break;
+          case 3:
+              description = "고급";
+              break;
+          default:
+              description = "알 수 없음";
+              break;
+        }
+        return description;
+      },
+      getSubcategoryId(subcategoryId){
+        this.subcategoryId=subcategoryId;
+      },
+      showClass(subcategoryId){
+        this.selectedCategory = subcategoryId
+      },
+      categoryImg(){
+        if (!this.categoryId) {
+          return defaultImage;  // categoryId가 null인 경우 기본 이미지 사용
+        }
+        try {
+          return require(`@/assets/img/class/category/${this.categoryId}.jpg`);
+        } catch (e) {
+          return defaultImage;  // 이미지가 존재하지 않는 경우 기본 이미지 사용
+        }
+      },
+      updateURLAndReload(categoryId, categoryName) {
+        this.$router.push({ query: { categoryId: categoryId, categoryName: categoryName } }).then(() => {
+          location.reload();
+        });
+        // this.$router.push({name:'ClassAll', params: {categoryId, categoryName}}).then(() => {
+        //   location.reload();
+        // });
+        //   this.$store.dispatch('setCategory', {
+        //         payload:{
+        //             categoryId: categoryId,
+        //             categoryName: categoryName
+        //         }
+        //     })
+        // },
+      },
+      restoreStateFromUrl() {
+        if (this.$store && this.$store.dispatch) {
+          const categoryId = this.$route.query.categoryId;
+          const categoryName = this.$route.query.categoryName;
+          if (categoryId && categoryName) {
+            this.$store.dispatch('setCategory', { categoryId, categoryName });
+          }
+        } else {
+          console.error('Vuex 스토어가 정의되지 않았습니다.');
+        }
+      }
     },
     mounted(){
       // 화면이 로드되자마자
-      this.categoryId = this.$store.getters.getCategoryId
-      this.categoryName = this.$store.getters.getCategoryName
-      this.get();
-      this.getSubcategories();
+      // this.categoryId = this.$store.getters.getCategoryId
+      // this.categoryName = this.$store.getters.getCategoryName
+      // this.get();
       this.getCategory();
+      this.getSubcategories();
+      this.getPopularClass();
     },
+    
   
 };
 </script>

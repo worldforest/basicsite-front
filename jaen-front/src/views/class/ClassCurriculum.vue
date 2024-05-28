@@ -1,53 +1,88 @@
 <template>
-    <section>
-        <div id="app">
-            <table>
-                <thead>
-                    <tr>
-                        <th>일차</th>
-                        <th>목차</th>
-                        <th>주요 내용</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="curriculum in curriculumData" :key="curriculum.sequenceNum">
-                        <td style="width: 2.8rem;">{{ curriculum.sequenceNum }}</td>
-                        <td style="width: rem;">{{ curriculum.title }}</td>
-                        <td>{{ curriculum.description }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
+  <section>
+    <div id="app">
+      <table>
+        <thead>
+          <tr>
+            <th class="day-th" >일차</th>
+            <th class="index-th">목차</th>
+            <th class="content-th">주요 내용</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="curriculum in curriculumData" :key="curriculum.sequenceNum">
+            <td class="day-td">{{ curriculum.sequenceNum }}일 차</td>
+            <td class="index-td">{{ curriculum.title }}</td>
+            <td class="content-td" >{{ curriculum.description }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 </template>
-    
+
 <script>
 // import {  mapActions, mapMutations, mapState } from 'vuex';
 export default {
-    data() {
-    return{
-        curriculumData: [],
+  data() {
+    return {
+      curriculumData: [],
     };
+  },
+  created() {},
+  computed: {},
+  methods: {
+    getCurriculum() {
+      this.axios
+        .get(`curriculum?classId=${this.$store.getters.getJaenClassId}`)
+        .then((response) => {
+          this.curriculumData = response.data;
+        })
+        .catch((error) => {
+          console.error('Error fetching data: ', error);
+        });
     },
-    created() {
-    },
-    computed:{
-    },
-    methods: {
-        getCurriculum(){
-                this.axios.get(`curriculum?classId=${this.$store.getters.getJaenClassId}`).then((response) => {
-                    this.curriculumData = response.data;
-                }).catch((error)=>{
-                    console.error('Error fetching data: ',error)
-                });
-        },
-    },
-    mounted(){
-        this.getCurriculum();
-    },
+  },
+  mounted() {
+    this.getCurriculum();
+  },
 };
 </script>
 
 <style scoped>
 /* 필요한 스타일을 추가하세요 */
+
+table {
+  border: 1px solid #dee2e6;
+}
+
+tr:nth-child(even) {
+  background-color: #fff;
+}
+tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+th {
+  background-color: #fff;
+  color: black;
+  text-align: center;
+  padding: 15px;
+}
+td {
+  padding: 15px;
+}
+
+.table td, .table th {
+    padding: .75rem;
+}
+
+.day-th {
+  width: 6vw;
+  height: 45px;
+}
+.index-th {
+  width: 15vw;
+  height: 45px;
+}
+
 </style>

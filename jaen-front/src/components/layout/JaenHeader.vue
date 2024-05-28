@@ -100,10 +100,11 @@ export default {
     },
     gotoClassAll(categoryId, categoryName){
       this.$store.dispatch('setCategory', {
-        categoryId: categoryId,
-        categoryName: categoryName
+        payload:{
+            categoryId: categoryId,
+            categoryName: categoryName
+        }
       })
-      console.log("header categoryData: "+this.$store.getters.getCategoryId)
       this.$router.push({ name: 'ClassAll', params: { categoryId, categoryName }});
     },
     toggleDropdown() {
