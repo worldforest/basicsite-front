@@ -58,15 +58,15 @@ export default {
             });
         },
         gotoClassAll(categoryId, categoryName){
-            this.$router.push({name:'ClassAll', params: { categoryId: this.getCategoryId, categoryName:categoryName}});
+            this.$router.push({name:'ClassAll', params: { categoryId: this.getCategoryId, categoryName:this.getCategoryName}});
             // vuex의 action 호출할 때 $store의 dispatch 호출
+            console.error('sidebar gotoClassAll: ',categoryId);
             this.$store.dispatch('setCategory', {
                 payload:{
                     categoryId: categoryId,
                     categoryName: categoryName
                 }
             })
-            // this.$router.push({name:'ClassAll', params: {categoryName, categoryId}});
         },
         goToAllCategories(){
            this.$router.push('/categories');
@@ -78,7 +78,6 @@ export default {
             });
         },
         gotoDetail(classId, subcategoryId){
-          // this.getSubcategoryName();
           this.subcategoryId = subcategoryId;
           this.$router.push(
           {
@@ -89,43 +88,7 @@ export default {
             }
           });
         },
-        getLevel(level){
-          let description;
-          switch(level) {
-            case 1:
-                description = "초급";
-                break;
-            case 2:
-                description = "중급";
-                break;
-            case 3:
-                description = "고급";
-                break;
-            default:
-                description = "알 수 없음";
-                break;
-          }
-          return description;
-        },
     },
-    watch:{
-        getCategoryData(){
-
-            // console.log("sidebar watch getCategoryData: ", this.getCategoryId)
-        },
-        // getCategoryData(newData){
-        //     this.categoryId = newData.categoryId;
-        //     this.categoryName = newData.categoryName;
-        //     console.log("watch getCategoryData", newData)
-        // }
-        getCategoryId(){
-            // console.log("sidebar watch getCategoryId: ", this.getCategoryId);
-            // this.$router.push({name:'ClassAll', params: {categoryName:'IOT', categoryId: this.getCategoryId}});
-        },
-        getCategoryName(){
-            // console.log("sidebar watch getCategoryName: ", this.getCategoryName)
-        }
-    }, 
     created() {
         this.categoryId = this.getCategoryData
     },

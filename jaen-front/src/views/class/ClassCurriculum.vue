@@ -33,14 +33,14 @@ export default {
   computed: {},
   methods: {
     getCurriculum() {
-      this.axios
-        .get(`curriculum?classId=${this.$store.getters.getJaenClassId}`)
-        .then((response) => {
-          this.curriculumData = response.data;
-        })
-        .catch((error) => {
-          console.error('Error fetching data: ', error);
-        });
+      // this.axios
+      //   .get(`curriculum?classId=${this.$store.getters.getClassId}`)
+      //   .then((response) => {
+      //     this.curriculumData = response.data;
+      //   })
+      //   .catch((error) => {
+      //     console.error('Error fetching data: ', error);
+      //   });
     },
   },
   mounted() {

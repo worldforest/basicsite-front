@@ -30,7 +30,6 @@ export default {
     }
   },
   mounted() {
-  //   console.log("mounted 오나?")
     this.$refs.content.addEventListener('scroll', this.handleScroll);
    },
 }

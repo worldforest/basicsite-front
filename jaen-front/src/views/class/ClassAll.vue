@@ -2,6 +2,7 @@
   <section class="bg-dark text-light p-0 jarallax" data-jarallax data-speed="0.2" data-overlay>
     <img src="@/assets/img/home/dg.jpg" alt="Image" class="jarallax-img opacity-40">
     <div class="title_section" data-aos="fade-up">
+      <p class="col-12" @click="gotoAllCategories" style="color: darkgrey; font-size: 1.2rem">전체과정</p>
       <div class="" style="text-align: center;">
         <h1 class="">{{ this.categoryName }}</h1>
       </div>
@@ -66,19 +67,17 @@ export default {
         return {
             //data 초기화
             data:[],
-            categories:[],
-            subcategories: [],
-            subcategoryId: null,
-            subcategoryName: null,
-            selectedCategory: -1, //1 ALL 2 subcategoryId
             classId: null,
-            // level: null
+            subcategoryId: null,
+            subcategories: [],
+            selectedCategory: -1, //1 ALL 2 subcategoryId
             dataLoaded: false, // 데이터 로드 상태 추가
         } ;
     },
     created() {
       this.restoreStateFromUrl();
       this.fetchDataBasedOnCategory();
+      this.setClassData();
     },
     computed:{
       ...mapGetters(['getCategoryData', 'getCategoryId', 'getCategoryName']),
@@ -89,11 +88,11 @@ export default {
       categoryName(){
         return this.getCategoryData.categoryName;
       },
-
       filteredData() {
         if (this.selectedCategory === -1) {
           return this.data; // If selectedCategory is -1, return all data
         } else {
+
           return this.data.filter(item => item.subcategoryId === this.selectedCategory);
         }
       },
@@ -104,7 +103,6 @@ export default {
     watch:{
       getCategoryData(newValue, oldValue){
         if(newValue.categoryId !== oldValue.categoryId || newValue.categoryName !== oldValue.categoryName){
-          console.log("category가 변경되었습니다. : ",newValue, oldValue);
           this.updateURLAndReload(newValue.categoryId, newValue.categoryName);
         }
       }
@@ -114,7 +112,6 @@ export default {
         const categoryId = this.getCategoryId | this.$route.query.categoryId;
         if (categoryId) {
           this.getCategoryDataMethod(categoryId);
-          this.getSubcategories(categoryId);
         }
       },
       getCategoryDataMethod(categoryId){
@@ -126,43 +123,40 @@ export default {
               this.dataLoaded = false;
           });
       },
-      getCategory() {
-          this.axios.get("/categories").then((response) => {
-              this.categories = response.data;
-          });
-      },
+      // 중분류별로 강의 보여주기
       getSubcategories(){
-        this.axios.get(`subcategory?categoryId=${this.$store.getters.getCategoryId}`).then((response) => {
-              this.subcategories = response.data;
-              // this.level = response.data.level;
-          }).catch((error)=>{
-              console.error('Error fetching data: ',error)
-          });
+        this.axios.get(`subcategory?categoryId=${this.getCategoryId}`).then((response) => {
+            this.subcategories = response.data;
+        }).catch((error)=>{
+            console.error('Error fetching data: ',error)
+        });
       },
+      // 인기있는 강좌 조회
       getPopularClass(){
-        // 인기있는 강좌 조회
         this.axios.get("/ispopular").then((response) => {
               this.popularClass = response.data;
           });
       },
       gotoDetail(classId, subcategoryId){
+        this.classId = classId;
         this.subcategoryId = subcategoryId;
-        this.$store.dispatch('setJaenClass', {
-            payload:{
-              classId: classId,
-            }
-        })
 
+        console.log("gotoDetail getClassId: ",this.$store.getters.getClassId," getCategoryId: ",this.$store.getters.getCategoryId," getsubCategoryId: ",this.$store.getters.getsubCategoryId," getsubCategoryName: ",this.$store.getters.getsubCategoryName)
         this.$router.push(
         {
           name:'ClassDetail',
           params:{
-            classId: this.$store.getters.getJaenClassId,
-            categoryId: this.categoryId,
-            subcategoryId: this.subcategoryId,
-            subcategoryName: this.subcategoryName
+            classId: this.$store.getters.getClassId,
+            categoryId: this.$store.getters.getCategoryId,
+            subcategoryId: this.$store.getters.getsubCategoryId,
+            subcategoryName: this.$store.getters.getsubCategoryName
           }
         });
+      },
+      setClassData(){
+        console.log("setClassData", this.classId)
+        this.$store.commit('setclassId', this.classId);
+        this.$store.commit('setsubCategoryId', {subcategoryId: this.subcategoryId});
       },
       gotoAllCategories(){
           this.$router.push({name:'AllCategories'});
@@ -185,11 +179,9 @@ export default {
         }
         return description;
       },
-      getSubcategoryId(subcategoryId){
-        this.subcategoryId=subcategoryId;
-      },
-      showClass(subcategoryId){
+      showClass(subcategoryId, subcategoryName){
         this.selectedCategory = subcategoryId
+        this.$store.dispatch('updatesubCategoryName',subcategoryName)
       },
       categoryImg(){
         if (!this.categoryId) {
@@ -205,23 +197,13 @@ export default {
         this.$router.push({ query: { categoryId: categoryId, categoryName: categoryName } }).then(() => {
           location.reload();
         });
-        // this.$router.push({name:'ClassAll', params: {categoryId, categoryName}}).then(() => {
-        //   location.reload();
-        // });
-        //   this.$store.dispatch('setCategory', {
-        //         payload:{
-        //             categoryId: categoryId,
-        //             categoryName: categoryName
-        //         }
-        //     })
-        // },
       },
       restoreStateFromUrl() {
         if (this.$store && this.$store.dispatch) {
           const categoryId = this.$route.query.categoryId;
           const categoryName = this.$route.query.categoryName;
           if (categoryId && categoryName) {
-            this.$store.dispatch('setCategory', { categoryId, categoryName });
+            this.$store.dispatch('setCategory', { categoryId: categoryId, categoryName: categoryName });
           }
         } else {
           console.error('Vuex 스토어가 정의되지 않았습니다.');
@@ -229,11 +211,6 @@ export default {
       }
     },
     mounted(){
-      // 화면이 로드되자마자
-      // this.categoryId = this.$store.getters.getCategoryId
-      // this.categoryName = this.$store.getters.getCategoryName
-      // this.get();
-      this.getCategory();
       this.getSubcategories();
       this.getPopularClass();
     },

@@ -1,6 +1,5 @@
 <template>
   <section class="bg-light text-dark p-0 jarallax" data-jarallax data-speed="2" data-overlay>
-    <!-- <img src="@/assets/img/home/dg.jpg" alt="Image" class="jarallax-img opacity-40"> -->
     <div class="title_section" data-aos="fade-up">
         <h1>자앤의 교육과정</h1>
     </div>
@@ -12,7 +11,6 @@
 
     <section class="pt-5">
       <div class="container" data-aos="fade-up">
-        <!-- <div class="row" style="margin-bottom: 2rem;"><h4>현재 자앤에는 <a style="background-color: blanchedalmond; font-size: 1.6rem">{{ categories.length }}개</a>의 교육과정이 있습니다.</h4></div> -->
         <div class="row">
           <div class="col-sm-6 col-lg-4 mb-4" data-isotope-item data-category="Digital" v-for="(category, index) in categories" :key="index">
             <img
@@ -48,28 +46,25 @@
             //data 초기화
             categories:[],
             subcategories: [],
-            categoryName: null,
-            categoryId: null,
+            // categoryName: null,
+            // categoryId: null,
             imageList: ['1','2','3','4','5','6'],
         } ;
     },
     computed:{
-      getCategoryData(){
-          return this.$store.getters.getCategoryData
+      getCategoryId(){
+          return this.$store.getters.getCategoryId;
       },
-      getSubcategoryData(){
-          return this.$store.getters.getSubcategoryData
-      },
-      getJaenClassData(){
-          return this.$store.getters.getCategoryData
-      },
-
+      getCategoryName(){
+          return this.$store.getters.getCategoryName;
+      }
     },
     methods: {
-        getCategory() {
+        get() {
             // 대분류 카테고리 가져오는 비동기 함수
             this.axios.get("/categories").then((response) => {
                 this.categories = response.data;
+                
             });
         },
         getAllSubcategory() {
@@ -80,17 +75,14 @@
                 console.error('Error fetching data:', error);
             });
         },
-        selectSubCategory(subcategoryName, subcategoryId, categoryName, categoryId){
-          this.$router.push({name:'ClassAll', params: {subcategoryName, subcategoryId, categoryName, categoryId}});
-        },
         gotoClassAll(categoryId, categoryName){
-          this.$router.push({name:'ClassAll', params: {categoryId, categoryName}});
           this.$store.dispatch('setCategory', {
-                payload:{
-                    categoryId: categoryId,
-                    categoryName: categoryName
-                }
-            })
+              payload:{
+                  categoryId: categoryId,
+                  categoryName: categoryName
+              }
+          })
+          this.$router.push({name:'ClassAll', params: {categoryId: this.getCategoryId, categoryName: this.getCategoryName}});
         },
         gotoSystem(){
           this.$router.push('/system');
@@ -98,9 +90,8 @@
     },
     mounted(){
         // 화면이 로드되자마자
-        this.getCategory();
+        this.get();
         this.getAllSubcategory();
-        // this.categoryId=this.getCategoryId();
     },
     beforeRouteLeave(to, from, next) {
       // 이전 페이지로 이동할 때 데이터를 전달

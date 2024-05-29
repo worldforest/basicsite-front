@@ -3,10 +3,11 @@
     <img src="@/assets/img/home/dg.jpg" alt="Image" class="jarallax-img opacity-40" />
     <div class="title_section" data-aos="fade-up">
       <div class="" style="text-align: center">
-        <p class="col-12" @click="gotoAllCategories" style="color: darkgrey; font-size: 1.2rem">
-          전체과정 > {{ this.subcategoryName }}
-        </p>
-        <h1 style="text-align: center; align-items: center">{{ classDetailData.title }}</h1>
+        <div class="row" style="display: inline;">
+          <a  @click="gotoAllCategories" style="color: darkgrey; font-size: 1.2rem">전체과정 > </a>
+          <a  @click="gotoClassAll" style="color: darkgrey; font-size: 1.2rem">{{ this.categoryName }}</a>
+        </div>
+          <h1 style="text-align: center; align-items: center">{{ classDetailData.title }}</h1>
       </div>
     </div>
   </section>
@@ -22,7 +23,6 @@
           <div id="img-box" >
             <img alt="이미지" src="@/assets/img/class/test.jpg" />
           </div>
-
           <div>
             <div id="lec-title" >
               <h5>{{ classDetailData.title }}</h5>
@@ -73,22 +73,25 @@
 <script>
 import CourseSidebar from '@/components/layout/CourseSidebar.vue';
 import ClassCurriculum from '@/views/class/ClassCurriculum.vue';
-import { mapGetters } from 'vuex';
+// import { mapGetters } from 'vuex';
 
 export default {
   data() {
     return {
       data: [],
       // classId: null,
+      // categoryId:  this.$store.getters.getCategoryId ,
+      // categoryName: this.$store.getters.getCategoryName,
+      // subcategoryId:  this.$store.getters.subcategoryId ,
+      // subcategoryName:  this.$store.getters.subcategoryName ,
       classDetailData: [],
       curriculumData: [],
       activeTab: 'overview',
-      // tabs:['overview', 'instructor', 'review', 'curriculum'],
     };
   },
   created() {},
   computed: {
-    ...mapGetters(['getClassId', 'getClassName', 'getClassData']),
+    // ...mapGetters(['getClassId', 'getClassName', 'getClassData']),
 
     classId(){
       return this.getCategoryData.categoryId;
@@ -126,7 +129,6 @@ export default {
         .then((response) => {
           this.classDetailData = response.data[0];
           this.classDetailData.level = this.getLevel(this.classDetailData.level);
-          // console.log(this.classDetailData);
         })
         .catch((error) => {
           console.error('Error fetching data: ', error);
@@ -179,7 +181,7 @@ export default {
     // this.categoryId = this.$route.params.categoryId;
     // this.get();
     this.getClassBasic();
-    // this.getCurriculum(this.$sotre.getClassId);
+    this.getCurriculum(this.getClassId);
     // console.log(this.activeTab);
   },
 };
