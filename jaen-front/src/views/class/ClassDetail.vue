@@ -89,21 +89,34 @@ export default {
       activeTab: 'overview',
     };
   },
-  created() {},
   computed: {
     // ...mapGetters(['getClassId', 'getClassName', 'getClassData']),
 
+    categoryId(){
+      return this.$store.getters.getCategoryId;
+    },
+
+    categoryName(){
+      return this.$store.getters.getCategoryName;
+    },
+
     classId(){
-      return this.getCategoryData.categoryId;
+      return this.$store.getters.getClassId;
     },
     className(){
-      return this.getCategoryData.categoryName;
+      return this.$store.getters.getClassName;
     },
 
   },
   components: {
     CourseSidebar,
     ClassCurriculum,
+  },
+  mounted() {
+    this.getClassBasic();
+  },
+  created(){
+    // this.getCurriculum();
   },
   methods: {
     fetchDataBasedOnCategory() {
@@ -123,9 +136,9 @@ export default {
           console.error('Error fetching data: ', error);
         });
     },
-    getClassBasic(classId) {
+    getClassBasic() {
       this.axios
-        .get(`class?classId=${classId}`)
+        .get(`class/classId?index=${this.classId}`)
         .then((response) => {
           this.classDetailData = response.data[0];
           this.classDetailData.level = this.getLevel(this.classDetailData.level);
@@ -134,23 +147,15 @@ export default {
           console.error('Error fetching data: ', error);
         });
     },
-    getCurriculum(classId) {
-      this.axios
-        .get(`curriculum?classId=${classId}`)
-        .then((response) => {
-          this.curriculumData = response.data[0];
-        })
-        .catch((error) => {
-          console.error('Error fetching data: ', error);
-        });
-    },
+    // 대분류 전체 페이지로
     gotoAllCategories() {
       this.$router.push({ name: 'AllCategories' });
     },
-    gotoClassAll(categoryName, categoryId) {
-      this.$router.push({ name: 'ClassAll', params: { categoryName, categoryId } });
-      // this.$router.push({name:'ClassAll', query: {categoryName : JSON.stringify(categoryName), categoryId : JSON.stringify(categoryId)}});
+    // 중분류 전체 강의페이지로
+    gotoClassAll() {
+      this.$router.push({ name: 'ClassAll', params: { categoryName: this.categoryName, categoryId: this.categoryId } });
     },
+    // 난이도 표기법
     getLevel(level) {
       let description;
       switch (level) {
@@ -169,6 +174,7 @@ export default {
       }
       return description;
     },
+    // 데이터 줄바꿈 정렬
     formatTextWithLineBreaks(text) {
       if (text) {
         return text.replace(/\n/g, '<br>');
@@ -176,14 +182,7 @@ export default {
       return '';
     },
   },
-  mounted() {
-    // this.classId = this.$route.params.classId;
-    // this.categoryId = this.$route.params.categoryId;
-    // this.get();
-    this.getClassBasic();
-    this.getCurriculum(this.getClassId);
-    // console.log(this.activeTab);
-  },
+  
 };
 </script>
 

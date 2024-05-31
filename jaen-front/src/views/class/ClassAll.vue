@@ -31,7 +31,7 @@
           <!-- 중분류 이동 바 end -->
           <!-- 강의 card start -->
           <div class="row" style="margin: 1rem;" data-aos="fade-up" data-aos-delay="200">
-            <div v-for="(item) in filteredData" :key="item.index" @click="gotoDetail(item.index, item.subcategoryId)">
+            <div v-for="(item) in filteredData" :key="item.index" @click="gotoDetail(item.index, item.title, item.subcategoryId)">
               <div class="card"  data-aos-offset="50">
                 <img
                 class="card-img-top"
@@ -67,7 +67,6 @@ export default {
         return {
             //data 초기화
             data:[],
-            classId: null,
             subcategoryId: null,
             subcategories: [],
             selectedCategory: -1, //1 ALL 2 subcategoryId
@@ -77,7 +76,7 @@ export default {
     created() {
       this.restoreStateFromUrl();
       this.fetchDataBasedOnCategory();
-      this.setClassData();
+      // this.setClassData();
     },
     computed:{
       ...mapGetters(['getCategoryData', 'getCategoryId', 'getCategoryName']),
@@ -137,11 +136,8 @@ export default {
               this.popularClass = response.data;
           });
       },
-      gotoDetail(classId, subcategoryId){
-        this.classId = classId;
-        this.subcategoryId = subcategoryId;
-
-        console.log("gotoDetail getClassId: ",this.$store.getters.getClassId," getCategoryId: ",this.$store.getters.getCategoryId," getsubCategoryId: ",this.$store.getters.getsubCategoryId," getsubCategoryName: ",this.$store.getters.getsubCategoryName)
+      gotoDetail(classId, className, subcategoryId){
+        this.setClassData(classId, className, subcategoryId);
         this.$router.push(
         {
           name:'ClassDetail',
@@ -153,10 +149,10 @@ export default {
           }
         });
       },
-      setClassData(){
-        console.log("setClassData", this.classId)
-        this.$store.commit('setclassId', this.classId);
-        this.$store.commit('setsubCategoryId', {subcategoryId: this.subcategoryId});
+      setClassData(classId, className, subcategoryId){
+        this.$store.commit('setclassId', classId);
+        this.$store.commit('setclassName', className);
+        this.$store.commit('setsubCategoryId', subcategoryId);
       },
       gotoAllCategories(){
           this.$router.push({name:'AllCategories'});

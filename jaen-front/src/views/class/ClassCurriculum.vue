@@ -11,9 +11,9 @@
         </thead>
         <tbody>
           <tr v-for="curriculum in curriculumData" :key="curriculum.sequenceNum">
-            <td class="day-td">{{ curriculum.sequenceNum }}일 차</td>
+            <td class="day-td" style="width: 5px;">{{ curriculum.sequenceNum }}일차</td>
             <td class="index-td">{{ curriculum.title }}</td>
-            <td class="content-td" >{{ curriculum.description }}</td>
+            <td class="content-td" style="text-align: left;">{{ curriculum.description }}</td>
           </tr>
         </tbody>
       </table>
@@ -30,17 +30,23 @@ export default {
     };
   },
   created() {},
-  computed: {},
+  computed: {
+    classId(){
+      return this.$store.getters.getClassId;
+    },
+  },
   methods: {
     getCurriculum() {
-      // this.axios
-      //   .get(`curriculum?classId=${this.$store.getters.getClassId}`)
-      //   .then((response) => {
-      //     this.curriculumData = response.data;
-      //   })
-      //   .catch((error) => {
-      //     console.error('Error fetching data: ', error);
-      //   });
+      this.axios
+        .get(`curriculum?classId=${this.classId}`)
+        .then((response) => {
+          console.log("getCurriculum ",response);
+          this.curriculumData = response.data;
+          console.log("getCurriculum curriculumData",this.curriculumData);
+        })
+        .catch((error) => {
+          console.error('Error fetching data: ', error);
+        });
     },
   },
   mounted() {
