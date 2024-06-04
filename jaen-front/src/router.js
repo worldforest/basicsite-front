@@ -31,9 +31,9 @@ const routes= [
     path: '/class_all',
     name: 'ClassAll',
     component: ClassAll,
-    meta:{
-      reload: true,
-    }
+    // meta:{
+    //   reload: true,
+    // }
   },
   {
     path: '/class_detail',

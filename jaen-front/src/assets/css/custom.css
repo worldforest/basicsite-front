@@ -91,7 +91,7 @@ body {
 }
 /* 수직 스크롤바 */
 .title_section{
-  padding: 0.2rem;
+  padding: 2rem;
   display: grid;
   text-align: center;
 }

@@ -20,20 +20,15 @@
       </div>
       <div class="table-div">
         <table class="history-table">
-          <thead class="history-thead">
-            <td style="text-align: left">회사명</td>
-            <td></td>
-            <td>강의명</td>
-          </thead>
           <tbody>
             <tr v-for="(lecture, index) in groupedData[activeTab]" :key="lecture.index">
-              <td style="text-align: left">
+              <td style="text-align: left; font-weight: bold;">
                 <span v-if="index === 0 || lecture.companyname !== groupedData[activeTab][index - 1].companyname">
                   {{ lecture.companyname }}
                 </span>
               </td>
               <td style="width: 6vw;"></td>
-              <td style="text-align: right">
+              <td style="text-align: left">
                 {{ lecture.classname }}
               </td>
             </tr>
@@ -157,9 +152,6 @@ export default {
 }
 .history-table {
   width: 40vw;
-}
-.history-thead{
-  font-weight: bold;
-  font-size: large;
+  font-size: 1.15rem;
 }
 </style>

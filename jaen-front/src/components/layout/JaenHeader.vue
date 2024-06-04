@@ -105,7 +105,7 @@ export default {
             categoryName: categoryName
         }
       })
-      this.$router.push({ name: 'ClassAll', params: { categoryId, categoryName }});
+      this.$router.push({ name: 'ClassAll'});
     },
     toggleDropdown() {
       this.isDropdownOpen = !this.isDropdownOpen;

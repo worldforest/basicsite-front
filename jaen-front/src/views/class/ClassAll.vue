@@ -142,10 +142,10 @@ export default {
         {
           name:'ClassDetail',
           params:{
-            classId: this.$store.getters.getClassId,
-            categoryId: this.$store.getters.getCategoryId,
-            subcategoryId: this.$store.getters.getsubCategoryId,
-            subcategoryName: this.$store.getters.getsubCategoryName
+            classId: this.$store.classId,
+            categoryId: this.$store.categoryId,
+            subcategoryId: this.$store.subCategoryId,
+            subcategoryName: this.$store.subCategoryName
           }
         });
       },
@@ -189,8 +189,13 @@ export default {
           return defaultImage;  // 이미지가 존재하지 않는 경우 기본 이미지 사용
         }
       },
+      //?updateCategory없는데?
       updateURLAndReload(categoryId, categoryName) {
-        this.$router.push({ query: { categoryId: categoryId, categoryName: categoryName } }).then(() => {
+        this.$store.dispatch('updateCategory', {
+          categoryId: categoryId,
+          categoryName: categoryName,
+        });
+        this.$router.push({ name: 'ClassAll' }).then(() => {
           location.reload();
         });
       },

@@ -9,6 +9,7 @@ import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:8080";
 // axios.defaults.baseURL = "http://49.247.213.217:3070";
+// axios.defaults.baseURL = "http://49.247.213.217:3031/";
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 axios.defaults.headers.get['Content-Type'] = 'application/json;charset=utf-8';
 const app = createApp(App);

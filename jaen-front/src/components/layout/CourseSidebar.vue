@@ -58,7 +58,7 @@ export default {
             });
         },
         gotoClassAll(categoryId, categoryName){
-            this.$router.push({name:'ClassAll', params: { categoryId: this.getCategoryId, categoryName:this.getCategoryName}});
+            this.$router.push({name:'ClassAll'});
             // vuex의 action 호출할 때 $store의 dispatch 호출
             console.error('sidebar gotoClassAll: ',categoryId);
             this.$store.dispatch('setCategory', {

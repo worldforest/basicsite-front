@@ -5,7 +5,7 @@
         <div class="" style="text-align: center;">
           <h1 class="">자앤과 함께할 여러분을 기다립니다.</h1>
           <!-- lead mb-0 -->
-          <h5 class="">궁금하신 사항이 있다면 아래 문의하기를 이용해주세요.</h5>
+          <p style="font-size: 1.2rem; margin: 0;">궁금하신 사항이 있다면 아래 문의하기를 이용해주세요.</p>
         </div>
       </div>
   </section>
@@ -19,15 +19,16 @@
         </span>
       </div>
       <div class="col-sm-4 mb-3 mb-sm-0">
-        <h3 class="h2">📬</h3>
-        <a href="#" class="lead">admin@jaen.kr</a>
-      </div>
-      <div class="col-sm-4 mb-3 mb-sm-0">
         <h3 class="h2">📞</h3>
+        <div class="text-small text-muted">Mon - Fri, 9am - 6pm</div>
         <span class="lead">
           +82 02-588-8929
         </span>
-        <div class="text-small text-muted">Mon - Fri, 9am - 6pm</div>
+      </div>
+      <div class="col-sm-4 mb-3 mb-sm-0">
+        <h3 class="h2">📬</h3>
+        <div class="text-small text-muted">팩스</div>
+        <span class="lead">02-2252-8920</span>
       </div>
     </div>
   </section>
@@ -83,9 +84,9 @@
                                 <textarea class="form-control" name="contact-message" rows="10" placeholder="어떤 점이 궁금하신가요?" v-model="formData.message"></textarea>
                             </div>
                         </div>
-                        <div class="col-12">
+                        <!-- <div class="col-12">
                             <div data-recaptcha data-sitekey="INSERT_YOUR_RECAPTCHA_V2_SITEKEY_HERE"></div>
-                        </div>
+                        </div> -->
                         <div class="col">
                             <div class="d-none alert alert-success" role="alert" data-success-message>
                                 확인 후 답변드리도록 하겠습니다. 감사합니다.
@@ -131,8 +132,16 @@
     },
     methods: {
       sendEmail() {
+
+        const emailData = {
+            email: this.formData.email,
+            subject: this.formData.title,
+            text: this.formData.message
+        };
+        console.log(this.formData.title)
+
         // 폼 데이터를 서버로 전송
-        axios.post("/send/mail", this.formData)
+        axios.post("/send/mail", emailData)
         .then(response => {
             console.log('이메일 전송 성공:', response.data);
             // 성공 메시지를 사용자에게 표시하거나 다른 동작 수행

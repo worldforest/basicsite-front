@@ -73,17 +73,13 @@
 <script>
 import CourseSidebar from '@/components/layout/CourseSidebar.vue';
 import ClassCurriculum from '@/views/class/ClassCurriculum.vue';
+import { mapGetters } from 'vuex';
 // import { mapGetters } from 'vuex';
 
 export default {
   data() {
     return {
       data: [],
-      // classId: null,
-      // categoryId:  this.$store.getters.getCategoryId ,
-      // categoryName: this.$store.getters.getCategoryName,
-      // subcategoryId:  this.$store.getters.subcategoryId ,
-      // subcategoryName:  this.$store.getters.subcategoryName ,
       classDetailData: [],
       curriculumData: [],
       activeTab: 'overview',
@@ -91,20 +87,21 @@ export default {
   },
   computed: {
     // ...mapGetters(['getClassId', 'getClassName', 'getClassData']),
+    ...mapGetters(['getClassData']),
 
     categoryId(){
-      return this.$store.getters.getCategoryId;
+      return this.$store.categoryId;
     },
 
     categoryName(){
-      return this.$store.getters.getCategoryName;
+      return this.$store.categoryName;
     },
 
     classId(){
-      return this.$store.getters.getClassId;
+      return this.$store.classId;
     },
     className(){
-      return this.$store.getters.getClassName;
+      return this.$store.className;
     },
 
   },
@@ -112,15 +109,20 @@ export default {
     CourseSidebar,
     ClassCurriculum,
   },
+  watch:{
+    getClassData(newValue, oldValue){
+      if(newValue.categoryId !== oldValue.categoryId || newValue.categoryName !== oldValue.categoryName){
+        this.updateURLAndReload(newValue.categoryId, newValue.categoryName);
+      }
+    }
+  }, 
   mounted() {
     this.getClassBasic();
   },
-  created(){
-    // this.getCurriculum();
-  },
   methods: {
     fetchDataBasedOnCategory() {
-      const classId = this.getClassId | this.$route.query.classId;
+      const classId = this.getClassId | this.$store.classId;
+      console.log("fetchDataBasedOnCategory:"+classId)
       if (classId) {
         this.getClassDataMethod(classId);
       }
@@ -137,8 +139,9 @@ export default {
         });
     },
     getClassBasic() {
+      console.log("getClassBasic:"+this.$store.state.classId)
       this.axios
-        .get(`class/classId?index=${this.classId}`)
+        .get(`class/classId?index=${this.$store.state.classId}`)
         .then((response) => {
           this.classDetailData = response.data[0];
           this.classDetailData.level = this.getLevel(this.classDetailData.level);
@@ -153,7 +156,12 @@ export default {
     },
     // 중분류 전체 강의페이지로
     gotoClassAll() {
-      this.$router.push({ name: 'ClassAll', params: { categoryName: this.categoryName, categoryId: this.categoryId } });
+      this.$router.push({ name: 'ClassAll' });
+    },
+    updateURLAndReload(){
+      this.$router.push({ name: 'ClassDetail' }).then(() => {
+        location.reload();
+      });
     },
     // 난이도 표기법
     getLevel(level) {

@@ -82,7 +82,7 @@
                   categoryName: categoryName
               }
           })
-          this.$router.push({name:'ClassAll', params: {categoryId: this.getCategoryId, categoryName: this.getCategoryName}});
+          this.$router.push({name:'ClassAll'});
         },
         gotoSystem(){
           this.$router.push('/system');
