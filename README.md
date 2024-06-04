@@ -1,3 +1,24 @@
-# JAEN 프론트엔드 코드 👩‍💻
----
-### 자앤 회사 소개 웹 사이트 개발 코드를 작성합니다.
+# jaen-front
+
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
